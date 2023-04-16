@@ -1,0 +1,376 @@
+<!-- incluimos el Parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load bootstrap4 %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+{% block content %}
+
+{% if companyForm_popUp == True %}
+<!-- launch Form PopUp3  -->
+  <script>
+    window.onload = () => {
+    document.querySelector('[data-target="#popup03"]').click();
+  }
+  </script>
+{% endif %}
+
+
+  <div class="container-fluid" style="margin-top: 50px;">
+    <!-- <div align="center"> -->
+    <div class="container admin-style"> 
+      <div class="text-right">
+        <p>
+          <button type="button" class="btn btn-outline-danger btn" data-toggle="modal" data-target="#popup02" title='¿ Eliminar la compania {{company}} ?'>
+            <strong> Eliminar </strong>
+          </button>
+
+          <button type="button" class="btn btn-outline-warning btn" data-toggle="modal" data-target="#popup03" title='¿ Editar la compania {{company}} ?'>
+            <strong> Editar </strong>
+          </button>
+
+
+        </p>
+      </div>
+    </div>
+  </div>   
+
+  <div class="container admin-style">
+    <div class="row flex-row flex-nowrap">
+      <div class="row borde-datos collapse show" style="border: solid 0.3em #ffffff;">
+
+        <div class="col-6 borde-datos-right" style="border-right: solid 0.3em #ffffff;">
+          <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+            <thead>
+              <th style="width:200px">  </th> 
+              <th style="width:800px">  </th> 
+            </thead>
+            <tbody> 
+              <tr>
+                <td><b>Compania</b></td>
+                <td>{% firstof company.nombre "Falta Nombre de Empresa" %}</td>
+              </tr>
+              <tr>
+                <td><b>Telefono 1</b></td>
+                <td>{% firstof company.telefono1 %}</td>
+              </tr>
+              <tr>
+                <td><b>Telefono 2</b></td>
+                <td>{% firstof company.telefono2 %}</td>
+              </tr>
+              <tr>
+                <td><b>Direccion de Correo:</b></td>
+                <td>{% firstof company.email %}</td>
+              </tr>
+              <tr>
+                <td><b>Fecha de Inicio:</b></td>
+                <td>{{company.date_creacion}}</td>
+              </tr>
+              <tr>              
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-6">
+          <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+            <thead>
+              <th style="width:200px">  </th> 
+              <th style="width:800px">  </th> 
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>N° Epleados:</b> </td>
+                <td>
+                  {{companyinfo.nempleados}}
+                </td> 
+              </tr>
+              <tr>
+                <td><b>N° Total Tickets:</b></td>
+                <td>{{companyinfo.nticket_total}}</td>
+              </tr>
+              <tr>
+                <td><b>N° Tickets Activos:</b></td>
+                <td>{{companyinfo.nticket_activos}}</td>
+              </tr>
+              <tr>
+                <td><b>N° Tickets Pendientes:</b></td>
+                <td>{{companyinfo.nticket_pendientes}}</td>
+              </tr>
+              <tr>
+                <td><b>N° Tickets Cerrados:</b></td>
+                <td>{{companyinfo.nticket_cerrados}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>        
+      </div>
+    </div>
+  </div>
+
+
+
+  {% if list_users %}
+    <div class="container-fluid" style="margin-top: 50px;">
+      <div class="container">
+        {% bootstrap_messages %}
+      </div>      
+      <div class="container admin-style">        
+        {% include 'Login/filtro.html' with title='Buscar:' button='Buscar' %}
+      </div>      
+    </div>    
+  {% endif %}
+  <!-- <div class="container-fluid" style="margin-top: 100px;"> -->
+  <div class="container-fluid" style="margin-top: 10px;">
+    <!-- <div align="center"> -->
+    <div class="container admin-style"> 
+
+      <div class="text-right">
+        <p>
+          {% if urlbtn_add %}                
+            <a type="button" style="border: 4px solid;" class="btn btn-outline-success btn" href={{urlbtn_add}} title='{{titlebtn_add}}'>
+              <strong> + </strong>
+            </a>
+          {% endif %}
+        </p>      
+      </div>
+
+      {% if list_users %}      
+        <table class="estilo3 table-hover table-strip table-responsive table-responsive-sm table-responsive-md">
+          <thead>
+            <tr>
+              <th class="text-center" style="width:100px"> id </th>
+              <th class="text-center" style="width:300px"> Nombre de Usuario </th>
+              <th class="text-center" style="width:400px"> Nombre Completo </th>
+              <th class="text-center" style="width:300px"> Email </th>              
+              <th class="text-center" style="width:400px"> Fecha de Inicio </th>
+              
+              <th class="text-center" style="width:200px"> others </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for it in list_users %}
+              <tr class="td-hover" onclick="window.location='{% url urllink it.id %}';" title="{{urltitle}} '{{it}}'.">
+                <!-- <td> {% firstof it.msg "" %} </td> -->
+                <td class="text-center"> {{it.id}}</td>
+                <td class="text-center"> {{it.username}} </td>
+                <td class="text-center"> {{it.get_full_name}} </td>
+                <td class="text-center"> {{it.email}} </td>
+                <td class="text-center"> {{it.date_joined}}</td>                
+                <td class="text-center">
+                  {# {{ company_enum_items|get_item:forloop.counter0 }} #}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}  
+      </div>
+    </div>
+  </div>
+<br>
+
+
+
+<!-- Form PopUp 03  -->
+<div class="container py-3">  
+  <div class="modal fade" id="popup03" tabindex="-1" role="dialog" aria-labelledby="popup03Label" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="popup03Label">
+            Editando Informacion de la Compania {{company}}
+            
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>          
+        </div>
+        <!-- <div class="text-center">
+          <p> Ingrese la Contraseña para "{{user}}" </p>
+          
+        </div> -->
+        <div class="text-right">
+          <form method="POST" id="msg-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-header"> 
+              <div>
+                <div class="row">
+                  <div>
+                    {{ edit_companyForm.nombre.label_tag }} {{ edit_companyForm.nombre }}
+                  </div>                        
+                  <div>
+                    {{ edit_companyForm.nombre.help_text }}
+                  </div>
+                  <div>
+                    {{ edit_companyForm.nombre.errors }}
+                  </div>
+                </div> 
+                <br>
+                <div class="row">
+                  <div>
+                    {{ edit_companyForm.telefono1.label_tag }} {{ edit_companyForm.telefono1 }}
+                  </div>                        
+                  <div>
+                    {{ edit_companyForm.telefono1.help_text }}
+                  </div>
+                  <div>
+                    {{ edit_companyForm.telefono1.errors }}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div>
+                    {{ edit_companyForm.telefono2.label_tag }} {{ edit_companyForm.telefono2 }}
+                  </div>                        
+                  <div>
+                    {{ edit_companyForm.telefono2.help_text }}
+                  </div>
+                  <div>
+                    {{ edit_companyForm.telefono2.errors }}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div>
+                    {{ edit_companyForm.email.label_tag }} {{ edit_companyForm.email }}
+                  </div>                        
+                  <div>
+                    {{ edit_companyForm.email.help_text }}
+                  </div>
+                  <div>
+                    {{ edit_companyForm.email.errors }}
+                  </div>
+                </div>
+                
+
+              </div>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="submit" name='edit_ok' value='edit_ok' id="msgSubmit" class="btn btn-outline-success">Si</button>        
+              <button type="submit" name='edit_nok' value='edit_nok' id="msgSubmit" class="btn btn-outline-danger">No</button>
+              <!-- <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">No</button>             -->
+            </div>
+  
+          </form>
+        </div>
+        
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Form PopUp 02  -->
+<div class="container py-3">  
+  <div class="modal fade" id="popup02" tabindex="-1" role="dialog" aria-labelledby="popup02Label" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="popup02Label">
+            ¿ Eliminar la Compania {{company}} ?
+            
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>          
+        </div>
+        <div class="text-center">
+          <p> Ingrese la Contraseña para "{{user}}" </p>
+          
+        </div>
+        <div class="text-center">
+          <form method="POST" id="msg-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-header"> 
+              <div>
+                <div class="row">
+                  <div>
+                    {{ auth_form.password }}
+                  </div>                        
+                  <div>
+                    {{ auth_form.password.help_text }}
+                  </div>
+                  <div>
+                    {{ auth_form.password.errors }}
+                  </div>
+                </div> 
+              </div>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="submit" name='ok' value='ok' id="msgSubmit" class="btn btn-outline-success">Si</button>        
+              <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">No</button>            
+            </div>
+  
+          </form>
+        </div>
+        
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script >
+  $(document).ready(function()
+  {
+    $('#msg-form').on('submit', function(event)
+    {
+      event.preventDefault();
+      $.ajax({
+          url: '/msg/',
+          type: 'POST',
+          // headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          data: $('#msg-form').serialize(),
+          
+          beforeSend: function () {
+              $("#msgModal").modal("show");
+          },
+          
+          success: function(data) {
+              $('#msgModal .modal-body').html(data);
+          }
+      });
+    });        
+  });  
+
+</script>  
+{% endblock %}
+
+{% block footer %}
+
+<!-- <div class="container-fluid">
+  
+  <div class="container">                 
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success" >      
+        {{ message }}              
+        <a href="/login/view_admin/" class="btn alert-success"> x </a>
+      </div>      
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>  -->
+{% endblock %}

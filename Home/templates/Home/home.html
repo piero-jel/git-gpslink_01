@@ -1,0 +1,305 @@
+{% extends "Contact/base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+  <style>
+    .img-carousel {
+      width: 100%;
+      max-height: 350px;      
+      height: 350px; /* assume this is the default size */
+      object-fit: cover;
+      object-position: bottom;
+    }
+  </style>
+
+
+
+  <div id="carousel-home" class="carousel slide" data-ride="carousel">
+    <div class="container" >
+      <!-- defines views del carusel -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-home" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-home" data-slide-to="1"></li>
+            <li data-target="#carousel-home" data-slide-to="2"></li>
+            <li data-target="#carousel-home" data-slide-to="3"></li>
+        </ol>
+    </div>
+
+    <div class="carousel-inner" role="listbox">
+      <!-- Soluciones, active -->
+      <div class="item active" style="background-color: rgb(204, 202, 202);">
+        <!-- <img class="img-responsive" src="{% static '/Home/img/carousel/item_00.svg' %}" alt="Slider Image"> -->
+        <img class="img-carousel" src="{% static '/Home/img/carousel/main_left.jpg' %}" alt="Slider Image">
+
+        <!-- <div class="container"> -->
+        <div style="padding-left:30px;margin-left:auto;">
+          <div class="carousel-centered">
+
+            <div style="margin-top: 100px;">
+              <div>
+                <span class="carousel-title">HOFFSEL</span>
+              </div>
+              <div>
+                <strong>
+                  &#8226; TECNOLOGIA &nbsp;
+                  &#8226; DESARROLLO &nbsp;
+                  &#8226; INTEGRACION
+                </strong>
+              </div>
+              
+
+            </div>
+
+            <div style="margin-top: 10px;">
+              <span style="color: rgb(0, 0, 0); font: message-box;">
+                <strong>
+                  Desarrollando la nueva generación de soluciones </br>
+                  y plataformas real-time para GPS </br>
+                  y Gestion de Transporte
+                </strong>
+              </span>
+            </div>
+
+            <div style="margin-top: 45px;" >
+
+              <a href="#solution" style="border: 3px solid;" class="btn btn-outline-link btn-lg"> <b>Soluciones</b> </a>
+            </div>
+
+          </div>
+        </div>
+      </div>      
+      <!-- End Soluciones -->
+
+      <!-- Empresa, -->
+      <div class="item" style="background-color: rgb(204, 202, 202);">
+        <!-- <img class="img-responsive" src="{% static '/Home/img/carousel/item_00.svg' %}" alt="Slider Image"> -->
+        <img class="img-carousel" src="{% static '/Home/img/carousel/main_center.jpg' %}" alt="Slider Image">
+
+        <div style="padding-left:30px;margin-left:auto">
+        <!-- <div class="container"> -->
+          <div class="carousel-centered">
+
+            <div style="margin-top: 100px;">
+              <span class="carousel-title">Innovación Tecnologica</span>
+            </div>
+
+            <div style="margin-top: 10px;">
+              <span style="color: rgb(0, 0, 0); font: message-box;">
+                <strong>
+                  Diseño construccion y despliegue </br>
+                  de tecnología innovadora.
+                </strong>
+              </span>
+            </div>
+
+            <div style="margin-top: 45px;" >
+
+              <a href="/contact/empresa/" style="border: 3px solid;" class="btn btn-outline-link btn-lg"> <b> Empresa </b></a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- End Empresa, -->
+
+      <!-- Servicios, -->
+      <div class="item">
+        <img class="img-carousel" src="{% static '/Home/img/carousel/main_righ.jpg' %}" width="50%" height="50%" alt="Slider Image">
+        <!-- <div class="container"> -->
+        <div style="padding-left:30px;margin-left:auto;">
+          <div class="carousel-centered">
+
+            <div style="margin-top: 100px;">
+              <span class="carousel-title">Foco en el Cliente</span>
+            </div>
+
+            <div style="margin-top: 20px;">
+              <span style="color: rgb(0,0,0); font: message-box;">
+                <strong>
+                  Entendemos la necesidad de los servicios </br>
+                  TIC, donde la confiabilidad </br>
+                  y la cercania al cliente hacen la diferencia.
+                </strong>
+              </span>
+            </div>
+
+            <div style="margin-top: 25px;" >
+
+              <a href="/contact/servicios/" style="border: 3px solid;" class="btn btn-outline-link btn-lg"> <b> Servicios </b></a>
+            </div>
+            <!-- <a href="#services" class="btn-theme btn-theme-sm btn-white-brd text-uppercase">Take a Tour</a> -->
+          </div>
+        </div>
+      </div>
+      <!-- End Servicios, -->
+
+      <!-- Integraciones,  -->
+      <div class="item">
+        <img class="img-responsive" src="{% static '/Home/img/carousel/main_03.jpg' %}" width="50%" height="50%" alt="Slider Image">
+        <!-- <div class="container"> -->
+        <div style="padding-left:30px;margin-left:auto;">
+          <div class="carousel-centered">
+
+            <div style="margin-top: 150px;">
+              <span class="carousel-title">Integraciones </span>
+            </div>
+
+            <div style="margin-top: 20px;">
+              <span style="color: rgb(0, 0, 0); background-color: gray; font: message-box;">
+                <strong>
+                  Brindamos servicios innovadores y escalables </br>
+                  que pueden implementarse rapidamente </br>
+                  en infraestructuras evolutivas </br>
+                </strong>
+              </span>
+            </div>
+
+            <div style="margin-top: 45px;" >
+              <a href="/contact/productos/" style="border: 3px solid;" class="btn btn-outline-link btn-lg"> <b> Productos </b></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Integraciones,  -->
+
+    </div>
+  </div>
+  <!--========== SLIDER ==========-->
+
+  <!--========== PAGE LAYOUT ==========-->
+
+  <!-- about -->
+  <div id="about">
+    <div class="content-lg container">
+
+      <!-- Soluciones -->
+      <div class="masonry-grid row">
+        <div class="masonry-grid-sizer col-xs-6 col-sm-6 col-md-6"></div>
+
+        <div class="masonry-grid-item col-sm-6 col-md-6 col-xs-12 sm-margin-b-20" >
+          <div  >
+            <h2 style="font-family: 'Courier New', Courier, monospace;">Soluciones</h2>
+            <p style="color: rgb(0, 0, 0); font-size: 150%;">
+              Nos especializamos en soluciones para Proveedores de Telecomunicaciones y Empresas.
+            </p>
+            <a href="#soluciones" class='btn btn-homelink btn-lg' >
+              <b>Ver mas &rarr; </b>
+            </a>
+          </div>          
+        </div>       
+
+        <!-- col-xs-12 sm-margin-b-20 -->
+        <div class="masonry-grid-item col-sm-6 col-md-6 col-xs-12  sm-margin-b-20 ">
+          <img class="full-width img-responsive wow fadeInUp" src="{% static '/Home/img/about/home_soluciones.jpeg' %}" alt="Portfolio Image" data-wow-duration=".3" data-wow-delay=".2s">
+        </div>
+      </div>
+      <!-- End Soluciones -->
+
+      <!-- Servicios -->
+      <div class="masonry-grid row" style="margin-top: 50px;">
+        <div class="masonry-grid-sizer col-xs-6 col-sm-6 col-md-6"></div>
+        
+        <div class="masonry-grid-item col-sm-6 col-md-6 col-xs-12 sm-margin-b-20">
+          <img class="full-width img-responsive wow fadeInUp" src="{% static '/Home/img/about/home_servicios.jpeg' %}" alt="Portfolio Image" data-wow-duration=".3" data-wow-delay=".2s">
+        </div>
+
+        <div class="masonry-grid-item col-sm-6 col-md-6 col-xs-12 sm-margin-b-20">
+          <div  >
+            <h2 style="font-family: 'Courier New', Courier, monospace;">Servicios</h2>
+            <p style="color: rgb(0, 0, 0); font-size: 150%;">
+              Nuestros servicios permiten a los clientes tener una oferta E2E que los habilita
+               a aprovechar al máximo nuestras soluciones.
+            </p>
+            <a href="/contact/servicios/" class='btn btn-homelink btn-lg' >
+              <b>Ver mas &rarr; </b>
+            </a>
+          </div>          
+        </div>
+      </div>
+      <!-- End Servicios -->
+
+      <!-- Productos -->
+      <div class="masonry-grid row" style="margin-top: 50px;">
+        <div class="masonry-grid-sizer col-xs-6 col-sm-6 col-md-6"></div>
+
+        <div class="masonry-grid-item col-sm-6 col-md-6 col-xs-12 sm-margin-b-20" >
+          <div  >
+            <h2 style="font-family: 'Courier New', Courier, monospace;">Productos</h2>
+            <p style="color: rgb(0, 0, 0); font-size: 150%;">
+              Amplio portfolio que permite a nuestros clientes ofrecer SVA, 
+              servicios regulatorios y evolucionar sus redes.
+            </p>
+            <a href="/contact/productos/" class='btn btn-homelink btn-lg' >
+              <b>Ver mas &rarr; </b>
+            </a>
+          </div>          
+        </div>       
+
+        <div class="masonry-grid-item col-sm-6 col-md-6 col-xs-12 sm-margin-b-20">
+          <img class="full-width img-responsive wow fadeInUp" src="{% static '/Home/img/about/home_productos.jpeg' %}" alt="Portfolio Image" data-wow-duration=".3" data-wow-delay=".2s">
+        </div>
+      </div>
+      <!-- End Productos -->
+
+    </div>
+  </div>
+  <!-- End about -->
+
+  <!-- Contact -->
+  <div id="contact">
+    <div class="section-seperator">
+      <div class="content-lg container">
+        <div class="row" style="background:gray;" >
+          <div class="col-md-4">
+            <p >
+              <h4 style="color:white;">
+                Contactanos
+              </h4>
+              <b style="color:white;">
+                Dejanos tu comentario o envianos tu pregunta.
+              </b>
+            </p>
+          </div>
+          <div class="col-md-8">
+            <div class="row" >
+              {% include 'Contact/form_send_comment.html' with Form=formulario %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Contact -->
+  <!--========== END PAGE LAYOUT ==========-->
+  <!-- Back To Top -->
+  <a href="javascript:void(0);" class="js-back-to-top back-to-top"> <strong> TOP </strong></a>
+
+  <!-- JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+  <!-- CORE PLUGINS -->
+  <script src="{% static '/Home/vendor/jquery.min.js' %}" type="text/javascript"></script>
+  <script src="{% static '/Home/vendor/jquery-migrate.min.js' %}" type="text/javascript"></script>
+  <script src="{% static '/Home/vendor/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+
+  <!-- PAGE LEVEL PLUGINS -->
+  <script src="{% static '/Home/vendor/jquery.easing.js' %}" type="text/javascript"></script>
+  <script src="{% static '/Home/vendor/jquery.back-to-top.js' %}" type="text/javascript"></script>
+  <script src="{% static '/Home/vendor/jquery.smooth-scroll.js' %}" type="text/javascript"></script>
+  <script src="{% static '/Home/vendor/jquery.wow.min.js' %}" type="text/javascript"></script>
+  <script src="{% static '/Home/vendor/swiper/js/swiper.jquery.min.js' %}" type="text/javascript"></script>
+  <script src="{% static '/Home/vendor/masonry/jquery.masonry.pkgd.min.js' %}" type="text/javascript"></script>
+  <script src="{% static '/Home/vendor/masonry/imagesloaded.pkgd.min.js' %}" type="text/javascript"></script>
+
+  <!-- PAGE LEVEL SCRIPTS -->
+  <script src="{% static '/Home/js/layout.min.js' %}" type="text/javascript"></script>
+  <script src="{% static '/Home/js/components/wow.min.js' %}" type="text/javascript"></script>
+  <script src="{% static '/Home/js/components/swiper.min.js' %}" type="text/javascript"></script>
+  <script src="{% static '/Home/js/components/masonry.min.js' %}" type="text/javascript"></script>
+
+
+
+
+
+
+{% endblock content %}

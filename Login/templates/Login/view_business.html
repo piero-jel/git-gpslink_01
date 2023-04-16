@@ -1,0 +1,108 @@
+<!-- incluimos el parent -->
+{% extends "Login/base.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load bootstrap4 %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+{% block content %}
+<script>
+  window.onload = () => {
+  document.querySelector('[data-target="#popup02"]').click();
+}
+</script>
+
+  
+
+
+  <!-- Listado de Programadores -->
+  <div class="container">
+    <div class="row">      
+      {% bootstrap_messages %}
+      <div class="container">
+        <div class="row text-right">
+          <p>
+            {% if urlbtn_edit %}
+              <a type="button" class="btn btn-outline-warning btn" href={{urlbtn_edit}} title='{{titlebtn_edit}}'>
+                <strong> Editar </strong>
+              </a>            
+            {% endif %}
+            {% if urlbtn_add %}                
+              <a type="button" class="btn btn-outline-success btn" href={{urlbtn_add}} title='{{titlebtn_add}}'>
+                <strong> + </strong>
+              </a>
+            {% endif %}
+          </p>      
+        </div>
+      </div>
+      <!-- <table class="table table-strip table-hover table-responsive table-responsive-sm table-responsive-md estilo1"> -->
+        <table class="table table-hover table-strip table-responsive table-responsive-sm table-responsive-md estilo1">
+          <thead>
+            <tr >
+              <!-- <th>Modulo</th> -->
+              <!-- <th style="width:300px"> {% ExplotItem "Nombre de Usuario" %} </th>  -->
+              <th style="width:300px"> Compania </th>
+              <th style="width:300px"> Telefono1 </th>
+              <th style="width:300px"> Telefono2 </th>
+              <th style="width:300px"> Email </th>
+              <th style="width:400px"> Fecha de Inicio </th>
+              <th style="width:200px"> N° Empleados </th>
+              <th style="width:300px"> Other </th>
+            </tr>
+          </thead>
+          <tbody> 
+          {% for it in company_all %}
+            <tr class="rtbl-attend td-hover">
+              <!-- <td> {% firstof it.msg "" %} </td> -->
+              <td class="text-center" onclick="window.location='{% url urllink it.id %}';" title="{{urltitle}} '{{it}}'."> {{it.nombre}} </td>
+              <td class="text-center" onclick="window.location='{% url urllink it.id %}';" title="{{urltitle}} '{{it}}'."> {{it.telefono1}} </td>
+              <td class="text-center" onclick="window.location='{% url urllink it.id %}';" title="{{urltitle}} '{{it}}'."> {{it.telefono2}} </td>
+              <td class="text-center" onclick="window.location='{% url urllink it.id %}';" title="{{urltitle}} '{{it}}'."> {{it.email}}</td>
+              <td class="text-center" onclick="window.location='{% url urllink it.id %}';" title="{{urltitle}} '{{it}}'."> {{it.date_creacion}}</td>            
+              <td class="text-center">
+                {{ company_enum_items|get_item:forloop.counter0 }}                
+              </td>
+              <td class="text-center">
+                <div>
+                  Id: {{it.id}}
+                </div>                
+              </td>
+              {% if urlbtn_del %}
+                <td>
+                  <div class="row text-right">
+                    <p>
+                      <a type="button" class="btn btn-outline-danger btn-sm" href={{urlbtn_del}}{{it.id}}/Empresa title='{{titlebtn_del}}'>
+                        <strong> - </strong>
+                      </a>
+                    </p>
+                  </div>
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}  
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+
+

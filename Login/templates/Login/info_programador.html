@@ -1,0 +1,115 @@
+
+
+  {% if programador %}
+  <div class="container admin-style" style="margin-top: 25px;">
+    <div class="row flex-row flex-nowrap">
+      <div class="row borde-datos collapse show" style="border: solid 0.3em #ffffff;">          
+        {% if AcuTime != None %}        
+          <div class="col-7 borde-datos-right" style="border-right: solid 0.3em #ffffff;">
+            <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+              <thead>
+                <th style="width:400px">  </th> 
+                <th style="width:800px">  </th> 
+              </thead>
+              <tbody> 
+                <tr>
+                  <td><b>Programador</b></td>
+                  <td>{% firstof programador.programador.username "" %}</td>
+                </tr>
+                <tr>
+                  <td><b>Nombre:</b></td>
+                  <td>{% firstof programador.programador.first_name "" %}</td>
+                </tr>
+                <tr>
+                  <td><b>Apellido:</b></td>
+                  <td>{% firstof programador.programador.last_name "" %}</td>
+                </tr>
+                <tr>
+                  <td><b>Direccion de Correo:</b></td>
+                  <td>{% firstof programador.programador.email %}</td>
+                </tr>
+                <tr>
+                  <td><b>Numero de Telefono:</b></td>
+                  <td>{% firstof programador.programador.telefono %}</td>
+                </tr>
+                <tr>
+                  <td><b>Fecha de Inicio:</b></td>
+                  <td>{{programador.programador.date_joined}}</td>
+                </tr>
+
+                <tr>              
+
+                </tr>
+              </tbody>
+            </table>
+          </div> 
+          <div class="col-5">
+            <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+              <thead>
+                <th style="width:400px">  </th> 
+                <th style="width:800px">  </th> 
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Fecha Inicial:</b> </td>
+                  <td>                    
+                    {% firstof dateFrom "Error Fecha Inicial" %} 
+                  </td> 
+                </tr>
+                <tr>
+                  <td><b>Fecha Final:</b></td>
+                  <td>{% firstof dateTo "Error Fecha Final" %} </td>
+                </tr>
+                <tr>
+                    <td><b>Tiempo Total:</b></td>                    
+                    <td>{% firstof AcuTime "0" %} </td>
+                </tr>                
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <div class="col-12 borde-datos-right" style="border-right: solid 0.3em #ffffff;">
+            <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+              <thead>
+                <th style="width:400px">  </th> 
+                <th style="width:800px">  </th> 
+              </thead>
+              <tbody> 
+                <tr>
+                  <td><b>Programador</b></td>
+                  <td>{% firstof programador.programador.username "" %}</td>
+                </tr>
+                <tr>
+                  <td><b>Nombre:</b></td>
+                  <td>{% firstof programador.programador.first_name "" %}</td>
+                </tr>
+                <tr>
+                  <td><b>Apellido:</b></td>
+                  <td>{% firstof programador.programador.last_name "" %}</td>
+                </tr>
+                <tr>
+                  <td><b>Direccion de Correo:</b></td>
+                  <td>{% firstof programador.programador.email %}</td>
+                </tr>
+                <tr>
+                  <td><b>Numero de Telefono:</b></td>
+                  <td>{% firstof programador.programador.telefono %}</td>
+                </tr>
+                <tr>
+                  <td><b>Fecha de Inicio:</b></td>
+                  <td>{{programador.programador.date_joined}}</td>
+                </tr>
+
+                <tr>              
+
+                </tr>
+              </tbody>
+            </table>
+          </div> 
+        {% endif %}
+        
+        
+      </div>
+    </div>
+  </div>
+{% endif %}

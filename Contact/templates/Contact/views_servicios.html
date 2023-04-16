@@ -1,0 +1,151 @@
+{% extends "Home/base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<style>
+  .textOverImagen {
+     position: relative;
+  }
+  
+  h4 {
+     position: absolute;
+     top: 5%;
+     left: 5%;
+     width: 100%;
+     margin: 0 auto;
+     width: 100%;
+     height: 50px;
+  }
+  strong
+  {
+     position: absolute;
+     top: 85%;
+     left: 5%;
+     width: 100%;
+     margin: 0 auto;
+     width: 100%;
+     height: 50px;
+     color: rgb(12, 12, 12);
+  }
+  
+  a:link,
+  a:visited,
+  a:hover,
+  a:active
+  {
+    text-decoration: none; 
+    color: rgb(10, 10, 10);
+  }
+
+  a:hover
+  {
+    color: #f00;
+  }
+
+  #macrosectiontext
+  {
+    position: relative;
+    font:Arial, sans-serif;
+    text-align: center;
+    font-size: 50px;
+    font-style: bold;
+    margin-top: 245px;
+    opacity: 0.6;
+    background-color: transparent;
+  }
+
+  #macrosectiontext a:link
+  {
+    color: #000;
+  }
+
+  #macrosectiontext a:visited,
+  #macrosectiontext a:hover,
+  #macrosectiontext a:active
+  {
+    color: rgb(252, 10, 10);
+  }
+</style>
+
+<div>
+  <div class="textOverImagen" style="margin-top: 10px;">    
+    <img class="logo-img logo-img-active" src="{% static '/Contact/img/servicios/servicios_01.jpg' %}" width="100%" height="80%" alt="Hoffsel Active" >
+    <div class="container">
+  
+      <!-- <div class="text" style="margin-top: 1px;"> -->
+      <div class="text">
+        <!-- <h4 class="carousel-title" style="color: rgb(3, 57, 233);">GPS Link</h4> -->
+        <p> 
+          <strong> <a href="/"> Prinicipal </a> &rsaquo; Servicios </strong>
+        </p>
+        
+      </div>
+    </div>
+      
+  </div>
+</div>
+
+
+
+
+
+  <!-- about -->
+  <div class="container-fluid" style="margin-top: 40px; margin-bottom: 40px;">
+    <div class="container">
+
+      <!-- Portal Operativo -->
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6" >
+          <div  >
+            <h2 style="font-family: 'Courier New', Courier, monospace;">Portal Operativo</h2>
+            <p style="color: rgb(0, 0, 0); font-size: 150%;">
+              Seguimiento de Flotas, auditorias de rutas cotidianas, alertas y 
+              notificacion de excesos de velocidad. Geocercas, para establecer limites de velocidades y sectores de no detencion.  
+              
+            </p>
+            <a href="/contact/servicios_portal_operativo/" class='btn btn-homelink btn-lg' >
+              <b>Ver mas &rarr; </b>
+            </a>
+          </div>          
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-6" style="text-align: center;">
+          <img class="wow fadeInUp" 
+          src="{% static '/Contact/img/servicios/portal_operativo.jpeg' %}" width="80%" height="80%"
+              alt="Portfolio Image" data-wow-duration=".3" data-wow-delay=".2s">
+        </div>
+      </div>
+      <!-- End Portal Operativo -->
+
+      <!-- Gestion Operativa -->
+      <div class="row" style="margin-top: 50px;">
+        <div class="col-xs-12 col-sm-6 col-md-6" style="text-align: center;">
+          <img class="wow fadeInUp" 
+          src="{% static '/Contact/img/servicios/gestion_trasnporte.jpeg' %}" width="80%" height="80%"
+              alt="Portfolio Image" data-wow-duration=".3" data-wow-delay=".2s">
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-6" >
+          <div  >
+            <h2 style="font-family: 'Courier New', Courier, monospace;">Gestion de Transporte</h2>
+            <p style="color: rgb(0, 0, 0); font-size: 150%;">
+              Retroalimentacion del Portal Operativo, donde supervisores y 
+              prevencionistas pueden realizar los controles especificos, segun su flota  
+              
+            </p>
+            <a href="/contact/servicios_gestion_transporte/" class='btn btn-homelink btn-lg' >
+              <b>Ver mas &rarr; </b>
+            </a>
+          </div>          
+        </div>        
+      </div>
+      <!-- End Gestion Operativa -->     
+
+
+    </div>
+  </div>
+  <!-- End about -->
+
+{% endblock %}

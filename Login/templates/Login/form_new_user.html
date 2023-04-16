@@ -1,0 +1,207 @@
+<!-- incluimos el parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+
+
+<!-- Colocamos el titulo de la solapa -->
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "change pass" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "Cambiando Clave" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+<!-- Incluimos el boton de volver atras desde el historial -->
+  {% if listbtn %}
+    {% include 'Buttons/buttons_sticky.html' with button_list=listbtn %} 
+  {% else %}
+    {% include 'Buttons/history_back.html' %}
+  {% endif %}
+{% endblock %}
+
+<!-- Contenido del cuerpo  -->
+{% block content %}
+
+{% include 'Table/msg_tag.html' with tag='warning' %}
+
+
+  {% if form %}
+
+  <!-- <div align="center"> -->
+  <div class="container">
+    <div class="container-fluid" style="margin-top: 50px;">
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <form method="post" name='myFormName'>
+            {% csrf_token %}
+            {# {{ form }} #}
+            {% if cliente == True %}
+            <!-- Empresa -->
+              <div class="row" style="color:rgb(255, 255, 255);" class="site-heading-lower">
+                <div class="col-md-6">
+                  <strong>{{ form.empresa.label_tag }}</strong>
+                </div>
+                <div class="col-md-6">
+                  {{ form.empresa }} 
+                </div>
+              </div> 
+              <div class="row" style="background-color:rgb(255, 255, 255);" class="site-heading-lower">
+                {{ form.empresa.errors }}          
+              </div>               
+              <div class="row" style="color:rgb(211, 224, 100);" class="site-heading-lower">
+                <small> <b> {{ form.empresa.help_text }} </b> </small>              
+              </div> 
+              <br>
+            {% endif %}              
+
+            <!-- Nombre de usuario -->
+            <div class="row" style="color:rgb(6, 3, 51);" class="site-heading-lower">
+              <div class="col-md-6">
+                <strong>{{ form.username.label_tag }}</strong>
+              </div>
+              <div class="col-md-6" >
+                {{ form.username }} 
+              </div>
+            </div> 
+            <div class="row" style="background-color:rgb(255, 255, 255);" class="site-heading-lower">
+              {{ form.username.errors }}          
+            </div> 
+<!--               
+            <div class="row" style="color:rgb(211, 224, 100);" class="site-heading-lower">
+              <div class="col-md-1"> </div>
+              <div class="col-md-11"> <small> <b> {{ form.username.help_text }} </b> </small> </div>                
+            </div>  -->
+            <br>   
+
+            <!-- Nombre -->
+            <div class="row" style="color:rgb(6, 3, 51);" class="site-heading-lower">
+              <div class="col-md-6">
+                <strong>{{ form.first_name.label_tag }}</strong>
+              </div>
+              <div class="col-md-6">                  
+                {{ form.first_name }} 
+              </div>
+            </div> 
+            <div class="row" style="background-color:rgb(255, 255, 255);" class="site-heading-lower">
+              {{ form.first_name.errors }}          
+            </div> 
+            <div class="row" style="color:rgb(211, 224, 100);" class="site-heading-lower">
+              <div class="col-md-1"> </div>
+              <div class="col-md-11"> <small> <b> {{ form.first_name.help_text }} </b> </small> </div>                
+            </div> 
+            <br>
+
+            <!-- Apellido -->
+            <div class="row" style="color:rgb(6, 3, 51);" class="site-heading-lower">
+              <div class="col-md-6">
+                <strong>{{ form.last_name.label_tag }}</strong>
+              </div>
+              <div class="col-md-6">                  
+                {{ form.last_name }} 
+              </div>
+            </div> 
+            <div class="row" style="background-color:rgb(255, 255, 255);" class="site-heading-lower">
+              {{ form.last_name.errors }}          
+            </div> 
+            <div class="row" style="color:rgb(211, 224, 100);" class="site-heading-lower">
+              <div class="col-md-1"> </div>
+              <div class="col-md-11"> <small> <b> {{ form.last_name.help_text }} </b> </small> </div>                
+            </div> 
+            <br>
+
+            <!-- Telefono  -->
+            <div class="row" style="color:rgb(6, 3, 51);" class="site-heading-lower">
+              <div class="col-md-6">
+                <strong>{{ form.telefono.label_tag }}</strong>
+              </div>
+              <div class="col-md-6">                  
+                {{ form.telefono }} 
+              </div>
+            </div> 
+            <div class="row" style="background-color:rgb(255, 255, 255);" class="site-heading-lower">
+              {{ form.telefono.errors }}          
+            </div> 
+            <div class="row" style="color:rgb(211, 224, 100);" class="site-heading-lower">
+              <div class="col-md-1"> </div>
+              <div class="col-md-11"> <small> <b> {{ form.telefono.help_text }} </b> </small> </div>                
+            </div> 
+            <br>
+
+
+            <!-- Contraseña  -->
+            <div class="row" style="color:rgb(6, 3, 51);" class="site-heading-lower">
+              <div class="col-md-6">
+                <strong>{{ form.password1.label_tag }}</strong>
+              </div>
+              <div class="col-md-6">                  
+                {{ form.password1 }} 
+              </div>                
+            </div> 
+            <div class="row" style="background-color:rgb(255, 255, 255);" class="site-heading-lower">
+              {{ form.password1.errors }}          
+            </div> 
+            <div class="row" style="color:rgb(6, 3, 51);" class="site-heading-lower">
+              <small> {{ form.newpassword1_password2.help_text }} </small>              
+            </div> 
+            <br>
+            <!-- Confirmacion Contraseña  -->              
+            <div class="row" style="color:rgb(6, 3, 51);" class="site-heading-lower">
+              <div class="col-md-6">
+                <strong>{{ form.password2.label_tag }}</strong>
+              </div>
+              <div class="col-md-6">                  
+                {{ form.password2 }} 
+              </div>                
+            </div> 
+            <div class="row" style="background-color:rgb(255, 255, 255);" class="site-heading-lower">
+              {{ form.password2.errors }}          
+            </div> 
+            <!-- <div class="row" style="color:rgb(211, 224, 100);" class="site-heading-lower">
+              <div class="col-md-1"> </div>
+              <div class="col-md-11"> <small> <b> {{ form.password2.help_text }} </b> </small> </div>                
+            </div> -->
+            <br>
+            <!-- Email -->
+            <div class="row" style="color:rgb(6, 3, 51);" class="site-heading-lower">
+              <div class="col-md-6">
+                <strong>{{ form.email.label_tag }}</strong>
+              </div>
+              <div class="col-md-6">                  
+                {{ form.email }} 
+              </div>
+            </div> 
+            <div class="row" style="background-color:rgb(255, 255, 255);" class="site-heading-lower">
+              {{ form.email.errors }}          
+            </div> 
+            <div class="row" style="color:rgb(211, 224, 100);" class="site-heading-lower">
+              <div class="col-md-1"> </div>
+              <div class="col-md-11"> <small> <b> {{ form.email.help_text }} </b> </small> </div>                
+            </div> 
+            <br>
+
+
+            <!-- Buttons  -->
+            <div class="row text-center">                
+              <div class="col-md-12">
+                <button class='form-button btn btn-success' type='submit' name='ok' value='ok'> Aceptar </button>
+                &nbsp; &nbsp; &nbsp;
+                <button class='form-button btn btn-danger' type='submit' name='nok' value='nok'> Cancelar </button>
+              </div>                
+            </div>
+
+
+          </form>
+  
+          <!-- </div> -->
+          <br>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}
+

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="es">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="j.e.l">
+  
+
+  <title> Login </title>
+
+
+  <!-- Bootstrap core CSS -->
+  <!-- <link href={% static "vendor/bootstrap/css/bootstrap.min.css" %} rel="stylesheet"> -->
+  <link href={% static "Login/other/bootstrap/css/bootstrap.min.css" %} rel="stylesheet">
+  <!-- <link href={% static "Login/vendor/bootstrap/css/bootstrap.css" %} rel="stylesheet"> -->
+  
+  <!-- Custom styles for this template -->
+  <!-- <link href={% static "css/simple-sidebar.css" %} rel="stylesheet"> -->
+  <link href={% static "/Login/css/login.css" %} rel="stylesheet">
+  <style>
+    body
+      {
+        /* background-image: url({% static '/Login/img/fondo_login.png' %}); */
+        background-image: url({% static '/Login/img/fondo.jpg' %});
+        /* opacity:0.8; */
+        /* Background image is centered vertically and horizontally at all times */
+        background-position: center center;    
+        /* Background image doesn't tile */
+        background-repeat: no-repeat;    
+        /* Background image is fixed in the viewport so that it doesn't move when
+          the content's height is greater than the image's height */
+        background-attachment: fixed;    
+        /* This is what makes the background image rescale based
+          on the container's size */
+        background-size: cover;    
+        /* Set a background color that will be displayed
+          while the background image is loading */
+        /* background-color: dimgray; */
+        /* background-color: #E0E0E0;   */
+      }
+  </style>
+</head>
+  <body>
+    <div class="container-fluid" style="margin-top: 100px;">
+      <!-- <div align="center">
+        <span style="color:rgb(248, 251, 250);" class="site-heading-lower">
+          <strong> Help Desk </strong>
+        </span>
+      </div> -->
+
+      <div align="center">
+        <img src={% static 'Login/img/logo_login.png' %} alt="" height="200px" width="200px" >
+      </div>
+
+      <div align="center">
+        <div class="container">
+          <div class="col-sd-12 col-md-6 col-lg-6">
+            <form method="POST">
+              {% csrf_token %}
+              <!-- username -->     
+              <div style="text-align: center;">
+                {{ form.username }}                         
+              </div>                  
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ form.username.help_text }}
+              </div> 
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ form.username.errors }}
+              </div>        
+              <br> 
+              <!-- password -->
+              <div style="text-align: center;">
+                {{ form.password }} 
+              </div>
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ form.password.help_text }}
+              </div> 
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ form.password.errors }}
+              </div>
+              <br>              
+              <!-- error msg -->
+              <div class="row">
+                {% for error in form.non_field_errors %}
+                  <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                  </div>
+                {% endfor %}
+              </div>                  
+
+              <button class= 'btn btn-success space-top' type="submit" name="button">
+                <strong> Ingresar </strong>                    
+              </button>
+              &nbsp; &nbsp;
+              <button class= 'btn btn-warning space-top' type="reset" name="button">
+                <strong>Cancelar</strong>                    
+              </button>                  
+              <div>
+                <a href="/login/password_change_request/" class=' btn-warning' >
+                  <strong>Olvide mi contraseña</strong>
+                </a>
+              </div>              
+            </form>                
+          </div>
+          <div class="col-sd-12 col-md-6 col-lg-6">
+            <div>
+              <a href="/" class='btn-success' >
+                <strong>Home</strong>
+              </a>
+            </div>                  
+          </div>
+        </div>
+      </div>
+    </div>  
+  </body>
+</html>

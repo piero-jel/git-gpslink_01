@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!-- cargamso el contenido de static (donde tenemos los modulos a usar) -->
+{% load static %}
+<html lang="es">  
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Bootstrap core CSS -->
+    
+    
+    <!-- <link href={% static "/Home/vendor/bootstrap/css/bootstrap.css" %} rel="stylesheet"> -->
+
+    
+    <link href={% static "/Login/other/bootstrap/css/bootstrap.min.css" %} rel="stylesheet">
+
+    
+    <!-- <link href={% static "/Login/vendor/bootstrap/css/bootstrap.css" %} rel="stylesheet"> -->
+    
+
+    <!-- <link href={% static "/Login/vendor/bootstrap/css/bootstrap.min.css" %} rel="stylesheet">     -->
+    <link href={% static "/Login/vendor/bootstrap/css/bootstrap-grid.css" %} rel="stylesheet">
+    <!-- Custom styles for this template -->  
+    <link href={% static "/Login/css/login.css" %} rel="stylesheet">
+    <!-- Imagen de fondo para todos los Templates child -->    
+    <style type="text/css">
+      body
+      {
+        background-image: url({% static '/Login/img/fondo.png' %});
+        opacity:1.5;
+        /*background-image: url({% static '/Login/img/fondo.jpg' %});
+        
+        z-index: 2;
+        background-color: #000;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+        filter: alpha(opacity=90);
+        opacity:0.9;*/
+
+        /* Background image is centered vertically and horizontally at all times */
+        background-position: center center;    
+        /* Background image doesn't tile */
+        background-repeat: no-repeat;    
+        /* Background image is fixed in the viewport so that it doesn't move when
+          the content's height is greater than the image's height */
+        background-attachment: fixed;    
+        /* This is what makes the background image rescale based
+          on the container's size */
+        background-size: cover;    
+        /* Set a background color that will be displayed
+          while the background image is loading */
+        /*background-color: dimgray;*/
+          /* background-color: #E0E0E0; */
+      }
+      #sticky_back
+      {
+        /* width: 100%;
+        height: 12vh; */            
+        background-image: url({% static '/Login/img/sticky_logo_1.svg' %});      
+        width: 100%;
+        height: 100% ; /* vh */
+
+        background-position: center center;    
+        background-repeat: no-repeat;    
+        background-attachment: fixed;            
+        background-size: cover;
+        /* background-color: rgb(255, 255, 255); */
+        /* background-color: #ffffff; */
+        background-color: #ffffff;
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+        padding-left: 2rem !important;
+
+        /* grid-row: 1;
+        grid-column: 1; */
+        position: sticky;
+
+        /* top: 4; */
+        /* background-image: url({% static '/Login/img/sticky_logo.svg' %}); */
+        /*         
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        text-align: center; */
+      }
+    </style>  
+
+    <!-- Page Content -->
+    {% if user %}    
+      <div class="sticky-top">
+        <div class="container-fluid">    
+          {% block extra-sticky %} {% endblock %}
+        </div>
+        <!-- blocke sticky para los botonoes -->        
+      </div>      
+    {% endif %}
+    <!-- Para que cada pagina coloque su titulo, de solapa  -->
+    <title> {% block pagetitle %} {% endblock %} </title>
+    <!-- Para que cada pagina opcionalmente coloque un titulo en cabecera -->
+    <h5 class="site-heading text-center">
+      <span class="site-heading-lower">{% block headtitle %} {% endblock %}</span>
+    </h5>
+    {% block headcontent %} {% endblock %}
+  
+  </head>
+
+<body>
+  <!-- Contenido para los hijos  -->
+  {% block content %}   {% endblock %}
+<!-- footer content -->
+  {% block footercontent %} {% endblock %}
+  <!-- with button_list=listbtn -->
+  {% include 'Login/footer.html' %}
+
+  
+  <!-- Bootstrap -->    
+  <script src="{% static '/Login/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static '/Login/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+</html>

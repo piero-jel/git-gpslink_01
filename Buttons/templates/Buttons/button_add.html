@@ -1,0 +1,13 @@
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+
+{% load poll_extras %}
+
+
+{% if urlbtn and titlebtn %}
+<p>
+  <a type="button" style="border: 4px solid;" class="btn btn-outline-success btn-lg" href={{urlbtn}} title='{{titlebtn}}'>
+    <strong> + </strong>
+  </a>
+</p>
+{% endif %}

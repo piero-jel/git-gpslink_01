@@ -1,0 +1,45 @@
+<!-- incluimos el parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+
+{% block pagetitle %} {% firstof tab_title "send comment" %} {% endblock %}
+
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+  <!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+  {% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+{% endblock %}
+
+
+{% block content %}
+         
+<div class="container-fluid" style="margin-top: 100px;">
+  <!-- <div align="center"> -->
+  <div class="container">
+    {% include 'Login/form_send_comment.html' with Form=miFormulario %}
+  </div>
+</div>
+
+
+    
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- cargamso el contenido de static (donde tenemos los modulos a usar) -->
+{% load static %}
+
+<html lang="es">  
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="j.e.l">
+
+    <!-- blocke sticky para los botonoes -->      
+    <div class="sticky-top">
+      <div class="container-fluid">    
+        {% block extra-sticky %} {% endblock %}
+      </div>        
+    </div>      
+
+    
+    <!-- Para que cada pagina coloque su titulo, de solapa  -->
+    <title> {% block pagetitle %} {% endblock %} </title>
+    <!-- Para que cada pagina opcionalmente coloque un titulo en cabecera -->
+    <h5 class="site-heading text-center">
+      <!-- <span class="admin-style site-heading-lower"> -->
+      <span style="color:rgb(24, 9, 238); margin: 20px;" class="admin-style site-heading-lower">
+        {% block headtitle %} {% endblock %}
+      </span>
+    </h5>
+    <!-- Para que cada Child Coloque contenido en la cabecera-->
+    {% block headcontent %} {% endblock %}
+
+  <!-- Bootstrap core CSS -->    
+  <link href={% static "/Login/other/bootstrap/css/bootstrap.min.css" %} rel="stylesheet">
+  <link href={% static "/Login/vendor/bootstrap/css/bootstrap-grid.css" %} rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href={% static "/Login/css/login.css" %} rel="stylesheet">
+  <style>
+    body
+      {
+        /* background-image: url({% static '/Login/img/fondo_login.png' %}); */
+        background-image: url({% static '/Login/img/fondo.jpg' %});
+        /* opacity:5.5;  */
+        /* Background image is centered vertically and horizontally at all times */
+        background-position: center center;    
+        /* Background image doesn't tile */
+        background-repeat: no-repeat;    
+        /* Background image is fixed in the viewport so that it doesn't move when the content's height is greater than the image's height */
+        background-attachment: fixed;    
+        /* This is what makes the background image rescale based
+          on the container's size */
+        background-size: cover;    
+        /* Set a background color that will be displayed
+          while the background image is loading */
+        background-color: dimgray;
+        /* background-color: #E0E0E0;   */
+      }
+  </style>
+
+  </head>
+
+  <body>
+    <!-- Contenido para los hijos  -->
+    {% block content %}   {% endblock %}
+
+    <footer class="text-faded text-center py-5">    
+      <div class="section-seperator">
+        <div class="content-md content-xs content-sm content-lg container">   
+          {% block footer %}   {% endblock %}
+        </div>
+      </div>
+    </footer>
+
+    {% block footercontent %} {% endblock %}   
+
+    
+    <!-- Bootstrap -->    
+    <script src="{% static '/Login/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static '/Login/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>

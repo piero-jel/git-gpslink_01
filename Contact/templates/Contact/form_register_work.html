@@ -1,0 +1,82 @@
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+<!-- Para mensajeria en la base de la tabla -->
+{% load bootstrap4 %}
+{% load poll_extras %}
+
+<div class="container">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br>
+    <!-- register_brief -->
+    <td>                       
+      <div class="row" >
+        <div>
+          {{ form_history.register_brief }} 
+        </div>
+        <div>
+          {{ form_history.register_brief.help_text }}
+        </div>
+        <div>
+          {{ form_history.register_brief.errors }}
+        </div>
+      </div>
+    </td>
+    <!-- register_msg -->
+    <td>
+      <div class="row">
+        <div>
+          {{ form_history.register_msg }}
+        </div>                        
+        <div>
+          {{ form_history.register_msg.help_text }}
+        </div>
+        <div>
+          {{ form_history.register_msg.errors }}
+        </div>
+      </div> 
+    </td>
+    <td> 
+      <div class="row">
+        <div>
+          {{ form_history.register_file1 }}
+        </div>
+        <div>
+          {{ form_history.register_file1.help_text }}
+        </div>
+        <div>
+          {{ form_history.register_file1.errors }}
+        </div>   
+
+        <!-- <div>
+          widget {{ form_history.register_file1.widget }} <br>
+          localize {{ form_history.register_file1.localize }} <br>
+          label: {{ form_history.register_file1.label }} <br>
+        </div>              -->
+      </div>                      
+      <br>
+      <div class="row">
+        <div>
+          {{ form_history.register_file2 }}
+        </div>
+        <div>
+          {{ form_history.register_file2.help_text }}
+        </div>
+        <div>
+          {{ form_history.register_file2.errors }}
+        </div>
+      </div>                      
+      <br>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+          <button class='form-button btn btn-success' type='submit' name='ok' value='ok' > 
+            Guardar
+          </button> 
+          <button class='form-button btn btn-danger' type='submit' name='nok' value='nok' >
+            Cancelar
+          </button> 
+        </div>
+      </div>
+    </td>      
+  </form>
+</div>

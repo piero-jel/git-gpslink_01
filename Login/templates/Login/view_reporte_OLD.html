@@ -1,0 +1,500 @@
+<!-- incluimos el parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load bootstrap4 %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+
+{% block headcontent %} 
+  <!-- Tempus Dominus Bootstrap 4 -->
+
+    <!-- Bootstrap 4 -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
+    <link href={% static "/Login/tempus_dominus/bootstrap4.css" %} rel="stylesheet">
+
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <script src="{% static '/Login/tempus_dominus/bootstrap4.js' %}"></script>
+
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script> -->
+    <script src="{% static '/Login/tempus_dominus/popper.js' %}"></script>
+
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script> -->
+    <script src="{% static '/Login/tempus_dominus/popper_bootstrap.js' %}"></script>
+
+    <!-- Font Awesome -->
+    <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> -->
+    <link href={% static "/Login/tempus_dominus/font_awesome.css" %} rel="stylesheet">
+
+    <!-- Moment.js -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script> -->
+    <script src="{% static '/Login/tempus_dominus/moment.js' %}"></script>
+
+    <!-- Tempus Dominus Bootstrap 4 -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" /> -->
+    <link href={% static "/Login/tempus_dominus/tempusdominus.css" %} rel="stylesheet">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script> -->
+    <script src="{% static '/Login/tempus_dominus/tempusdominus.js' %}"></script>
+
+
+  <!-- XDSoft DateTimePicker -->
+    <!-- jQuery -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+
+    <!-- XDSoft DateTimePicker -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script> -->
+
+
+
+  {% endblock %}
+
+
+{% block content %}
+{% if ticket_form %}
+  <!-- launch Form PopUp3  -->
+  <script>
+    window.onload = () => {
+    document.querySelector('[data-target="#popup03"]').click();
+  }
+  </script>
+
+<div class="container">
+  <div class="row"> 
+    <div class="container">
+      <div class="row text-center">  <!-- para que lo tape el popup -->
+        <p>
+          <!-- pop up modal estatico, no se cierra al realizar click fuera de el  'data-backdrop="static"' 
+            y tampoco al presionar una telca como ESC 'data-keyboard="false"'
+          -->
+          <button type="button" class="btn btn-outline-warning btn" data-toggle="modal" data-target="#popup03" data-backdrop="static" data-keyboard="false">
+          <!-- <button type="button" class="btn btn-outline-warning btn" data-toggle="modal" data-target="#popup03"> -->
+            <strong> Editando el Ticket {{lticket.id}} </strong>
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>   
+{% endif %}
+
+
+<div class="container">
+  <div class="row"> 
+    <div class="container">
+      {% bootstrap_messages %}
+    </div>
+  </div>
+</div>
+
+
+
+<span class="admin-style">
+  {% include 'Login/filtro.html' with title='Buscar:' button='Buscar' %}
+</span>
+
+
+
+<!-- <div class="container-fluid" style="margin-top: 50px;"> -->
+<div class="container-fluid" style="margin-top: 50px;">  
+  <div class="container admin-style">
+  <!-- <div class="input-group date" id="datetimepickerFrom" data-target-input="nearest" style="margin-top: 50px;"> -->
+
+   
+
+    <div class="row">
+      <div class="col-md-4 center-block">
+
+        <form method="POST" id="datepickForm" enctype="multipart/form-data">
+          {% csrf_token %}    
+          <div class="row" class="input-group date" id="datetimepickerFrom" data-target-input="nearest">
+            <div class="col-md-8 center-block">
+              {{ datepick_form.dateFrom }}
+            </div>
+
+            <div class="col-md-4 center-block">
+              <div class="input-group-append" data-target="#datetimepickerFrom" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+              </div>  
+            </div>
+
+          </div>
+          <br>
+          <div class="row" class="input-group date" id="datetimepickerTo" data-target-input="nearest">
+            <div class="col-md-8 center-block">
+              {{ datepick_form.dateTo }}
+            </div>
+            <div class="col-md-4 center-block">
+              <div class="input-group-append" data-target="#datetimepickerTo" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+              </div>  
+            </div>
+          </div>
+          
+          
+          <br>
+          <!-- <input type="submit" value="Submit"> -->
+          <div class="row">
+            <div class="col-md-3 center-block">
+              <button type="submit" name='date_ok' value='date_ok' id="datepickFormSubmit" class="btn btn-outline-success">Si</button>
+            </div>
+            <div class="col-md-3 center-block">
+              <button type="submit" name='date_nok' value='date_nok' id="datepickFormSubmit" class="btn btn-outline-danger">No</button>              
+            </div>
+            
+            
+            <!-- <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">No</button>             -->
+          </div>
+        </form>
+      </div>
+    </div>
+    
+
+    
+  </div>
+</div>
+
+
+
+
+<!-- <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+  {{ form.date }}
+  <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+  </div>
+</div> -->
+
+
+
+
+
+
+
+
+
+  <!-- Listado de Tickets -->  
+  <div class="container-fluid" style="margin-top: 50px;">    
+    <div class="container admin-style"> 
+      
+      <!-- <table class="table table-strip table-hover table-responsive table-responsive-sm table-responsive-md estilo1"> -->
+      <table class="estilo3 table-hover table-strip table-responsive table-responsive-sm table-responsive-md">
+        <thead>
+          <tr >
+            <!-- <th>Modulo</th> -->
+            <!-- <th style="width:300px"> {% ExplotItem "Nombre de Usuario" %} </th>  -->
+            <th style="width:150px"> Ticket Id </th>
+            <th style="width:150px"> Estado </th>
+            <th style="width:150px"> Modulo </th>
+            <th style="width:400px"> Cliente </th>
+            <th style="width:300px"> Programador </th>
+            <th style="width:200px"> Fecha Creacion/Cierre </th>
+            <th style="width:200px"> Fecha Actualizacion </th>
+            <!-- <th style="width:200px"> Fecha de Cierrer </th> -->
+            
+            <th style="width:200px"> Other </th>
+          </tr>
+        </thead>
+        <tbody> 
+        {% for it in all_ticket %}
+        <!-- Expandir la vista de Ticket -->
+          <tr class="td-hover" onclick="window.location='{{urllink}}/{{it.id }}/edit';" title="{{urltitle}} '{{it.id}}'.">
+            <!-- <td> {% firstof it.msg "" %} </td> -->
+            <td class="text-center"> {{it.id}} </td>
+            <td class="text-center"> {{it.estado}} </td>
+            <td class="text-center"> {{it.brief}} </td>
+            <td class="text-center"> 
+              <div>
+                {{it.register.empresa}}
+              </div>
+              <div>
+                {{it.register}}
+              </div>
+              <div>
+                {{it.register.first_name}} {{it.register.last_name}}
+              </div>
+              
+             </td>
+            <td class="text-center"> {{it.attend}} </td>
+            <td class="text-center"> 
+              <div>
+                {{it.fecha_creacion}}
+              </div>
+              <div>
+                {{it.fecha_cierre}}
+              </div>
+              
+            </td>
+
+            <!-- <td class="text-center"> {{it.fecha_creacion}}</td> -->
+            <td class="text-center"> {{it.fecha_update}}</td>
+            <!-- <td class="text-center"> {{it.fecha_cierre}}</td> -->
+            <td class="text-center"> {{it}}</td>
+
+          </tr>
+        {% endfor %}  
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+
+
+<!-- Form PopUp 03  -->
+<div class="container py-3">  
+  
+  <div class="modal" id="popup03" tabindex="-1" role="dialog" aria-labelledby="popup03Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="popup03Label">
+            Editando Informacion del Ticket {{lticket.id}}
+            
+          </h5>          
+            <form method="POST" id="msg-form" enctype="multipart/form-data">
+              {% csrf_token %}              
+              <button type="submit" name='edit_nok' value='edit_nok' id="msgSubmit" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </form>          
+        </div>
+        <!-- <div class="text-center">
+          <p> Ingrese la Contraseña para "{{user}}" </p>
+          
+        </div> -->
+        <div class="text-left">
+          <form method="POST" id="msg-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-header"> 
+              <div>
+
+                <div class="row">
+                  <div class="col-md-1"> </div>
+                  <div class="col-md-3">
+                    <div class="row">
+                      <div>
+                        {{ ticket_form.register.label_tag }} 
+                      </div>
+                      <div>
+                        {{ ticket_form.register }}
+                      </div>
+                      <div>
+                        {{ ticket_form.register.help_text }}
+                      </div>
+                      <div>
+                        {{ ticket_form.register.errors }}
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="col-md-3">
+                    <div class="row">
+                      <div>
+                        {{ ticket_form.attend.label_tag }}
+                      </div>                        
+                      <div>
+                        {{ ticket_form.attend }}
+                      </div>
+                      <div>
+                        {{ ticket_form.attend.help_text }}
+                      </div>
+                      <div>
+                        {{ ticket_form.attend.errors }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="row">
+                      <div>
+                        {{ ticket_form.brief.label_tag }}
+                      </div>                        
+                      <div>
+                        {{ ticket_form.brief }}
+                      </div>
+                      <div>
+                        {{ ticket_form.brief.help_text }}
+                      </div>
+                      <div>
+                        {{ ticket_form.brief.errors }}
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-2"> </div>
+                </div>   
+                <br>
+
+                <div class="row">
+                  <div class="col-md-1"> </div>
+                  <div class="col-md-3">
+                    <div class="row">
+                      <div>
+                        {{ ticket_form.estado }} {{ ticket_form.estado.label_tag }} 
+                      </div>
+                      <div>
+                        {{ ticket_form.estado.help_text }}
+                      </div>
+                      <div>
+                        {{ ticket_form.estado.errors }}
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="col-md-3">
+                    <div class="row">
+                      <div>
+                        {{ ticket_form.register_estado }} {{ ticket_form.register_estado.label_tag }} 
+                      </div>
+                      <div>
+                        {{ ticket_form.register_estado.help_text }}
+                      </div>
+                      <div>
+                        {{ ticket_form.register_estado.errors }}
+                      </div>
+                    </div>
+                  </div>                  
+                  <div class="col-md-2"> </div>
+                </div>          
+
+                <br>
+                <div class="row">
+                  <div>
+                    {{ ticket_form.detail.label_tag }}
+                  </div>                  
+                  <div>
+                    {{ ticket_form.detail }}
+                  </div>                        
+                  <div>
+                    {{ ticket_form.detail.help_text }}
+                  </div>
+                  <div>
+                    {{ ticket_form.detail.errors }}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div>
+                    {{ ticket_form.email.label_tag }} 
+                  </div>                        
+                  <div>
+                    {{ ticket_form.email }}
+                  </div>
+                  <div>
+                    {{ ticket_form.email.help_text }}
+                  </div>
+                  <div>
+                    {{ ticket_form.email.errors }}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div>
+                    {{ ticket_form.file1.label_tag }} {{ ticket_form.file1 }}
+                  </div>                        
+                  <div>
+                    {{ ticket_form.file1.help_text }}
+                  </div>
+                  <div>
+                    {{ ticket_form.file1.errors }}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div>
+                    {{ ticket_form.file2.label_tag }} {{ ticket_form.file2 }}
+                  </div>                        
+                  <div>
+                    {{ ticket_form.file2.help_text }}
+                  </div>
+                  <div>
+                    {{ ticket_form.file2.errors }}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div>
+                    {{ ticket_form.file3.label_tag }} {{ ticket_form.file3 }}
+                  </div>                        
+                  <div>
+                    {{ ticket_form.file3.help_text }}
+                  </div>
+                  <div>
+                    {{ ticket_form.file3.errors }}
+                  </div>
+                </div>
+                
+
+              </div>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="submit" name='edit_ok' value='edit_ok' id="msgSubmit" class="btn btn-outline-success">Si</button>        
+              <button type="submit" name='edit_nok' value='edit_nok' id="msgSubmit" class="btn btn-outline-danger">No</button>
+              <!-- <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">No</button>             -->
+            </div>
+  
+          </form>
+        </div>
+        
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script >
+  /*
+  $(
+    function () 
+    {
+      $("#datetimepickerFrom").datetimepicker({format:'MM-DD-YYYY HH:mm', });
+      $("#datetimepickerTo").datetimepicker({format:'MM-DD-YYYY HH:mm', });
+    }
+  );*/
+
+  $(document).ready(function()
+  {
+    $('#msg-form').on('submit', function(event)
+    {
+      event.preventDefault();
+      $.ajax({
+          url: '/msg/',
+          type: 'POST',
+          // headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          data: $('#msg-form').serialize(),
+          
+          beforeSend: function ()
+          {
+            $("#msgModal").modal("show");
+          },
+          
+          success: function(data)
+          {
+            $('#msgModal .modal-body').html(data);
+          }
+      });
+    });
+  });
+
+</script>  
+{% endblock %}
+
+
+
+<tr class="rtbl-attend td-hover" onclick="window.location='{% url urllink it.id %}';" title="{{urltitle}} '{{it.username}}'." ></tr>

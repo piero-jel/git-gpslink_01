@@ -1,0 +1,239 @@
+<!-- incluimos el parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+
+
+<!-- Colocamos el titulo de la solapa -->
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "change pass" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "Cambiando Clave" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+<!-- Incluimos el boton de volver atras desde el historial -->
+{# {% include 'Buttons/history_back.html' %} #}
+
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %} 
+{% endblock %}
+
+<!-- Contenido del cuerpo  -->
+{% block content %}
+
+
+{% include 'Table/msg_tag.html' with tag='warning' %}
+
+
+  {% if ticket_form %}
+
+  <!-- <div align="center"> -->
+    <div class="container admin-style">
+      <div class="row">
+        <div class="container-fluid" style="margin-top: 50px;">
+          <div class="col-sd-12 col-md-12 col-lg-12">
+            <form method="post">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- Empresa -->
+                  <div class="row">                    
+                    <div class="col-md-5">
+                      <strong>{{ ticket_form.register.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                      {{ ticket_form.register }} 
+                    </div>
+                  </div> 
+                  <div class="row" style="background-color:rgb(255, 255, 255);">                    
+                    {{ ticket_form.register.errors }}          
+                  </div>               
+                  <div class="row" style="color:rgb(18, 124, 27);" class="site-heading-lower">
+                    <small> <b> {{ ticket_form.register.help_text }} </b> </small>              
+                  </div>                   
+                </div>
+
+                <div class="col-md-6">
+                  <!-- Programador -->
+                  <div class="row">
+                    <div class="col-md-5">
+                      <strong>{{ ticket_form.attend.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                      {{ ticket_form.attend }} 
+                    </div>
+                  </div> 
+                  <div class="row" style="background-color:rgb(255, 255, 255);">
+                    {{ ticket_form.attend.errors }}          
+                  </div>               
+                  <div class="row" style="color:rgb(18, 124, 27);" class="site-heading-lower">
+                    <small> <b> {{ ticket_form.attend.help_text }} </b> </small>              
+                  </div>                   
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-4">
+                  <!-- modulo -->
+                  <div class="row">                    
+                    <div class="col-md-5">
+                      <strong>{{ ticket_form.brief.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                      {{ ticket_form.brief }} 
+                    </div>
+                  </div> 
+                  <div class="row" style="background-color:rgb(255, 255, 255);">
+                    {{ ticket_form.brief.errors }}          
+                  </div>               
+                  <div class="row" style="color:rgb(18, 124, 27);" class="site-heading-lower">
+                    <small> <b> {{ ticket_form.brief.help_text }} </b> </small>              
+                  </div>                   
+                </div>
+                <div class="col-md-4">
+                  <!-- Estado -->
+                  <div class="row">                    
+                    <div class="col-md-6">
+                      <strong>{{ ticket_form.estado.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-2 col-md-offset-4">
+                      {{ ticket_form.estado }} 
+                    </div>
+                  </div> 
+                  <div class="row" style="background-color:rgb(255, 255, 255);">
+                    {{ ticket_form.estado.errors }}          
+                  </div>               
+                  <div class="row" style="color:rgb(18, 124, 27);" class="site-heading-lower">
+                    <small> <b> {{ ticket_form.estado.help_text }} </b> </small>              
+                  </div>                   
+                </div>
+                <div class="col-md-4">
+                  <!-- estado side register -->
+                  <div class="row">
+                    <div class="col-md-6">
+                      <strong>{{ ticket_form.register_estado.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-2 col-md-offset-4">
+                      {{ ticket_form.register_estado }} 
+                    </div>
+                  </div> 
+                  <div class="row" style="background-color:rgb(255, 255, 255);">
+                    {{ ticket_form.register_estado.errors }}          
+                  </div>               
+                  <div class="row" style="color:rgb(18, 124, 27);" class="site-heading-lower">
+                    <small> <b> {{ ticket_form.register_estado.help_text }} </b> </small>              
+                  </div>                   
+                </div>                
+              </div>
+              <br>
+              <!-- detail  -->
+              <div class="row">
+                <div class="col-md-4">
+                  <strong>{{ ticket_form.detail.label_tag }}</strong>
+                </div>
+                <div class="col-md-4 col-md-offset-4">
+                  {{ ticket_form.detail }} 
+                </div>
+              </div> 
+              <div class="row" style="background-color:rgb(255, 255, 255);">
+                {{ ticket_form.detail.errors }}          
+              </div> 
+              <div class="row" style="color:rgb(18, 124, 27);" class="site-heading-lower">
+                <div class="col-md-1"> </div>
+                <div class="col-md-11"> <small> <b> {{ ticket_form.detail.help_text }} </b> </small> </div>                
+              </div> 
+              <br>   
+
+              <!-- email  -->
+              <div class="row">
+                <div class="col-md-4">
+                  <strong>{{ ticket_form.email.label_tag }}</strong>
+                </div>
+                <div class="col-md-4 col-md-offset-4">
+                  {{ ticket_form.email }} 
+                </div>
+              </div> 
+              <div class="row" style="background-color:rgb(255, 255, 255);">
+                {{ ticket_form.email.errors }}          
+              </div> 
+              <div class="row" style="color:rgb(18, 124, 27);" class="site-heading-lower">
+                <div class="col-md-1"> </div>
+                <div class="col-md-11"> <small> <b> {{ ticket_form.email.help_text }} </b> </small> </div>                
+              </div> 
+              <br>                
+              
+              <!-- file1  -->
+              <div class="row">
+                <div class="col-md-2">
+                  <strong>{{ ticket_form.file1.label_tag }}</strong>
+                </div>
+                <div class="col-md-8 col-md-offset-2">
+                  {{ ticket_form.file1 }} 
+                </div>
+              </div> 
+              <div class="row" style="background-color:rgb(255, 255, 255);">
+                {{ ticket_form.file1.errors }}          
+              </div> 
+              <div class="row" style="color:rgb(18, 124, 27);" class="site-heading-lower">
+                <div class="col-md-1"> </div>
+                <div class="col-md-11"> <small> <b> {{ ticket_form.file1.help_text }} </b> </small> </div>                
+              </div> 
+              <br> 
+              <!-- file2  -->
+              <div class="row">
+                <div class="col-md-2">
+                  <strong>{{ ticket_form.file2.label_tag }}</strong>
+                </div>
+                <div class="col-md-8 col-md-offset-2">
+                  {{ ticket_form.file2 }} 
+                </div>
+              </div> 
+              <div class="row" style="background-color:rgb(255, 255, 255);">
+                {{ ticket_form.file2.errors }}          
+              </div> 
+              <div class="row" style="color:rgb(18, 124, 27);" class="site-heading-lower">
+                <div class="col-md-1"> </div>
+                <div class="col-md-11"> <small> <b> {{ ticket_form.file2.help_text }} </b> </small> </div>                
+              </div> 
+              <br>               
+              <!-- file3  -->
+              <div class="row">
+                <div class="col-md-2">
+                  <strong>{{ ticket_form.file3.label_tag }}</strong>
+                </div>
+                <div class="col-md-8 col-md-offset-2">
+                  {{ ticket_form.file3 }} 
+                </div>
+              </div> 
+              <div class="row" style="background-color:rgb(255, 255, 255);">
+                {{ ticket_form.file3.errors }}          
+              </div> 
+              <div class="row" style="color:rgb(18, 124, 27);" class="site-heading-lower">
+                <div class="col-md-1"> </div>
+                <div class="col-md-11"> <small> <b> {{ ticket_form.file3.help_text }} </b> </small> </div>                
+              </div> 
+              <br>  
+
+              <!-- Buttons  -->
+              <div class="row text-center">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                  <button class='form-button btn btn-success' type='submit' name='ok' value='ok'> Aceptar </button>
+                  <button class='form-button btn btn-danger' type='submit' name='nok' value='nok'> Cancelar </button>
+                </div>                
+                <div class="col-md-3"></div>
+              </div>
+
+
+            </form>
+    
+          <!-- </div> -->
+            <br>
+          </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}
+

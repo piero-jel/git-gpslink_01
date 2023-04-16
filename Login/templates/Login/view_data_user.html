@@ -1,0 +1,234 @@
+<!-- incluimos el parent -->
+{% extends "Login/base.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+{% block content %}
+
+
+{% if urlbtn_edit %}
+<div class="container">
+  <div class="row"> 
+    <div class="container">
+      <div class="row text-right">
+        <p>
+          <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#popup02" title='¿ Eliminar el Usuario {{luser}} ?'>
+            <strong> Eliminar </strong>
+          </button>
+          <a type="button" class="btn btn-outline-warning btn-sm" href='{% url urlbtn_edit luser.id %}' title='{{titlebtn_edit}} {{luser}}'>
+            <strong> Reset Pass </strong>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %} 
+
+  <div class="container">
+    <div class="row flex-row flex-nowrap">
+      <div class="row borde-datos collapse show">
+
+        <div class="col-6 borde-datos-right">
+          <table class="table-responsive table-responsive-sm table-responsive-md estilo2" style="width:100%">
+            <thead>
+              <th style="width:200px">  </th> 
+              <th style="width:800px">  </th> 
+            </thead>
+            <tbody> 
+              <tr>
+                <td><b>Usuario</b></td>
+                <td>{% firstof luser.username "Falta Nombre de Usuario" %}</td>
+              </tr>
+              <tr>
+                <td><b>Nombres</b></td>
+                <td>{% firstof luser.get_full_name "Falta Nombre de Usuario" %}</td>
+              </tr>
+              <tr>
+                <td><b>Email:</b></td>
+                <td>{% firstof luser.email %}</td>
+              </tr>
+              <tr>
+                <td><b>Fecha de Inicio:</b></td>
+                <td>{{luser.date_joined}}</td>
+              </tr>
+              <tr>              
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-6">
+          <table class="table-responsive table-responsive-sm table-responsive-md estilo2" style="width:100%">
+            <thead>
+              <th style="width:200px">  </th> 
+              <th style="width:800px">  </th> 
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Empresa:</b> </td>
+                <td>
+                  {% firstof luser.empresa "Falta Empresa" %} 
+                </td> 
+              </tr>
+              <tr>
+                <td><b>Telefonos:</b></td>
+                <td>{% firstof luser.empresa.telefono1 %} {% firstof luser.empresa.telefono2 %})</td>
+              </tr>
+              <tr>
+                  <td><b>Fecha de Inicio:</b></td>
+                  <td>{{luser.empresa.date_creacion}}</td>
+              </tr>
+              <tr>
+                <td><b>Email de Contacto: </b></td>
+                <td>{{luser.empresa.email}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <br>
+  
+
+  <!-- Listado de Programadores -->
+  <div class="container">
+    <div class="row">
+      <!-- <table class="table table-strip table-hover table-responsive table-responsive-sm table-responsive-md estilo1"> -->
+      <table id="tblhistory" class="table table-hover table-strip table-responsive table-responsive-sm table-responsive-md estilo1">
+        <thead>
+          <tr >
+            <!-- <th>Modulo</th> -->
+            <!-- <th style="width:300px"> {% ExplotItem "Nombre de Usuario" %} </th>  -->
+            <th style="width:100px"> Ticket Id </th>
+            <th style="width:200px"> Estado </th>
+            <th style="width:200px"> Modulo </th>
+            <th style="width:300px"> Fecha Creacion </th>
+            <th style="width:300px"> Fecha Actualizacion </th>
+            <th style="width:300px"> Fecha de Cierrer </th>
+            
+            <th style="width:400px"> Other </th>
+          </tr>
+        </thead>
+        <tbody> 
+        {% for it in all_ticket %}
+        <!-- Expandir la vista de Ticket -->
+        <tr class="rtbl-attend td-hover" >
+            <!-- <td> {% firstof it.msg "" %} </td> -->
+            <td class="text-center"> {{it.id}} </td>
+            <td class="text-center"> {{it.estado}} </td>
+            <td class="text-center"> {{it.brief}} </td>
+            <td class="text-center"> {{it.fecha_creacion}}</td>
+            <td class="text-center"> {{it.fecha_update}}</td>
+            <td class="text-center"> {{it.fecha_cierre}}</td>
+            <td class="text-center"> {{it}}</td>
+
+          </tr>
+        {% endfor %}  
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+<!-- Form PopUp  -->
+<div class="container py-3">  
+  <div class="modal fade" id="popup02" tabindex="-1" role="dialog" aria-labelledby="popup02Label" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="popup02Label">
+            ¿ Desea Eliminar el Usuario {{luser}} ?
+            
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>          
+        </div>
+        <div class="text-center">
+          <p> Ingrese la Contraseña para "{{user}}" </p>
+          
+        </div>
+        <div class="text-center">
+          <form method="POST" id="msg-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-header"> 
+              <div>
+                <div class="row">
+                  <div>
+                    {{ auth_form.password }}
+                  </div>                        
+                  <div>
+                    {{ auth_form.password.help_text }}
+                  </div>
+                  <div>
+                    {{ auth_form.password.errors }}
+                  </div>
+                </div> 
+              </div>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="submit" name='ok' value='ok' id="msgSubmit" class="btn btn-outline-success">Si</button>        
+              <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">No</button>            
+            </div>
+  
+          </form>
+        </div>
+        
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script >
+  $(document).ready(function()
+  {
+    $('#msg-form').on('submit', function(event)
+    {
+      event.preventDefault();
+      $.ajax({
+          url: '/msg/',
+          type: 'POST',
+          // headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          data: $('#msg-form').serialize(),
+          
+          beforeSend: function () {
+              $("#msgModal").modal("show");
+          },
+          
+          success: function(data) {
+              $('#msgModal .modal-body').html(data);
+          }
+      });
+    });        
+  });  
+
+</script>  
+{% endblock %}
+
+
+
+<tr class="rtbl-attend td-hover" onclick="window.location='{% url urllink it.id %}';" title="{{urltitle}} '{{it.username}}'." ></tr>

@@ -1,0 +1,167 @@
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+<!-- Para mensajeria en la base de la tabla -->
+{% load bootstrap4 %}
+{% load poll_extras %}
+
+{% if desarrollo %}  
+  <div class="container">
+    <div class="row flex-row flex-nowrap">
+      <div class="row borde-datos collapse show" style="border: solid 0.3em #ffffff;">
+        
+        <div class="col-6 borde-datos-right" style="border-right: solid 0.3em #ffffff;">
+          <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+            <thead>
+              <th style="width:400px">  </th> 
+              <th style="width:800px">  </th> 
+            </thead>
+            <tbody> 
+        <!-- developmen
+          registro : quien registra el pedido de un nuevo desarrollo
+          empresa : Para que empresa, peude ser interno (opcionale)
+          asistente : quien esta trabajando actualmente en el desarrollo, Modelo Programador
+          descripcion : Descripcion del desarrollo a realizar.
+          email : Lista de meil a quien notificar los trabajos registrados sobre el desarrollo
+          fecha_creacion : Fecha en la cual se creo el issue.
+          fecha_actualizacion : Fecha de la ultima actualizacion (en la cual se registro un nuevo trabajo )
+          fecha_cierre : Fecha de cierre del Desarrollo (None, valor por defecto)
+          file1 : Archivo uno para acompañar el detalle del Desarrollo
+          file2 : Archivo dos para acompañar el detalle del Desarrollo
+          file3 : Archivo dos para acompañar el detalle del Desarrollo
+          estado : Estado Actual del issue    
+        -->
+              <tr>
+                <td><b>Quien Registro la Orden</b></td>
+                <td>{% firstof desarrollo.registro "Falta Nombre de Usuario" %}</td>
+              </tr>
+              <tr>              
+                <td><b> Para que Empresa:</b> </td>
+                <td>
+                  {% if popup %}
+                    <a type="button" class="btn btn-outline-info btn-sm" data-toggle="modal"
+                     data-target={{popup}} data-backdrop="static" data-keyboard="false" title="Seleccionar Empresa">
+                      <strong>{% firstof desarrollo.empresa "Desarrollo Interno" %}</strong>
+                    </a>
+                  {% else %}                    
+                  {% firstof desarrollo.empresa "Desarrollo Interno" %}
+                  {% endif %}
+
+                   
+                  {% if desarrollo.empresa.telefono1 or desarrollo.empresa.telefono2 %}
+                    ({% firstof desarrollo.empresa.telefono1 %}
+                    {% firstof desarrollo.empresa.telefono2 %})
+                  {% endif %}
+                </td> 
+              </tr>
+              <tr>
+                <td><b>Asistente Actual:</b></td>
+                
+                <td>
+                  {% if popup != None %}
+                    <a type="button" class="btn btn-outline-info btn-sm" data-toggle="modal"
+                     data-target={{popup}} data-backdrop="static" data-keyboard="false" title="Seleccionar Assitente">
+                      <strong>{% firstof desarrollo.asistente.programador.username "Sin Asistente asignado " %}</strong>
+                    </a>
+                  {% else %}                    
+                    {% firstof desarrollo.asistente.programador.username "Sin Asistente asignado " %}
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <td><b>Modulo:</b></td>
+                
+                <td>
+                  {% if popup != None %}
+                    <a type="button" class="btn btn-outline-info btn-sm" data-toggle="modal"
+                     data-target={{popup}} data-backdrop="static" data-keyboard="false" title="Seleccionar Assitente">
+                      <strong>{% firstof desarrollo.modulo "Modulo no asignado, aun." %}</strong>
+                    </a>
+                  {% else %}                    
+                    {% firstof desarrollo.modulo "Modulo no asignado, aun." %}
+                  {% endif %}
+                </td>
+              </tr>
+
+
+              <tr>
+                <!-- <td><b>Lista de Direcciones de Correos:</b></td> -->
+                <td><b>Lista de Direcciones de Correo:</b></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+
+                  {% for it in ticket.email %}
+                      {{it}} <br>
+                  {% endfor %}
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+          <br>
+          <!-- <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+            <thead>              
+              <th style="width:200px">  </th> 
+              <th style="width:800px">  </th>              
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Asistente Actual:</b></td>
+                <td>{% firstof ticket.attend.programador.username "Sin Asistente asignado " %}</td>
+              </tr>
+              <tr>
+                <td><b>Nombres:</b></td>
+                <td>{% firstof ticket.attend.programador.get_full_name %}</td>
+              </tr>
+              <tr>
+                <td><b>Email:</b></td>
+                <td>{% firstof ticket.attend.programador.email %}</td>
+              </tr>            
+              <tr>
+                <td><b>Telefono:</b></td>              
+                <td>{% firstof ticket.attend.programador.telefono %}</td>
+              </tr>
+            </tbody>
+          </table> -->
+        </div>
+        <div class="col-6">
+          <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+            <thead>
+              <th style="width:200px">  </th> 
+              <th style="width:800px">  </th> 
+            </thead>
+            <tbody>
+              <tr>
+                <td><b> Id:</b></td>
+                <td>{{desarrollo.id}}</td>
+              </tr>
+              <tr>
+                  <td> <b>Estado:</b> </td>
+                  {% if desarrollo.estado == True %}
+                    <td class="text-left"> <b> Activo </b> </td>                    
+                  {% else %}
+                    <td class="text-left"> <b> Cerrado </b> </td>                      
+                  {% endif %}
+              </tr>
+              <tr>
+                  <td><b>Fecha de Creacion:</b></td>
+                  <td>{{desarrollo.fecha_creacion}}</td>
+              </tr>
+              <tr>
+                <td><b>Fecha Actualizacion:</b></td>                  
+                <td> {% firstof desarrollo.fecha_actualizacion %} </td>
+              </tr>
+              <tr>
+                <td><b>Fecha Cierre:</b></td>
+                <td> {% firstof desarrollo.fecha_cierre %} </td>
+              </tr>                
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>  
+{% endif %}
+

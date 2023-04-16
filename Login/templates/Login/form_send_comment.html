@@ -1,0 +1,115 @@
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load bootstrap4 %}
+
+
+
+
+  <div>
+    <Form method="POST">
+      {% csrf_token %}
+      <div class="row">
+
+        <div class="col-md-4">
+          <h4 style="color:rgb(7, 7, 245);">
+            <strong>Contactanos</strong>
+          </h4>
+          <p style="color:rgb(7, 7, 245);">
+            <b>
+              Dejanos tu comentario o envianos tu pregunta.
+            </b>
+          </p>
+
+        </div>
+
+        <div class="col-md-8"> 
+          <div class="row">
+            <div class="col-md-4 ">
+              <!-- name -->              
+              <div >
+                {{ Form.name }} 
+              </div>
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ Form.name.help_text }}
+              </div> 
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ Form.name.errors }}
+              </div>        
+              <br> 
+    
+              <!-- email -->
+              <div >
+                {{ Form.email }} 
+              </div> 
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ Form.email.help_text }}
+              </div> 
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ Form.email.errors }}
+              </div>  
+              <br>
+    
+              <!-- telephone -->
+              <div >
+                {{ Form.telephone }} 
+              </div> 
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ Form.telephone.help_text }}
+              </div> 
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ Form.telephone.errors }}
+              </div>  
+              <br>
+              <!-- send buttons -->
+              <div>
+                <button class='Form-button btn btn-primary btn-lg' type='submit' name='ok' value='ok' title="Enviar InFormacion"> 
+                  <strong>Enviar</strong>
+                </button> 
+              </div>
+            </div>
+            <div class="col-md-8 ">
+              <!-- comment -->
+              <div >
+                {{ Form.comment }} 
+              </div> 
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ Form.comment.help_text }}
+              </div> 
+              <div style="background-color:rgb(248, 251, 250);">
+                {{ Form.comment.errors }}
+              </div> 
+              <br>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <strong>
+              {% bootstrap_messages %}
+            </strong>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!-- error msg -->
+      <div class="row">
+        <div class="col-md-8">
+          {{ Form.non_field_errors }}
+        </div>
+      </div>
+    </Form>    
+  </div>
+
+
+          
+
+
+
+
+
+
+
+
+

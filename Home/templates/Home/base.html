@@ -1,0 +1,403 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" >
+  <head>
+    <meta charset="utf-8"/>
+    <title> {% block pagetitle %} {% endblock %} </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>        
+    <link href="{% static '/Home/css/font_awesome.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static '/Home/css/fontsgoogleapis.css' %}" rel="stylesheet" type="text/css"/>
+    
+    <link href="{% static '/Home/vendor/simple-line-icons/simple-line-icons.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static '/Home/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static '/Home/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static '/Home/vendor/swiper/css/swiper.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- layout nav menu -->
+    <link href="{% static '/Home/css/layout.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link href="{% static '/Login/css/login.css' %}" rel="stylesheet" type="text/css"/>
+    
+    <!-- <link rel="shortcut icon" href="favicon.ico" >
+    <link rel="icon" type="image/gif" href="animated_favicon1.gif" > -->
+    <!-- <link rel="icon" href="favicon.ico" > -->
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="favicon.svg"/> -->
+      
+  </head>
+
+
+  
+  <body id="body" data-spy="scroll" data-target=".header">
+    <style type="text/css">
+
+    .btn-outline-link {
+      /* color: #007bff; */
+      /* border-color: #007bff; */
+    
+      color: #ffffff;
+      background-color: #205b9b;
+    }
+    
+    .btn-outline-link:hover {
+      /* color: #fff; */
+      /* background-color: #205b9b; */
+      /* border-color: #007bff; */
+      /* border-color: #ffffff; */
+      color: #007bff;
+      border-color: #ffffff;
+      background-color: #ffffff67;
+    
+    }
+    
+    .btn-outline-link:focus, .btn-outline-link.focus {
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+    }
+    
+    .btn-outline-link.disabled, .btn-outline-link:disabled {
+      color: #007bff;
+      background-color: transparent;
+    }
+    
+    .btn-outline-link:not(:disabled):not(.disabled):active, .btn-outline-link:not(:disabled):not(.disabled).active,
+    .show > .btn-outline-link.dropdown-toggle {
+      color: #fff;
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+    
+    .btn-outline-link:not(:disabled):not(.disabled):active:focus, .btn-outline-link:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-outline-link.dropdown-toggle:focus {
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+    }
+    
+    .linkinhome{
+      /* para imponer este estilo sobre otro agragamos !important */
+      color:rgb(255, 255, 255);
+      font-size: 100%;
+      font-weight:bold;
+    }
+    .linkinhome:hover
+    {
+      /* para imponer este estilo sobre otro agragamos !important */
+      color:rgb(59, 223, 22);
+      font-size: 120%;
+      font-weight:bold;
+    }
+
+    .href-dropdown
+    {
+      /* para imponer este estilo sobre otro agragamos !important */
+      color:rgb(255, 255, 255);
+      font-size: 100%;
+      /* font-weight:bold;  */
+    }
+    .href-dropdown:hover
+    {
+            /* para imponer este estilo sobre otro agragamos !important */
+      color:rgb(255, 255, 255);
+      font-size: 100%;
+      background-color: cornflowerblue;
+      /* font-weight:bold; */
+    }
+
+
+    .linkcatlinkinhome:hover
+    {
+      text-decoration: none;
+    }
+    .dropbtn {
+        background-color: #ffffff00;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
+      
+      .dropbtn:hover, .dropbtn:focus {
+        background-color: #2980B9;
+      }
+      
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+      
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+      
+      .dropdown a:hover 
+      {
+        background-color: #ddd;
+      }
+      
+      .show {display: block;}
+      
+      .header_socials
+      {
+         float: left; 
+         font-size: 0;
+         margin-top: -10px; 
+         width: 90px; 
+         float: none; 
+         margin-left: auto; 
+         margin-right: auto; 
+      }
+      .btn-contacto
+      {
+        background-color:#e2f10e;
+        color:#ffffff;
+        text-align: center;
+        align-content: flex-end;  
+        border-radius: 0;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        padding-left: 1em;
+        padding-right: 1em;
+        background-image: linear-gradient(bottom, rgb(171,27,27) 0%, rgb(212,51,51) 100%);
+      }
+      .btn-contacto:hover
+      {
+        background-color:#ffffff;
+        color:#0c53b1;
+      }
+      .btn-contacto:active
+      {
+        background-image: linear-gradient(bottom, rgb(171,27,27) 100%, rgb(212,51,51) 0%);
+        
+      }
+    </style>
+    <header class="header navbar-fixed-top">
+      <nav class="navbar" role="navigation">
+
+        <!-- botones del head, con menu desplegable -->
+        <div id="home" class="container">
+          <div class="menu-container js_nav-item">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="toggle-icon"></span>
+            </button>
+  
+            <div class="logo">
+              <a class="logo-wrap" href="#body" >                
+                <img class="logo-img logo-img-main" src="{% static '/Home/img/Logo_02.svg' %}" width="100%" height="100%" alt="Hoffsel Main" >
+                <img class="logo-img logo-img-active" src="{% static '/Home/img/Logo_02.svg' %}" width="100%" height="100%" alt="Hoffsel Active" >
+              </a>
+            </div>
+          </div>
+  
+          <div class="collapse navbar-collapse nav-collapse">
+            <div class="menu-container">
+              <ul class="nav navbar-nav navbar-nav-right">
+                <li class="js_nav-item nav-item">
+                  <!-- <a class="linknav-item-hover linknav-item-child" href="#body" >Principal</a> -->
+                  <!-- <a class="nav-item-child nav-item-hover" href="#solutions">Soluciones</a> -->
+                  <button onclick="myFunction(0)" class="nav-item-child nav-item-hover dropbtn">
+                    Soluciones
+                  </button>
+                  <div id="myDropdown-0" class="dropdown-content">
+                    <a class="href-dropdown" href="#solution1">Soluciones 1</a>
+                    <a class="href-dropdown" href="#solution2">Soluciones 2</a>
+                    <a class="href-dropdown" href="#solution3">Soluciones 3</a>                      
+                  </div>
+
+                </li>
+                <li class="js_nav-item nav-item">
+                  <!-- <a class="linknav-item-hover linknav-item-child" href="#body" >Principal</a> -->
+                  <!-- <a class="nav-item-child nav-item-hover" href="#services">Servicios</a> -->
+                  <button onclick="myFunction(1)" class="nav-item-child nav-item-hover dropbtn">Servicios</button>
+                  <div id="myDropdown-1" class="dropdown-content">
+                    <a class="href-dropdown" style="color: black" href="/contact/servicios_portal_operativo/">Portal Operativo</a>
+                    <a class="href-dropdown" style="color: black" href="/contact/servicios_gestion_transporte/">Gestion de Transporte</a>
+                  </div>
+                </li>
+                <li class="js_nav-item nav-item">
+                  <button onclick="myFunction(2)" class="nav-item-child nav-item-hover dropbtn">Productos</button>
+                  <div id="myDropdown-2" class="dropdown-content">
+                    <a class="href-dropdown" style="color: black" href="/contact/productos_gps_link/">GPS Link</a>
+                    <a class="href-dropdown" style="color: black" href="/contact/productos_virtual_c/">Virtual C</a>
+
+                  </div>
+                </li>
+                <li class="js_nav-item nav-item">
+                  
+                  <!-- <button onmouseover="myFunction(3)" class="nav-item-child nav-item-hover dropbtn"> -->
+                  <button onclick="myFunction(3)" class="nav-item-child nav-item-hover dropbtn">
+                    Compania
+                  </button>
+                  <div id="myDropdown-3" class="dropdown-content">
+                    <a class="href-dropdown" href="/contact/empresa_trabaja_en_hoffsel/">Trabajar en HOFFSEL</a>
+                    <a class="href-dropdown" href="/contact/empresa_alianzas_socios/">Alianzas y Socios</a>
+                    <a class="href-dropdown" href="/login/login/">Login</a>                    
+                  </div>
+                  
+                </li>
+
+                <li class="js_nav-item nav-item">                  
+                  <!-- <button onmouseover="myFunction(4)" class="nav-item-child nav-item-hover dropbtn"> -->
+                  <button onclick="myFunction(4)" class="nav-item-child nav-item-hover dropbtn">
+                    Novedades
+                  </button>
+                  <div id="myDropdown-4" class="dropdown-content">
+                    <a class="href-dropdown" href="#workself">Trabajar en HOFFSEL</a>
+                    <a class="href-dropdown" href="#pathners">Alianzas y Socios</a>
+                    <a class="href-dropdown" href="#others"> Otros </a>
+                  </div>
+                </li>
+
+                <li class="js_nav-item nav-item">
+                  <a class="nav-item-child nav-item-hover" href="/contact/">Contacto</a>
+                </li>  
+
+                <!-- <li class="js_nav-item nav-item">
+                  <a class="nav-item-child nav-item-hover" href="/login/login/">Login</a>
+                </li> -->
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>    
+
+    {% block content %}{% endblock content %}
+    
+    
+    <footer class="footer" >
+      <!-- Links -->
+      <div class="section-seperator" style="background-color: rgba(7, 121, 167, 0.644);">
+        <div class="content-md container" >
+          <div class="row text-center">
+
+            <div class="col-sm-1 sm-margin-b-20"></div>
+            <div class="col-sm-3 col-xs-6 sm-margin-b-20">
+              <ul class="list-unstyled footer-list">
+                <li class="footer-list-item" style="color: #ddd; font-size: large;">
+                  <b>Envianos un Correo</b>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm-2 col-xs-6 sm-margin-b-20">
+              <ul class="list-unstyled footer-list">
+                <li class="footer-list-item">
+                  <!-- btn-contacto -->
+                  <a href="/contact/" class='btn btn-contacto btn-lg' >
+                    <b>Contactanos &rsaquo;</b>
+                  </a>
+
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm-3 col-xs-6 sm-margin-b-20">
+              <ul class="list-unstyled footer-list">
+                <li class="footer-list-item" style="color: #ddd; font: larger">
+                  <b>
+                    Telefono uno                  
+                    <br>
+                    Telefono dos
+                  </b>                  
+                </li>                
+              </ul>
+            </div>
+            <div class="col-sm-3 col-xs-6 sm-margin-b-20">
+              <ul class="list-unstyled footer-list">
+                <li class="footer-list-item">
+                  <div class="row">                
+                    <div class="col-sm-2 col-xs-3 col-md-1 ">
+                      <a href="https://es-la.facebook.com/Hoffsel-Ltda-1176217852392399/"><i class="fa fa-facebook"></i></a>
+                    </div>
+                    <div class="col-sm-2 col-xs-3 col-md-1 ">
+                      <a href="https://twitter.com/@hoffsel"><i class="fa fa-twitter"></i></a>
+                    </div>
+                    <div class="col-sm-2 col-xs-3 col-md-1 ">
+                      <a href="https://ar.linkedin.com/company/hoffsel"><i class="fa fa-linkedin"></i></a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+
+
+
+
+
+          </div>
+          <!--// end row -->
+        </div>
+      </div>
+      <!-- End Links -->
+
+
+    </footer>
+
+  <!-- markdown  -->
+  <script>
+    /* When the user clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function myFunction(arg)
+    {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++)
+      {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show'))
+        {
+          openDropdown.classList.remove('show');
+        }
+      }
+      document.getElementById(`myDropdown-${arg}`).classList.toggle("show");
+    }
+    function hoverFunction(arg)
+    {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++)
+      {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show'))
+        {
+          openDropdown.classList.remove('show');
+        }
+      }
+      document.getElementById(`myDropdown-${arg}`).classList.toggle("show");
+    }
+
+    /* Cierra la lista desplagada al realizar click fuera de ella */ 
+    window.onclick = function(event)
+    {
+      if (!event.target.matches('.dropbtn'))
+      {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++)
+        {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show'))
+          {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+    
+
+
+  </script>
+  </body>
+</html>

@@ -1,0 +1,168 @@
+{% extends "Contact/base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+  <style>
+    .textOverImagen {
+      position: relative;
+    }
+      
+    .titulo{
+      top: 60%;
+      font-size: 28px;
+      font-style: normal;
+      font-weight: bold;
+      position: absolute;      
+      left: 5%;
+      width: 100%;
+      margin: 0 auto;
+      /* height: 50px; */
+      color: rgb(241, 11, 11);
+    }
+
+    .headlink
+    {
+      position: absolute;
+      top: 5%;
+      left: 5%;
+      width: 100%;
+      margin: 0 auto;
+      width: 100%;
+      height: 50px;
+      color: rgb(20, 24, 243);
+      font-weight: bold;
+    }
+    
+    a:link,
+    a:visited,
+    a:hover,
+    a:active
+    {
+      text-decoration: none; 
+      color: rgb(2, 2, 243);
+    }
+
+    a:hover
+    {
+      color: rgb(247, 9, 9);
+    }
+
+    #macrosectiontext
+    {
+      position: relative;
+      font:Arial, sans-serif;
+      text-align: center;
+      font-size: 50px;
+      font-style: bold;
+      margin-top: 245px;
+      opacity: 0.6;
+      background-color: transparent;
+    }
+
+    #macrosectiontext a:link
+    {
+      color: #000;
+    }
+
+    #macrosectiontext a:visited,
+    #macrosectiontext a:hover,
+    #macrosectiontext a:active
+    {
+      color: #fff;
+    }
+
+    img {
+      width: 100%;
+      max-height: 250px;      
+      height: 250px; /* assume this is the default size */
+      object-fit: cover;
+      object-position: bottom;
+    }
+
+  </style>
+
+
+  <div class="textOverImagen" style="margin-top: 10px; text-align: center;">    
+    <img 
+      class="logo-img logo-img-active" 
+      src="{% static '/Home/img/carousel/main_01.jpg' %}" width="80%" height="850px" alt="Hoffsel Active" 
+    >
+
+    <div class="container">
+  
+      <!-- <div class="text" style="margin-top: 1px;"> -->
+      <div class="text" style="text-align: left;">        
+        <span class="headlink">
+          <a href="/"> Prinicipal </a> &rsaquo;  <a href="/contact/servicios/"> Servicios </a>
+          &rsaquo; Portal Operativo
+        </span>
+        <span class="titulo">
+          Portal Operativo
+        </span>        
+      </div>
+    </div>      
+  </div>
+
+
+
+
+
+
+  <!-- about -->
+  <div class="container-fluid" style="margin-top: 40px; margin-bottom: 100px;">
+    <div class="container">
+
+      <!-- Portal Operativo -->
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6" >
+          <div  >
+            <h2 style="font-family: 'Courier New', Courier, monospace;">Portal Operativo</h2>
+            <p style="color: rgb(0, 0, 0); font-size: 150%;">
+              Seguimiento de Flotas, auditorias de rutas cotidianas, alertas y 
+              notificacion de excesos de velocidad. Geocercas, para establecer limites de velocidades y sectores de no detencion.  
+              
+            </p>
+            <a href="#soluciones" class='btn btn-homelink btn-lg' >
+              <b>Ver mas &rarr; </b>
+            </a>
+          </div>          
+        </div>       
+
+
+        <div class="col-xs-12 col-sm-6 col-md-6 " style="margin-top: 150px; margin-bottom: 150px;">
+          <div class="img-responsive" style="width: 50%; height: 50%;">
+            <div class='imganimation -i0' 
+                style="--path1:url( {% static '/Contact/img/servicios/portal_operativo.jpeg' %});
+                       --path2:url({% static '/Contact/img/servicios/gestion_trasnporte.jpeg' %});
+                       --size:60vmin;">
+              <!-- Ventana dividida en 5 columna, el rectangulo esta en 40 => necesita 3 columnas  -->
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+
+
+              <!-- <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> -->
+            </div>
+          </div>          
+        </div> 
+
+        <!-- <div class="col-xs-12 col-sm-6 col-md-6 ">
+          <img class="full-width img-responsive wow fadeInUp" src="{% static '/Contact/img/servicios/portal_operativo.jpeg' %}" alt="Portfolio Image" data-wow-duration=".3" data-wow-delay=".2s">
+        </div> -->
+      </div>
+      <!-- End Portal Operativo -->
+
+
+    </div>
+  </div>
+  <!-- End about -->
+
+{% endblock %}

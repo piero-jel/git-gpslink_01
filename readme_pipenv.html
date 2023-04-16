@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>python&sol;pipenv</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="pythonpipenv">python/pipenv</h1>
+<p>Pasos para correr el proyecto, en caso de necesitar instalar python considere <a href="#python-install">estos pasos</a>.</p>
+<pre><code class="language-bash">  <span class="hljs-comment">## 1. Habilitamos el ambiente</span>
+  pipenv --python /usr/bin/python3 shell
+
+  <span class="hljs-comment">## 1.b En caso de ser la primera ejecucion  ejecutamos</span>
+  <span class="hljs-comment">##     la instalacion de los packages del proyecto</span>
+  pip install --no-cache-dir --upgrade pip &amp;&amp; pip install --no-cache-dir -r 0D-Dockerfiles/requerimientos.txt
+
+  <span class="hljs-comment">## 2. ejecutamos el proyecto</span>
+  <span class="hljs-comment">### Opcion uno</span>
+  python test.py
+
+  <span class="hljs-comment">### Opcion dos</span>
+  ./test.py
+</code></pre>
+<p>Para detener el mismo solo debemos precionar la combinación <code>Ctrl</code> + <code>c</code>.</p>
+<p>En caso de necesitar finalizar <strong>pipenv</strong> debemos usar la combinación <code>Ctrl</code> + <code>d</code>, o ingresar el comando <strong>exit</strong>.</p>
+<p><em><strong>En caso de falla debemos ejecutar algunos de los pasos siguentes.</strong></em></p>
+<h1 id="python-install">python install</h1>
+<pre><code class="language-bash">  sudo apt-get update &amp;&amp; sudo apt-get upgrade -y
+  sudo apt-get install -y python3
+  sudo apt-get install -y python3-pip
+</code></pre>
+<h1 id="instalando-pipenv">Instalando pipenv</h1>
+<pre><code class="language-bash"> python3 -m pip install pipenv
+</code></pre>
+<h1 id="enable-virtual-enviroment">Enable virtual enviroment</h1>
+<p>Habilitando el Entorno Virtual:</p>
+<p><strong>Linux :</strong></p>
+<pre><code class="language-bash">  pipenv shell
+</code></pre>
+<h1 id="disable-virtual-enviroment">Disable virtual enviroment</h1>
+<pre><code class="language-bash">  <span class="hljs-built_in">exit</span>
+  <span class="hljs-comment">## o (Presionar la convinacion de teclas) Ctrl + D</span>
+  <span class="hljs-comment"># Ctrl + d</span>
+
+</code></pre>
+<h1 id="project-test">Project Test:</h1>
+<ol>
+<li>Enable virtual enviroment</li>
+<li>Run/Ejecuion del script <strong><a href="http://test.py">test.py</a></strong> :</li>
+</ol>
+<ul>
+<li>opcon 1:</li>
+</ul>
+<pre><code class="language-bash">  $ python test.py 
+</code></pre>
+<ul>
+<li>Opcion 2</li>
+</ul>
+<pre><code class="language-bash">  $ ./test.py
+</code></pre>
+<p>O directamente podemos correr el script de django, considerando un puerto valido por ejemplo 8080 u 8000:</p>
+<pre><code class="language-bash">  $ python manage.py runserver 0.0.0.0:{port} 
+</code></pre>
+<h1 id="install-package-from-requeriments">Install package from requeriments</h1>
+<p>Para esto necesitamos tener el archivo pipfile, quien contine los package necesarios para poder desplegar el proyecto.</p>
+<p><strong>pipenv</strong></p>
+<pre><code class="language-bash">  $ pipenv install -r /path/requerimientos.txt  
+</code></pre>
+<p><strong>pip</strong></p>
+<pre><code class="language-bash">  $ pip install -r /path/requerimientos.txt  
+</code></pre>
+<h1 id="creting-requeriments-file-for-pipfile-or-pip">Creting requeriments file for pipfile or pip</h1>
+<p>Antes de crear el archivo <strong>pipfile</strong>, debemos instalar dentro del entonrno virtual los package mediante el comando <strong>pipenv install &lt;package&gt;</strong> o <strong>pip install</strong></p>
+<p>Esto lo podemos realizar de dos formas diferentes, desde un entorno aislado ya sea con <strong>pipenv</strong> u otro disponible (virtualenv).</p>
+<p><strong>pipenv</strong></p>
+<pre><code class="language-bash">  $ pipenv lock -r &gt; requeriments.txt
+</code></pre>
+<p><strong>pip</strong></p>
+<pre><code class="language-bash">  $ pip freeze &gt; requeriments.txt
+</code></pre>
+<h1 id="views-current-package">views current package</h1>
+<p>Visualizando los package instalados actualmente.</p>
+<p><strong>usando pip</strong></p>
+<pre><code class="language-bash">  $ pip freeze
+</code></pre>
+<p><strong>usando pipenv</strong></p>
+<pre><code class="language-bash">  $ pipenv lock -r 
+</code></pre>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>

@@ -1,0 +1,102 @@
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+<!-- Para mensajeria en la base de la tabla -->
+
+{% load poll_extras %}
+
+  <div class="container">
+    <div class="row">
+      <!-- Insertamos mensajes de warning, para el caso de usuarios no configurados correctamente -->      
+      {% if tabla != None %}
+        <!-- <table class="table table-strip table-hover table-responsive-sm table-responsive-md estilo1" id="tabla2"> -->
+        <!-- <table class="table table-strip table-hover table-responsive-sm table-responsive-md estilo" id="tabla2"> -->
+        <table class="table table-strip table-hover table-responsive-sm table-responsive-md estilo1">
+          {% if tabla.filter_leng %}
+          <thead class="text-center">
+            <tr>
+              {% for it in tabla.table_head %}       
+                <th>
+                  <div class="sortoptions">
+                    {% if it.label|getLenList > 1 %}                      
+                      {%for i in it.label|getList %}  
+                        <div> {{i}} </div>  
+                      {%endfor%}                      
+                    {% else %}
+                      <!-- Lista con un solo valor 'Label sin Espacios' -->
+                      {{it.label}}                      
+                    {% endif %}
+                  </div>    
+                </th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <!-- <tbody class="text-center" style="color:rgb(117, 238, 37);"> -->
+          <tbody class="text-center">
+
+            {% for fila in tabla.table_body %}              
+              <!-- <tr>                 -->              
+              <tr class="td-hover" onclick="window.location='{% url tabla.url fila.0 %}';" 
+              {% if tabla.link_msg %} title="{{tabla.link_msg}}{{fila.0}}" {% endif %} >
+              
+              
+                <td> {% if tabla.url %} <a href="{% url tabla.url fila.0 %}"> {% endif %} {{fila.0}} </a> </td>
+                {% for campo in fila %}
+                {% if not forloop.first %}            
+                <td>
+                  {% if campo|length > tabla.filter_leng %}
+                    {{ campo|make_list|slice:'0:10'|join:''}}
+                  {% else %}
+                    {# {% firstof campo "None" %} #}
+                    {% firstof campo "" %}
+                  {% endif %}           
+                </td>
+                {% endif %}
+                {% endfor %}          
+              </tr>
+              
+            {% endfor %}
+
+
+          </tbody>
+          {% else %}
+          <thead>
+            <tr>
+              {% for it in tabla.table_head %}       
+                <th>
+                  <div class="sortoptions">
+                    {{it.label}}
+                    {% if it.button == True %}
+                      {% if it.status == True %}
+                        <a class='toggle ascending' href="?{{it.tag}}=1" title='Ordenamiento'>
+                          <img src="{% static it.img_up %}" width="16px" height="16px%" />                
+                        </a>  
+                      {% else %}
+                        <a class='toggle ascending' href="?{{it.tag}}=-1" title='Ordenamiento'>
+                          <img src="{% static it.img_down %}" width="16px" height="16px%" />                
+                        </a>
+                      {% endif %}
+                    {% endif %}
+                  </div>    
+                </th>
+              {% endfor %}
+            </tr>
+
+          </thead>
+          <tbody>       
+            {% for fila in tabla.table_body %}
+              <!-- <tr class="rtbl-register td-hover" onclick="window.location='{% url tabla.url fila.0 %}';" title="Click Para editar el Registro." > -->
+              <tr class="td-hover" onclick="window.location='{% url tabla.url fila.0 %}';" title="Hola">
+                {% for campo in fila %}
+                <td>            
+                  {% firstof campo "None" %}  
+                </td>
+                {% endfor %}        
+              </tr>
+            {% endfor %}
+          </tbody>
+
+          {% endif %}
+        </table>     
+      {% endif %}      
+    </div>
+  </div>

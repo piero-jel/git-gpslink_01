@@ -1,0 +1,28 @@
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+
+
+{% if buttonlist %}
+  <div id="navbarSupportedContent_small" class="sticky-top shadow">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="row justify-content-center">
+
+          {% for it in buttonlist %}          
+          <div class="col-2 text-center col-sm-1 col-md-3 col-lg-2">
+            <div>
+              <a href="{{it.url}}" class="d-none d-sm-none d-md-block">
+                <img src="{% static 'Buttons/img/'%}{{it.path}}" width="15%" height="15%" />
+              </a>
+              <a href="{{it.url}}" class="d-none d-sm-none d-md-block">       
+                {% if it.label %}  {{it.label}}  {% endif %}                
+              </a>
+            </div>
+          </div>
+          {% endfor %}  
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

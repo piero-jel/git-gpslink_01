@@ -1,0 +1,219 @@
+{% extends "Contact/base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<style>
+  .textOverImagen {
+     position: relative;
+  }
+  
+  h4 {
+     position: absolute;
+     top: 5%;
+     left: 5%;
+     width: 100%;
+     margin: 0 auto;
+     width: 100%;
+     height: 50px;
+  }
+  strong
+  {
+     position: absolute;
+     top: 95%;
+     left: 5%;
+     width: 100%;
+     margin: 0 auto;
+     width: 100%;
+     height: 50px;
+     color: rgb(12, 12, 12);
+  }
+  
+  a:link,
+  a:visited,
+  a:hover,
+  a:active
+  {
+    text-decoration: none; 
+    color: rgb(10, 10, 10);
+  }
+
+  a:hover
+  {
+    color: #f00;
+  }
+
+  #macrosectiontext
+  {
+    position: relative;
+    font:Arial, sans-serif;
+    text-align: center;
+    font-size: 50px;
+    font-style: bold;
+    margin-top: 245px;
+    opacity: 0.6;
+    background-color: transparent;
+  }
+
+  #macrosectiontext a:link
+  {
+    color: #000;
+  }
+
+  #macrosectiontext a:visited,
+  #macrosectiontext a:hover,
+  #macrosectiontext a:active
+  {
+    color: rgb(252, 10, 10);
+  }
+</style>
+
+<div>
+  <div class="textOverImagen" style="margin-top: 10px;">    
+    <img class="logo-img logo-img-active" src="{% static '/Contact/img/empresa/empresa_01.jpeg' %}" width="100%" height="450px" alt="Hoffsel Active" >
+    <div class="container">
+  
+      <!-- <div class="text" style="margin-top: 1px;"> -->
+      <div class="text">
+        <!-- <h4 class="carousel-title" style="color: rgb(3, 57, 233);">GPS Link</h4> -->
+        <p> 
+          <strong> <a href="/"> Prinicipal </a> &rsaquo; Empresa </strong>
+        </p>
+        
+      </div>
+    </div>
+      
+  </div>
+</div>
+
+
+
+
+
+  <!-- about -->
+  <div class="container-fluid" style="margin-top: 40px; margin-bottom: 40px;">
+    <div class="container">
+
+      <!-- Trabajar en HOFFSEL -->
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6" >
+          <div  >
+            <h2 style="font-family: 'Courier New', Courier, monospace;">Trabajar en HOFFSEL</h2>
+            <p style="color: rgb(0, 0, 0); font-size: 150%;">
+              Juntos somos co-creadores de nuestra historia. <br>
+              Te invitamos a ser parte de nuestro equipo. <br>
+              Para construir un futuro Inovador. <br>             
+              
+            </p>
+            <a href="/contact/empresa_trabaja_en_hoffsel/" class='btn btn-homelink btn-lg' >
+              <b>Ver mas &rarr; </b>
+            </a>
+          </div>          
+        </div>
+
+
+        <div class="col-xs-12 col-sm-6 col-md-6 " style="margin-top: 150px; margin-bottom: 150px;">
+          <div class="full-width img-responsive" >
+            <div class='imganimation -i0' 
+              style="--path1:url({% static '/Contact/img/empresa/TrabajarEnHoffsel_01.jpg' %}) ;
+                     --path2:url({% static '/Contact/img/empresa/TrabajarEnHoffsel_02.jpg' %}) ;
+                     --size:40vmin; ">
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+            </div>
+          </div>          
+        </div>
+
+        <!-- <div class="col-xs-12 col-sm-6 col-md-6" style="text-align: center;">
+          <img class="wow fadeInUp" 
+          src="{% static '/Contact/img/servicios/portal_operativo.jpeg' %}" width="80%" height="80%"
+              alt="Portfolio Image" data-wow-duration=".3" data-wow-delay=".2s">
+        </div> -->
+
+      </div>
+      <!-- End Trabajar en HOFFSEL -->
+
+      <!-- Alianzas y Socios -->
+      <div class="row" style="margin-top: 50px;">
+
+        <div class="col-xs-12 col-sm-6 col-md-6 " style="margin-top: 150px; margin-bottom: 150px;">
+          <div class="full-width img-responsive" >
+            <div class='imganimation -i0' 
+              style="--path1:url({% static '/Contact/img/empresa/AlianzasSocios_01.jpeg' %}) ;
+                     --path2:url({% static '/Contact/img/empresa/AlianzasSocios_02.jpeg' %}) ;
+                     --size:40vmin; ">
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+            </div>
+          </div>          
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-6" >
+          <div  >
+            <h2 style="font-family: 'Courier New', Courier, monospace;">Alianzas y Socios</h2>
+            <h2 style="color: rgb(0, 0, 0); font-size: 110%;">
+              En HOFFSEL creemos que la asociación impulsa la innovación y permite nuevas oportunidades 
+              comerciales que crean valor agregado para toda la cadena, especialmente para nuestros clientes.
+            </h2>
+            <p style="color: rgb(0, 0, 0); font-size: 125%;">
+              Ya sea interactuando con socios para abordar nuevos segmentos de mercado y regiones, 
+              crear soluciones conjuntas, complementar y diferenciar nuestras ofertas o fortalecer el servicio 
+              al cliente, cada una de estas alianzas combina nuestra tecnología de punta, experiencia y capacidades 
+              con la de otros líderes de la industria.              
+            </p>
+            <a href="/contact/empresa_alianzas_socios/" class='btn btn-homelink btn-lg' >
+              <b>Ver mas &rarr; </b>
+            </a>
+          </div>          
+        </div>        
+      </div>
+      <!-- End Alianzas y Socios -->
+
+      <!-- Login -->
+      <div class="row" style="margin-top: 50px;">
+
+        <div class="col-xs-12 col-sm-6 col-md-6" >
+          <div  >
+            <h2 style="font-family: 'Courier New', Courier, monospace;">Login</h2>            
+            <p style="color: rgb(0, 0, 0); font-size: 150%;">
+              Plataforma de contactos y demas ....
+            </p>
+            <a href="/login/login/" class='btn btn-homelink btn-lg' >
+              <b>Login &rarr; </b>
+            </a>
+          </div>          
+        </div>  
+
+        <div class="col-xs-12 col-sm-6 col-md-6 " style="margin-top: 150px; margin-bottom: 150px;">
+          <div class="full-width img-responsive" >
+            <div class='imganimation -i0' 
+              style="--path1:url({% static '/Contact/img/empresa/Login_01.jpeg' %}) ;
+                     --path2:url({% static '/Contact/img/empresa/Login_02.jpeg' %}) ;
+                     --size:40vmin; ">
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+            </div>
+          </div>          
+        </div>
+
+
+
+      </div>
+      <!-- End Login -->      
+
+
+    </div>
+  </div>
+  <!-- End about -->
+
+{% endblock %}

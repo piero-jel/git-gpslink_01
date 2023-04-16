@@ -1,0 +1,335 @@
+<!-- incluimos el parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+{% block content %}
+
+
+{% if err_form %}
+<script>
+  window.onload = () => {
+  document.querySelector('[data-target="#popup01"]').click();
+}
+</script>
+{% endif %}
+
+    
+  {% if urlbtn_add %}
+    <div class="container">
+      <div class="row text-right">
+        <p>
+          <button type="button" style="border: 4px solid;" class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#popup01" data-backdrop="static" data-keyboard="false">
+            <strong> Add </strong>
+            <!-- Nuevo Mensaje -->
+          </button>
+        </p>      
+      </div>
+    </div>  
+  {% endif %}
+  <!-- Lista de Pedidos de Desarrollos  -->
+  <div class="container">
+    <div class="row">
+
+      <!-- <table class="table table-strip table-hover table-responsive table-responsive-sm table-responsive-md estilo1"> -->
+      <table style="width:100%" id="tblhistory" class="table table-hover table-strip table-responsive table-responsive-sm table-responsive-md estilo1">
+        <thead>
+          <tr >
+            <!-- 
+              * registro    : quien registra el pedido de un nuevo desarrollo 
+              * empresa     : Para que empresa, peude ser interno (opcionale)
+              * asistente   : quien esta trabajando actualmente en el desarrollo, Modelo Programador    
+              * descripcion : Descripcion del desarrollo a realizar.
+              * email       : Lista de meil a quien notificar los trabajos registrados sobre el desarrollo
+              * fecha_creacion : Fecha en la cual se creo el issue.
+              * fecha_actualizacion  : Fecha de la ultima actualizacion (en la cual se registro un nuevo trabajo )
+              * fecha_cierre  : Fecha de cierre del Desarrollo (None, valor por defecto)
+              * file1     : Archivo uno para acompañar el detalle del Desarrollo
+              * file2     : Archivo dos para acompañar el detalle del Desarrollo
+              * file3     : Archivo dos para acompañar el detalle del Desarrollo
+              * estado    : Estado Actual del issue
+            -->
+            <th style="width:7%"> ID </th>
+            <th style="width:15%"> Quien Registro </th>
+            <th style="width:15%"> Empresa </th>
+            <th style="width:15%"> Asistente </th>
+            <th style="width:20%"> Descripcion </th>
+            <th style="width:15%"> Email </th>
+            <th style="width:13%"> Fecha de Creacion </th>
+            <th style="width:13%"> Fecha Actualiacion </th>
+            <!-- <th style="width:300px"> Other </th> -->
+          </tr>
+        </thead>
+        <tbody> 
+        {% for it in desarrollos_all %}          
+          <tr class="rtbl-attend td-hover" onclick="window.location='{% url urllink it.id %}';" title="{{urltitle}} '{{it.id}}'." >
+            <!-- <td> {% firstof it.msg "" %} </td> -->
+            <td class="text-center"> {{it.id}} </td>            
+            <td class="text-center"> {{it.registro}} </td>
+            <td class="text-center"> {% firstof it.empresa %} </td>
+            <td class="text-center"> {% firstof it.asistente %} </td>
+            <td class="text-center"> {{it.descripcion}} </td>
+            <td class="text-center"> 
+              {% for i in it.email %}  
+                <div>
+                  {{i}}                  
+                </div>
+              {% endfor %}              
+             </td>
+            <td class="text-center"> {{it.fecha_creacion}} </td>
+            <td class="text-center"> {% firstof it.fecha_actualizacion %} </td>
+            <!-- <td class="text-center">               
+              <div>
+                {% firstof it.programador.first_name '' %}
+              </div>
+              <div>
+                {% firstof it.programador.last_name '' %}                
+              </div>
+            </td> -->
+          </tr>
+        {% endfor %}  
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pop Up Nuevo Pedido de Desarrollo/Trabajo -->
+  {% if form %}
+  <div class="container py-3">    
+    <div class="modal fade" id="popup01" tabindex="-1" role="dialog" aria-labelledby="popup01Label" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="popup01Label">Nuevo Pedido de Desarrollo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form method="POST" id="msg-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!--             
+              <> registro 
+              <> fecha_creacion : Fecha en la cual se creo el issue.
+              <> fecha_actualizacion : Fecha de la ultima actualizacion (en la cual se registro un nuevo trabajo )
+              <> fecha_cierre : Fecha de cierre del Desarrollo (None, valor por defecto)
+              <> estado : Estado Actual del issue   
+
+              empresa : Para que empresa, peude ser interno (opcionale)
+              asistente : quien esta trabajando actualmente en el desarrollo, Modelo Programador
+              descripcion : Descripcion del desarrollo a realizar.
+              email : Lista de meil a quien notificar los trabajos registrados sobre el desarrollo              
+              file1 : Archivo uno para acompañar el detalle del Desarrollo
+              file2 : Archivo dos para acompañar el detalle del Desarrollo
+              file3 : Archivo dos para acompañar el detalle del Desarrollo
+              
+            -->
+            <div class="modal-header"> 
+              <div>
+                <!-- empresa -->
+                <div class="row" >
+                  <div class="row">
+                    <div class="col-md-3">
+                      <strong>{{ form.empresa.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-3">
+                      {{ form.empresa }} 
+                    </div>                
+                    <div class="col-md-6">
+                      {{ form.empresa.help_text }}
+                    </div>    
+                  </div>                  
+                  <div>
+                    {{ form.empresa.errors }}
+                  </div>
+                </div>
+                <br>
+                <!-- modulo -->
+                <div class="row" >
+                  <div class="row">
+                    <div class="col-md-6">
+                      <strong>{{ form.modulo.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-3">
+                      {{ form.modulo }} 
+                    </div>
+                    <div class="col-md-2 text-left">
+                      {{ form.modulo.help_text }}
+                    </div>
+                  </div>                  
+                  <div>
+                    {{ form.modulo.errors }}
+                  </div>
+                </div>
+                <br>
+
+                <!-- asistente -->
+                <div class="row" >
+                  <div class="row">
+                    <div class="col-md-6">
+                      <strong>{{ form.asistente.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-3">
+                      {{ form.asistente }} 
+                    </div>
+                    <div class="col-md-3">
+                      {{ form.asistente.help_text }}  
+                    </div>
+                  </div>
+                  <div>
+                    {{ form.asistente.errors }}
+                  </div>
+                </div>
+                <br>
+                <!-- descripcion -->
+                <div class="row" >
+                  <div class="row">
+                    <div class="col-md-3">
+                      <strong>{{ form.descripcion.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-9">
+                      {{ form.descripcion }} 
+                    </div>
+                  </div>
+                  <div>
+                    {{ form.descripcion.help_text }}
+                  </div>
+                  <div>
+                    {{ form.descripcion.errors }}
+                  </div>
+                </div>
+                <br>
+                <!-- email -->
+                <div class="row" >
+                  <div class="row">
+                    <div class="col-md-3">
+                      <strong>{{ form.email.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-9">
+                      {{ form.email }} 
+                    </div>
+                  </div>
+                  <div>
+                    {{ form.email.help_text }}
+                  </div>
+                  <div>
+                    {{ form.email.errors }}
+                  </div>
+                </div>
+                <br>
+                <!-- file1  -->
+                <div class="row">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <strong>{{ form.file1.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-4">
+                      {{ form.file1 }} 
+                    </div>                                 
+                  </div>
+                  <div>
+                    {{ form.file1.help_text }}
+                  </div>
+                  <div>
+                    {{ form.file1.errors }}
+                  </div>
+                </div>                      
+                <br>
+                <!-- file2  -->
+                <div class="row">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <strong>{{ form.file2.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-4">
+                      {{ form.file2 }} 
+                    </div>                                 
+                  </div>
+                  <div>
+                    {{ form.file2.help_text }}
+                  </div>
+                  <div>
+                    {{ form.file2.errors }}
+                  </div>
+                </div>                      
+                <br>
+                <!-- file3  -->
+                <div class="row">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <strong>{{ form.file3.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-4">
+                      {{ form.file3 }} 
+                    </div>                                 
+                  </div>
+                  <div>
+                    {{ form.file3.help_text }}
+                  </div>
+                  <div>
+                    {{ form.file3.errors }}
+                  </div>
+                </div>                      
+                <br>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" name='formok' value='formok' id="msgSubmit" class="btn btn-outline-success">Guardar</button>
+              <button type="submit" name='nok' value='nok' id="msgSubmit" class="btn btn-outline-danger">Cancelar</button>
+              <!-- <button type="submit" name='nok' value='nok' id="msgSubmit" data-dismiss="modal" class="btn btn-outline-danger">Cancelar</button> -->
+              <!-- <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">Cancelar</button> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <script >
+    $(document).ready(function()
+    {
+      $('#msg-form').on('submit', function(event)
+      {
+        event.preventDefault();
+        $.ajax({
+            url: '/msg/',
+            type: 'POST',
+            // headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            data: $('#msg-form').serialize(),
+            
+            beforeSend: function ()
+            {
+              $("#msgModal").modal("show");
+            },
+            
+            success: function(data)
+            {
+              $('#msgModal .modal-body').html(data);
+            }
+        });
+      });
+    });
+  </script>
+
+
+{% endblock %}
+
+
+<tr class="rtbl-attend td-hover" onclick="window.location='{% url urllink it.programador.id %}';" title="{{urltitle}} '{{it}}'." ></tr>

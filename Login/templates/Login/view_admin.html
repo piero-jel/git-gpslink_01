@@ -1,0 +1,93 @@
+<!-- incluimos el Parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+{% block content %}
+  <div class="container-fluid" style="margin-top: 100px;">
+    <!-- <div align="center"> -->
+    <div class="container">
+      <div class="row text-center table-responsive" style="margin-bottom: 50px;">
+        <!-- <table class="table-responsive table-responsive-sm table-responsive-md" style="width:100%"> -->
+        <table >
+          <tbody>            
+            <tr>
+              {% for it in listlink %}
+                <td>
+                  &nbsp;
+                  <a href={{it.link}} class="btn btn-info" title="Click para Ingresar a {{it.title}}" > 
+                    <strong> {{it.name}} </strong>
+                  </a>
+                  &nbsp;
+                </td>                
+              {% endfor %}
+            </tr>            
+            </tbody>
+        </table>
+
+        
+
+
+
+            
+          
+          
+          <!-- &nbsp;&nbsp; -->
+
+          <!-- <div class="col-md-2" style="margin-top: 25px;" >
+
+            <a href={{it.link}} class="btn btn-info" title="Click para Ingresar a {{it.title}}" > 
+              <strong> {{it.name}} </strong>
+            </a>
+
+          </div> -->
+          <br>
+          <!-- <br>
+          <br> -->
+        
+      </div>                  
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success" >      
+          {{ message }}              
+          <a href="/login/view_admin/" class="btn alert-success"> x </a>
+        </div>
+        
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div> 
+  <br>
+{% endblock %}
+
+{% block footer %}
+<!-- <div class="container-fluid">  
+  <div class="container">                 
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success" >      
+        {{ message }}              
+        <a href="/login/view_admin/" class="btn alert-success"> x </a>
+      </div>      
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>  -->
+{% endblock %}

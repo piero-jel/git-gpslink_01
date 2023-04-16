@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Docker&sol;Dockerfile</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="dockerdockerfile">Docker/Dockerfile</h1>
+<p>Pasos para correr el proyecto desde docker</p>
+<h2 id="1-nos-movemos-al-directorio-donde-estan-los-dockerfile">1. Nos movemos al directorio donde estan los Dockerfile</h2>
+<pre><code class="language-bash">  <span class="hljs-built_in">cd</span> 0D-Dockerfiles/
+</code></pre>
+<h2 id="2-construimos-la-imagen-dentro-del-directorio-actual">2. Construimos la imagen, dentro del directorio actual:</h2>
+<pre><code class="language-bash">  docker build -t=<span class="hljs-string">&quot;jeluccioni/debian-django&quot;</span> -f DebianDJango .
+</code></pre>
+<h2 id="3-nos-movemos-al-directorio-donde-esta-el-workspace-creamos-y-corremos-el-contenedor">3. Nos movemos al directorio donde esta el workspace, creamos y corremos el contenedor</h2>
+<pre><code class="language-bash">  <span class="hljs-built_in">cd</span> ..
+  docker run --name DebianDJango-gpslink -i -t -v <span class="hljs-variable">$PWD</span>/:/home/user:rw jeluccioni/debian-django /bin/bash
+</code></pre>
+<h3 id="3b-en-caso-de-necesitar-un-puerto-diferente-entre-el-host-y-el-contendor-aplicacion">3.b En caso de necesitar un puerto diferente entre el host y el contendor (aplicacion)</h3>
+<pre><code class="language-bash">  docker run -p &lt;HOST_PORT&gt;:&lt;CONTAINER_PORT&gt; --name DebianDJango-gpslink -i -t -v <span class="hljs-variable">$PWD</span>/:/home/user:rw jeluccioni/debian-django /bin/bash
+</code></pre>
+<p>El puerto configurado para exponer por defecto es el puerto <strong>8080</strong>, podemos modificar la linea involucrada o utilizar esta opcion a la hora de crear el container.</p>
+<h2 id="4-iniciamos-el-contenedor">4. Iniciamos el contenedor</h2>
+<p>En caso de terminar la seccion iniciada al crear el conedor, para iniciar esta nuevamene</p>
+<pre><code class="language-bash">  docker start -i DebianDJango-gpslink
+</code></pre>
+<h2 id="5-start-del-proyecto">5. Start del proyecto</h2>
+<p>Para este paso contamos con varias opciones, para ambas siempre se muestra en pantalla la url para acceder a la pagina web principal.</p>
+<h3 id="5a-opcion-uno-corremos-directamente-el-script-python-de-testing">5.a. Opcion uno, corremos directamente el script python de testing</h3>
+<pre><code class="language-bash">root@b60766109a23:/home/user<span class="hljs-comment"># ./test.py </span>
+</code></pre>
+<h3 id="5b-uso-del-script-de-servicios">5.b. Uso del script de servicios</h3>
+<pre><code class="language-bash">root@b60766109a23:/home/user<span class="hljs-comment"># bash servicio.sh --test</span>
+</code></pre>
+<h2 id="6-stop-del-servicio">6. Stop del servicio</h2>
+<p>Para esto solo debemos presionar la combinación <code>Ctrl</code> + <code>c</code>.</p>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>

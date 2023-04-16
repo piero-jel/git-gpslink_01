@@ -1,0 +1,157 @@
+<!-- incluimos el parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load bootstrap4 %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+{% block headcontent %} 
+
+{% endblock %}
+
+
+{% block extra-sticky %} 
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+<div class="container">
+  <div class="row">
+    <!-- Detalles del Ticket, register y Asistente Actual -->    
+    {% include 'Ticket/ticket_header.html' with ticket=lticket estilo=2 %}    
+  </div>
+</div>
+
+
+
+
+
+<!-- Detalles del History  -->
+<div class="container" style="margin-top: 40px;">
+  <div class="row">
+    {% bootstrap_messages %}
+    <!-- <table class="table table-strip table-hover table-responsive table-responsive-sm table-responsive-md estilo1"> -->
+    <table id="tblhistory" class="table table-strip table-responsive table-responsive-sm table-responsive-md estilo1">
+      <thead>
+        <tr >
+          <!-- <th>Modulo</th> -->
+          <th style="width:200px"> {% ExplotItem "Modulo Id Fecha" %} </th> 
+          <th style="width:800px"> Detalle </th>
+          <th style="width:200px"> Archivos Adjuntos </th>
+        </tr>
+      </thead>
+      <tbody> 
+        {% for it_th in registerWork_all %}
+          <tr  {%if it_th.programmer == True %} class="rtbl-attend" {% else %} class="rtbl-register" {% endif %} >
+            <td class="text-center">
+              <div>
+                <strong>{% firstof it_th.modulo "" %} </strong> 
+              </div>
+              <div>
+                <strong> id: </strong> {{it_th.id}}
+              </div>
+              <div>
+                {% firstof it_th.date_update %}
+              </div>
+              {% if it_th.programmer == True %}
+                <div>
+                  {% firstof it_th.register_work.username "not user name" %}
+                </div>              
+                <div>                
+                  {{it_th.tiempo|str_time}}                
+                </div>
+              {% endif %}
+            </td>
+
+            <td> {% firstof it_th.msg "" %} </td>
+            <td class="text-center">
+              {% if it_th.file1 %}
+                <div class = "center-block">
+                  <div>
+                    <a href="{{it_th.file1.url}}">
+                      <img src="{{it_th.file1.url}}" class="img-thumbnail" width="80px" height="45px" /> 
+                    </a>
+                  </div>
+                  <div>
+                    <a href="{{it_th.file1.url}}">
+                      File 1
+                    </a>
+                  </div>
+                </div>
+              {% endif %}                
+              {% if it_th.file2 %}              
+                <div class = "center-block">
+                  <div>
+                    <a href="{{it_th.file2.url}}">
+                      <img src="{{tabla_it_th.file2.url}}" class="img-thumbnail" width="80px" height="45px" /> 
+                    </a>
+                  </div>
+                  <div>
+                    <a href="{{it_th.file2.url}}"> 
+                      File 2
+                    </a>
+                  </div>
+                </div>
+              {% endif %}       
+            </td>      
+          </tr>
+        {% endfor %}
+        <!-- Ticket  -->
+        <tr class="rtbltck-register">
+          <td class="text-center"> <strong>{{lticket.brief}}</strong></td>
+          <td> {{lticket.detail}} </td>
+          <td class="text-center"> 
+            {% if lticket.file1 %}
+              <div class="row ">
+                <div class="col-md-12 center-block">
+                  <a href="{{lticket.file1.url}}">
+                    <img src="{{lticket.file1.url}}" class="img-thumbnail" width="80px" height="45px" /> 
+                  </a>
+                </div>                
+              </div>
+              <div class="row">
+                <div class="col-md-12 center-block">
+                  <a href="{{lticket.file1.url}}">
+                    File 1
+                  </a>
+                </div>                
+              </div>     
+            {% endif %}                
+            {% if lticket.file2 %}                  
+              <div class="row">
+                <div class="col-md-12 center-block"> 
+                  <a href="{{lticket.file2.url}}">
+                    <img src="{{lticket.file2.url}}" class="img-thumbnail" width="80px" height="45px" /> 
+                  </a>
+                </div>                  
+              </div>
+              <div class="row">
+                <div class="col-md-12 center-block">
+                  <a href="{{lticket.file2.url}}"> 
+                    File 2
+                  </a>
+                </div>                
+              </div>                    
+            {% endif %}           
+          </td>
+        </tr>        
+ 
+      </tbody>
+    </table>
+  </div>
+</div>
+
+ 
+{% endblock %}

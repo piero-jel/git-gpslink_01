@@ -1,0 +1,12 @@
+
+{% if messages %}
+<ul class="messages">
+  <table class="table">
+    <tbody>
+      {% for message in messages %}
+        <tr class='{% firstof tag "danger" %}'> <th> <i> {{ message }} </i> </th> </tr>        
+      {% endfor %}
+    </tbody>
+  </table>  
+</ul>
+{% endif %}

@@ -1,0 +1,220 @@
+  <!-- incluimos el parent -->
+{% extends "Login/base.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load bootstrap4 %}
+
+<!-- Colocamos el titulo de la solapa -->
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "form ticket" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "Creando Ticket" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+<!-- Incluimos el boton de volver atras desde el historial -->
+  {% if listbtn %}
+    {% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+  {% else %}
+    {% include 'Buttons/history_back.html' %}
+  {% endif %}
+
+
+{% endblock %}
+
+<!-- Contenido del cuerpo  -->
+{% block content %}
+
+
+{% include 'Table/msg_tag.html' with tag='warning' %}
+
+{% if form %}
+  <div class="container">
+    <div class="container-fluid" style="margin-top: 10px;">
+      <div class="row">
+        <div class="col-md-2 "></div>
+        <div class="col-md-8">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}                            
+              <br>
+              <!-- Descripcion Breve: -->              
+              <div class="row" >
+                <div class="col-md-2">
+                  <strong> {{ form.brief.label_tag }} </strong>
+                </div>
+                <div class="col-md-4" title="Seleccione un Modulo">
+                  {{ form.brief }} 
+                </div>                
+                <div class="col-md-6"> {{ form.brief.errors }} </div>
+              </div>
+              <div>
+                {{ form.brief.help_text }}
+              </div>              
+              <br>
+
+              <!-- Descripcion Detallada: -->              
+              <div class="row">
+                <div class="col-md-2" >
+                  <strong> {{ form.detail.label_tag }} </strong>
+                </div>
+                <div class="col-md-2">
+                  {{ form.detail }}
+                </div>
+              </div>
+              <div class="row">
+                <div>
+                  {{ form.detail.help_text }}
+                </div>
+                <div>
+                  {{ form.detail.errors }}
+                </div>
+              </div>                            
+              <br>
+
+              <!--Lista de Meils:  -->
+              <div class="row">
+                <div class="col-md-2">
+                  <strong>{{ form.email.label_tag }}</strong>
+                </div>
+                <div class="col-md-2" title="Lista de Dirrecciones de Correo">            
+                  {{form.email}}            
+                </div>
+              </div>
+              <div class="row">
+                <div>
+                  {{ form.email.help_text }} 
+                </div>
+                <div>
+                  {{ form.email.errors }}
+                </div>          
+              </div>
+
+              <br>
+              <!-- Adjuntar Imagen 1: -->              
+              <div class="row">
+                <div class="col-md-4 text-left">
+                  <strong>{{ form.file1.label_tag }} </strong>
+                </div>
+                <div class="col-md-4 text-left">                  
+                  {{ form.file1 }} 
+                </div>
+              </div>
+              <div class="text-left">
+                {{ form.file1.errors }}                 
+              </div>
+              <div>
+                {{ form.file1.help_text }}
+              </div>
+              <br>
+
+              <!-- Adjuntar Imagen 2: -->              
+              <div class="row"> 
+                <div class="col-md-4 text-left">
+                  <strong>{{ form.file2.label_tag }}</strong>
+                </div>
+                <div class="col-md-4 text-left">        
+                  {{ form.file2 }} 
+                </div>
+              </div>
+              <div class="text-left">
+                {{ form.file2.errors }}
+              </div>
+              <div>
+                {{ form.file2.help_text }}
+              </div>
+
+              <br>
+
+              <!-- Adjuntar Imagen 3: -->              
+              <div class="row"> 
+                <div class="col-md-4 text-left">
+                  <strong>{{ form.file3.label_tag }}</strong>
+                </div>
+                <div class="col-md-4 text-left">                  
+                  {{ form.file3 }} 
+                </div>
+              </div>
+              <div class="text-left">
+                {{ form.file3.errors }}
+              </div>
+              <div>
+                {{ form.file3.help_text }}
+              </div>
+
+            
+              <br>      
+
+              <!-- error msg -->
+              <div class="row">
+                <div class="col-md-8">
+                  {{ form.non_field_errors }}
+                </div>
+              </div>
+            
+
+            <div align="center">
+              <div class="form-group py-2 col-9">      
+                <div class="form-group py-2 justify-content-center">
+                  <button class='form-button btn btn-success' type='submit' name='ok' value='ok' > 
+                    Guardar
+                  </button>    
+                  &nbsp; &nbsp; &nbsp;
+                  {% if cancel_link and edit_form == True %}
+                    <a class='form-button btn btn-danger' href={{cancel_link}} role="button">Cancelar</a>
+                  {% else %}
+                    <button class='form-button btn btn-danger' type='submit' name='nok' value='nok' > 
+                      Cancelar
+                    </button>
+                  {% endif %}
+
+                </div>
+              </div>  
+            </div>
+          </form>
+        </div>
+        <div class="col-md-2 "></div>
+      </div>
+    </div>  
+  </div>
+{% endif %}
+
+{% if other %}
+ <form method="post" >
+
+    
+  <div class="row py-2 justify-content-center">
+    <div class="form-group py-2 col-9">
+      <!-- <div class="form-group py-2">           -->
+      <div class="form-group py-2 justify-content-center">
+        <!-- eliminamos el uso de bootstrap4, fallas en la carga de imagenes  -->
+        {% csrf_token %}
+        {# {% bootstrap_form form layout="horizontal" size="small" label_class="form-label col-md-3" %} #}
+        {% bootstrap_form form layout="horizontal" size="small" label_class="form-label col-md-1" %}
+      </div>
+    </div>
+  </div>  
+
+
+
+
+  {% if testbuttonlist %}
+  <div align="center">
+    <div class="form-group py-2 col-9">      
+      <div class="form-group py-2 justify-content-center">
+      {% for it in testbuttonlist %}          
+        <!-- <div class="justify-content-center col-sm-1 col-md-3 col-lg-1"> -->
+          <button class='{{it.css}}' type={{it.type}} name={{it.name}} value={{it.value}} > 
+              {% firstof it.label %}
+          </button>             
+        <!-- </div> -->
+      {% endfor %}
+      </div>
+    </div>  
+  </div>      
+  {% endif %}
+  
+</form>
+{% endif %}
+
+{% endblock %}  

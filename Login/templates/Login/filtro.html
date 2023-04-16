@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="row text-left">
+    <form action="." method="GET">
+      <label for="q">{% firstof title "Buscar:" %} </label>
+      <input autofocus type="text" name="q" value="{{ query|escape }}">
+      <input type="submit" value={% firstof button "Buscar" %}>
+    </form>
+  </div>
+</div>

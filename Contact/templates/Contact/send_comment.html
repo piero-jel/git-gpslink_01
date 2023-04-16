@@ -1,0 +1,245 @@
+{% extends "Contact/base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+
+<style>
+  .textOverImagen {
+     position: relative;
+  }
+  
+  h4 {
+     position: absolute;
+     top: 5%;
+     left: 5%;
+     width: 100%;
+     margin: 0 auto;
+     width: 100%;
+     height: 50px;
+  }
+  p {
+     position: absolute;
+     top: 90%;
+     left: 5%;
+     width: 100%;
+     margin: 0 auto;
+     width: 100%;
+     height: 50px;
+     color: rgb(255, 255, 255);
+  }
+  
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    text-decoration: none; 
+    color: rgb(255, 255, 255);
+  }
+
+  a:hover
+  {
+    color: #f00;
+  }
+
+  #macrosectiontext
+  {
+    position: relative;
+    font:Arial, sans-serif;
+    text-align: center;
+    font-size: 50px;
+    font-style: bold;
+    margin-top: 245px;
+    opacity: 0.6;
+    background-color: transparent;
+  }
+
+  #macrosectiontext a:link
+  {
+    color: #000;
+  }
+
+  #macrosectiontext a:visited,
+  #macrosectiontext a:hover,
+  #macrosectiontext a:active
+  {
+    color: #fff;
+  }
+</style>
+
+<div class="textOverImagen" style="margin-top: 10px;">    
+  <img class="logo-img logo-img-active" src="{% static '/Home/img/carousel/main_03.jpg' %}" width="100%" height="450px" alt="Hoffsel Active" >
+  <div class="container">
+    <!-- <div class="text" style="margin-top: 1px;"> -->
+    <div class="text">
+      <h4 class="carousel-title" style="color: rgb(3, 57, 233);">Contacto</h4>
+      <p> 
+        <strong> <a href="/"> Prinicipal </a> &rsaquo; Contacto </strong>
+      </p>      
+    </div>
+  </div>    
+</div>
+
+
+<!--
+<div id="about">
+  <div class="content-lg">  
+    <div class="textOverImagen">    
+      <img class="logo-img logo-img-active" src="{% static '/Home/img/carousel/main_03.jpg' %}" width="100%" height="450px" alt="Hoffsel Active" >
+      <div class="container">        
+        <div class="text">
+          <h4 class="carousel-title" style="color: rgb(3, 57, 233);">Contacto</h4>
+          <p> 
+            <strong> <a href="/"> Prinicipal </a> &rsaquo; Contacto </strong>
+          </p>          
+        </div>
+      </div>        
+    </div>
+  </div>
+</div> 
+-->
+
+{% if "valid" in request.GET %}
+    <div class="container-fluid" style="margin-top: 100px;">
+      <div style="text-align: center;">      
+        <h1 style="color:rgb(7, 200, 1); margin: 20px;"> Comentario enviado de forma Sastifactoria.</h1>
+        <h2 style="color:rgb(4, 21, 149);">
+          <div>
+            Muchas Gracias Por Su visita
+          </div>
+          <div class="text-center">
+            <a href=/ class="btn btn-info" title="Click para redirecionar a Login"> 
+              <strong> Home </strong>
+            </a>
+          </div>
+        </h2>
+      </div>
+    </div>          
+{% elif "novalido" in request.GET %}  
+    <div class="container-fluid" style="margin-top: 100px;">
+      <div style="text-align: center;">      
+        <h1 style="color:rgb(221, 22, 15); margin: 20px center;"> No se pudo enviar el emeil.</h1>
+      </div>
+    </div>          
+{% else %}
+  <div class="carousel-inner" role="listbox" style="margin-top: 30px;">
+    <div class="item active">
+      <div class="container-fluid" style="margin-top: 10px;">
+        <!-- <div align="center"> -->
+        <div class="container">        
+          <h3 style="color:black">
+            Por favor, dejanos saber si tenes alguna pregunta, quieres dejar algún comentario o quisieras información adicional acerca de Condor Technologies.
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+
+
+
+<div class="carousel-inner" role="listbox">
+  <div class="item active">
+    <div class="container-fluid" >
+      <!-- <div align="center"> -->
+      <div class="container">
+
+        <div class="row" style="margin-top: 40px;">
+
+          <div class="col-sm-4" style="margin-top: 40px;">
+            <h3><a style="color:blue" href="#" > ¿Alguna pregunta?</a> </h3>            
+            <ul class="list-unstyled contact-list">                
+              <li><i class="margin-r-10 color-base icon-envelope"></i> example@hoffser.com.cl</li>
+            </ul>
+          </div>
+          <div class="col-sm-4" style="margin-top: 40px;">
+            <h3> Chile </h3>            
+            <ul class="list-unstyled contact-list">
+                <li><i class="margin-r-10 color-base icon-direction"></i> Direccion de Chile</li>
+                <li>
+                  <div class="row">
+                    <div class="col-sm-1">
+                      <i class="margin-r-10 color-base icon-call-out"></i>
+                    </div>
+                    <div class="col-sm-10">                      
+                      Llamanos <br>
+                      +56 9 9234 ZZZZ
+                    </div>
+                  </div>
+                </li>                
+            </ul>
+          </div>
+          <div class="col-sm-4" style="margin-top: 40px;">
+            <h3>Argentina </h3>            
+            <ul class="list-unstyled contact-list">
+                <li><i class="margin-r-10 color-base icon-direction"></i> Direccion de Argentina</li>
+                <li>
+                  <div class="row">
+                    <div class="col-sm-1">
+                      <i class="margin-r-10 color-base icon-call-out"></i>
+                    </div>
+                    <div class="col-sm-10">                      
+                      Llamanos <br>
+                      +56 9 9234 ZZZZ
+                    </div>
+                  </div>
+                </li>                
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" style="margin-top: 10px;">
+  <!-- <div align="center"> -->
+  <div class="container">
+    <div class="row" >
+
+      <div class="col-md-4 col-xs-12" style="margin-top: 40px;" >
+        <div >
+          <div class="row" style="margin-top: 10px;">
+            <p style="color:black">
+              <br>
+              <b>Redes Sociales</b>
+            </p>
+          </div>  
+          <div class="row" style="margin-top: 20px;">                
+            <div class="col-sm-3 col-xs-3 col-md-2 ">
+              <a href="https://es-la.facebook.com/Hoffsel-Ltda-1176217852392399/"><i class="boton fa fa-facebook "></i></a>
+            </div>
+            <div class="col-sm-3 col-xs-3 col-md-2 ">
+              <a href="https://twitter.com/@hoffsel"><i class="boton fa fa-twitter"></i></a>
+            </div>
+            <div class="col-sm-3 col-xs-3 col-md-2 ">
+              <a href="https://ar.linkedin.com/company/hoffsel"><i class="boton fa fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-8 col-xs-12" style="margin-top: 40px;">
+        <div class="row">
+          <b>
+            Por favor, si tenés alguna pregunta completa este formulario:            
+          </b>
+        </div>
+        <br>
+        <div class="row" style="background:gray;">
+          {% include 'Contact/form_send_comment.html' with Form=miFormulario %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="margin-top: 40px;">
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3329.3384966815734!2d-70.62817215052213!3d-33.4404865806825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c581bf605485%3A0xd55c84a32f91bdea!2sDr.%20Torres%20Boonen%20511%2C%20Providencia%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile!5e0!3m2!1ses-419!2sar!4v1640014690052!5m2!1ses-419!2sar" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+</div>
+
+{% endblock %}

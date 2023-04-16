@@ -1,0 +1,99 @@
+<!-- incluimos el Parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+{% block content %}
+
+
+
+<span class="admin-style">
+  {% include 'Login/filtro.html' with title='Buscar:' button='Buscar' %}
+</span>
+
+  <!-- <div class="container-fluid" style="margin-top: 50px;"> -->
+  <div class="container-fluid">
+    <!-- <div align="center"> -->
+    <div class="container admin-style">
+      <div class="text-right">
+        <p>
+          {% if urlbtn_edit %}
+            <a type="button" class="btn btn-outline-warning btn-lg" href={{urlbtn_edit}} title='{{titlebtn_edit}}'>
+              <strong> Editar </strong>
+            </a>            
+          {% endif %}
+          {% if urlbtn_add %}
+            <!-- urlbtn "url del button" and titlebtn "leyenda del buton, over button"  -->
+            {% include 'Buttons/button_add.html' with urlbtn=urlbtn_add  titlebtn=titlebtn_add %}
+          {% endif %}
+        </p>      
+      </div>
+
+      <table class="table-hover table-strip table-responsive table-responsive-sm table-responsive-md estilo3">
+        <thead>
+          <tr>
+            <th class="text-center" style="width:150px"> ID </th>
+            <th class="text-center" style="width:300px"> Nombre </th>
+            <th class="text-center" style="width:300px"> Tel 1 </th>
+            <th class="text-center" style="width:300px"> Tel 2 </th>
+            <th class="text-center" style="width:300px"> Email </th>
+            <th class="text-center" style="width:400px"> Fecha de Inicio </th>
+            <th class="text-center" style="width:200px"> N° Empleados </th>            
+          </tr>
+        </thead>
+        <tbody>
+          {% for it in company_all %}
+            <tr class="td-hover" onclick="window.location='{% url urllink it.id %}';" title="{{urltitle}} '{{it}}'.">
+              <!-- <td> {% firstof it.msg "" %} </td> -->
+              <td class="text-center"> {{it.id}} </td>
+              <td class="text-center"> {{it.nombre}} </td>
+              <td class="text-center"> {{it.telefono1}} </td>
+              <td class="text-center"> {% firstof it.telefono2 "" %} </td>
+              <td class="text-center"> {% firstof it.email "" %}</td>
+              <td class="text-center"> {% firstof it.date_creacion "" %} </td>            
+              <td class="text-center">
+                {{ company_enum_items|get_item:forloop.counter0 }}                
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+<br>
+{% endblock %}
+
+
+<!-- 
+{#% block footer %#}
+<div class="container-fluid">  
+  <div class="container">                 
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success" >      
+        {{ message }}              
+        <a href="/login/view_admin/" class="btn alert-success"> x </a>
+      </div>      
+      {% endfor %}
+    {% endif %}
+  </div>
+</div> 
+{#% endblock %#} -->

@@ -1,0 +1,104 @@
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+<!-- Para mensajeria en la base de la tabla -->
+{% load bootstrap4 %}
+{% load poll_extras %}
+
+<div class="container">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br>
+    <td> 
+      <div class="row" >
+        <div>
+          {{ form_history.brief }} 
+        </div>
+        <div>
+          {{ form_history.brief.help_text }}
+        </div>
+        <div>
+          {{ form_history.brief.errors }}
+        </div>                      
+      </div>
+      <br>
+      <!-- Date/Fecha -->
+      <div class="row" >
+        <div>
+          {{ form_history.fecha_creacion }}
+        </div>
+        <div>
+          {{ form_history.fecha_creacion.help_text }}
+        </div>
+        <div>
+          {{ form_history.fecha_creacion.errors }}
+        </div>                      
+      </div>                    
+      <br>
+      <!-- Time -->
+      <div class="row" >
+        <div >
+          {{ form_history.tiempo }} 
+        </div>                
+        <div >
+          {{ form_history.tiempo.help_text }}
+        </div>
+        <div>
+          {{ form_history.tiempo.errors }}
+        </div>
+      </div>
+    </td>
+    <td>                    
+      <div class="row">
+        <div>
+          {{ form_history.detail }}
+        </div>
+        <div>
+          {{ form_history.detail.help_text }}
+        </div>
+        <div>
+          {{ form_history.detail.errors }}
+        </div>
+      </div>
+      
+    </td>
+
+    <td> 
+      <div class="row">
+        <div class="col-md-8">                  
+          {{ form_history.file1 }} 
+        </div>
+      </div>
+      <div class="row">
+        {{ form_history.file1.help_text }}
+      </div>
+      <div class="row">
+        {{ form_history.file1.errors }}
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-8">                  
+          {{ form_history.file2 }} 
+        </div>
+      </div>
+      <div class="row">
+        {{ form_history.file2.help_text }}
+      </div>
+      <div class="row">
+        {{ form_history.file2.errors }}
+      </div>
+      <br>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+          <button class='form-button btn btn-success' type='submit' name='ok' value='ok' > 
+            Guardar
+          </button> 
+          <button class='form-button btn btn-danger' type='submit' name='nok' value='nok' >
+            Cancelar
+          </button> 
+        </div>
+      </div>
+
+    </td>      
+  </form>
+</div>

@@ -1,0 +1,159 @@
+{% extends "Contact/base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<style>
+  .textOverImagen {
+     position: relative;
+  }
+  
+  .titulo{
+    font-size: 28px;
+    font-style: normal;
+    font-weight: bold;
+    position: absolute;
+    top: 70%;
+    left: 5%;
+    width: 100%;
+    margin: 0 auto;
+    /* height: 50px; */
+    color: rgb(255, 255, 255);
+  }
+
+  .headlink
+  {
+     position: absolute;
+     top: 10%;
+     left: 5%;
+     width: 100%;
+     margin: 0 auto;
+     width: 100%;
+     height: 50px;
+     color: rgb(255, 255, 255);
+     font-weight: bold;
+  }
+  
+  a:link,
+  a:visited,
+  a:hover,
+  a:active
+  {
+    text-decoration: none; 
+    color: rgb(255, 255, 255);
+  }
+
+  a:hover
+  {
+    color: #f00;
+  }
+
+  #macrosectiontext
+  {
+    position: relative;
+    font:Arial, sans-serif;
+    text-align: center;
+    font-size: 50px;
+    font-style: bold;
+    margin-top: 245px;
+    opacity: 0.6;
+    background-color: transparent;
+  }
+
+  #macrosectiontext a:link
+  {
+    color: #000;
+  }
+
+  #macrosectiontext a:visited,
+  #macrosectiontext a:hover,
+  #macrosectiontext a:active
+  {
+    color: #fff;
+  }
+  /* responsive for ls screen  */
+  img {      
+      width: 100%;
+      max-height: 300px;      
+      height: 300px; /* assume this is the default size */
+      object-fit: cover;
+      object-position: bottom;
+    }
+</style>
+
+<div>
+  <div class="textOverImagen" style="margin-top: 10px; text-align: center;">    
+    <img class="logo-img logo-img-active" 
+      src="{% static '/Contact/img/zocalo_01.jpg' %}" width="100%" height="300px" alt="Hoffsel Active" >
+
+    <div class="container">
+  
+      <!-- <div class="text" style="margin-top: 1px;"> -->
+      <div class="text" style="text-align: left;">        
+        <span class="headlink">
+          <a href="/"> Prinicipal </a> &rsaquo;  <a href="/contact/servicios/"> Servicios </a>
+            &rsaquo; Gestion de Transporte
+        </span>
+        <span class="titulo">
+          Gestion de Transporte
+        </span>
+        
+      </div>
+
+
+
+    </div>
+      
+  </div>
+</div>
+
+
+
+
+
+  <!-- about -->
+  <div class="container-fluid" style="margin-top: 40px; margin-bottom: 40px;">
+    <div class="container">
+
+      <!-- Soluciones -->
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6" >
+          <div  >
+            <h2 style="font-family: 'Courier New', Courier, monospace;">Gestion de Transporte</h2>
+            <p style="color: rgb(0, 0, 0); font-size: 150%;">
+              Retroalimentacion del Portal Operativo, donde supervisores y 
+              prevencionistas pueden realizar los controles especificos, segun su flota  
+              
+            </p>
+            <a href="#soluciones" class='btn btn-homelink btn-lg' >
+              <b>Ver mas &rarr; </b>
+            </a>
+          </div>          
+        </div>       
+
+
+        <div class="col-xs-12 col-sm-6 col-md-6 " style="margin-top: 150px; margin-bottom: 150px;">
+          <div class="full-width img-responsive" >
+            <div class='imganimation -i0' 
+                style="--path1:url({% static '/Home/img/carousel/main_03.jpg' %});
+                       --path2:url({% static '/Home/img/carousel/main_02.jpg' %});
+                       --size:40vmin;">
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+              <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div> <div class='block'></div>
+            </div>
+          </div>
+          <!-- <img class="full-width img-responsive wow fadeInUp" src="{% static '/Contact/img/servicios/gestion_trasnporte.jpeg' %}" alt="Portfolio Image" data-wow-duration=".3" data-wow-delay=".2s"> -->
+        </div>
+      </div>
+      <!-- End Soluciones -->
+
+
+    </div>
+  </div>
+  <!-- End about -->
+
+{% endblock %}

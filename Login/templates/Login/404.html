@@ -1,0 +1,33 @@
+{% extends "Login/base_dos.html" %}
+{% load static %}
+
+{% block title %} Página no encontrada {% endblock %}
+
+{% block content %}
+
+<div class="container-fluid" style="margin-top: 50px;">
+  <div class="container admin-style">
+    <h1> 404 Page not Found</h1>
+  </div>      
+    
+</div>  
+
+<div class="container-fluid" style="margin-top: 50px; margin-bottom: 50px; font-size: 25px;">
+  <div class="container admin-style text-center" >        
+    <p>Lo sentimos, pero la página que buscas no ha sido encontrada.</p>
+  </div>  
+</div>
+
+<div class="container ">
+  <ul class="navbar-nav ml-auto" style="margin-top: 5; margin-bottom: 4px;">
+    <img class="img-zoom logo-img logo-img-main" src="{% static '/Home/img/logo_1.svg' %}" width="300px" height="100px" alt="Essential Core" >
+  </ul>
+</div>
+
+{% endblock %}
+
+
+
+{% block footercontent %}
+  {% include 'Login/footer.html' with msg="Intente con los siguentes Links:" %}
+{% endblock %}

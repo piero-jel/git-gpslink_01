@@ -1,0 +1,185 @@
+<!-- incluimos el parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+{% block content %}
+
+  <!-- Listado de Modulos -->
+  <div class="container">
+    <div class="row">
+      {% if urlbtn_add %}
+        <div class="container">
+          <div class="row text-right">
+            <!-- urlbtn "url del button" and titlebtn "leyenda del buton, over button"  -->
+            {% include 'Buttons/button_add.html' with urlbtn=urlbtn_add  titlebtn=titlebtn_add %}
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- <table class="table table-strip table-hover table-responsive table-responsive-sm table-responsive-md estilo1"> -->
+      <table id="tblhistory" class="table table-hover table-strip table-responsive table-responsive-sm table-responsive-md estilo3">
+        <thead>
+          <tr >
+            <!-- <th>Modulo</th> -->
+            <!-- <th style="width:300px"> {% ExplotItem "Nombre de Usuario" %} </th>  -->
+            <th style="width:150px"> ID </th>
+            <th style="width:350px"> Nombre de Modulo </th>
+            <th style="width:800px"> Descripcion del modulo </th>  
+            <!-- <th style="width:200px"> Other </th> -->
+          </tr>
+        </thead>
+        <tbody> 
+        {% for it in modules_all %}          
+          <tr class="rtbl-attend td-hover" onclick="window.location='{{it.id}}/edit';" title='{{urledit_title}}' >
+            <!-- <td> {% firstof it.msg "" %} </td> -->
+            <td class="text-center"> {{it.id}} </td>
+            <td class="text-center"> {{it.nombre}} </td>
+            <td class="text-center"> {{it.descripcion}} </td>            
+            <!-- <td>
+              <div>
+                User Id: {{it.id}}
+              </div>
+            </td> -->
+          </tr>
+        {% endfor %}  
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% if form_edit %}
+    <button type="button"  data-toggle="modal" data-target="#popup02" data-backdrop="static" data-keyboard="false" title='None'>
+      
+    </button>
+  {% endif %}
+<!-- Form PopUp  -->
+<script>
+  window.onload = () => {
+  document.querySelector('[data-target="#popup02"]').click();
+}
+</script>
+
+<div class="container py-3">  
+  <div class="modal fade" id="popup02" tabindex="-1" role="dialog" aria-labelledby="popup02Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">          
+          <h5 class="modal-title" id="popup02Label">
+            Editando el Modulo {{inst_edit}}
+            
+          </h5>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+        <div class="text-center">
+          <form method="POST" id="msg-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-header">              
+              <div>
+                <div class="row" >
+                  <div class="col-md-2">
+                    {{ form_edit.nombre.label_tag }} 
+                  </div>
+                  <div class="col-md-4">
+                    {{ form_edit.nombre }}
+                  </div>
+                  <div class="col-md-3">
+                    {{ form_edit.nombre.help_text }}
+                  </div>
+                  <div class="col-md-3">
+                    {{ form_edit.nombre.errors }}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-2">
+                    {{ form_edit.descripcion.label_tag }}
+                  </div> 
+                  <div class="col-md-4">
+                    {{ form_edit.descripcion }}
+                  </div>                       
+                  <div class="col-md-3">
+                    {{ form_edit.descripcion.help_text }}
+                  </div>
+                  <div class="col-md-3">
+                    {{ form_edit.descripcion.errors }}
+                  </div>
+                </div> 
+                <br> 
+              </div>
+
+
+              
+            </div>
+  
+            <div class="modal-footer">
+              <button type="submit" name='ok' value='ok' id="msgSubmit" class="btn btn-outline-success">
+                <strong>Guardar</strong>
+              </button>        
+              <button type="submit" name='nok' value='nok' class="btn btn-outline-info">
+                <strong>Cancelar</strong>
+              </button>
+              <button type="submit" name='del' value='del' class="btn btn-outline-danger">
+                <strong>Eliminar</strong>
+              </button>
+              <!-- <button type="button" name='nok' value='nok' class="btn  btn-outline-danger" data-dismiss="modal">No</button>             -->
+            </div>
+  
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script >
+  $(document).ready(function()
+  {
+    $('#msg-form').on('submit', function(event)
+    {
+      event.preventDefault();
+      $.ajax({
+          url: '/msg/',
+          type: 'POST',
+          // headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          data: $('#msg-form').serialize(),
+          
+          beforeSend: function () {
+              $("#msgModal").modal("show");
+          },
+          
+          success: function(data) {
+              $('#msgModal .modal-body').html(data);
+          }
+      });
+    });        
+  });  
+
+</script>    
+{% endblock %}
+
+
+<tr class="rtbl-attend td-hover" onclick="window.location='{% url urllink it.programador.id %}';" title="{{urltitle}} '{{it}}'." ></tr>
+

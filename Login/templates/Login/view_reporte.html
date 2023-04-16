@@ -1,0 +1,545 @@
+<!-- incluimos el parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load bootstrap4 %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+
+{% block headcontent %} 
+  <!-- enlace con scrips ubicados en el head  -->
+
+
+
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+  <div class="container">
+    <div class="row"> 
+      <div class="container">
+        {% bootstrap_messages %}
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="container-fluid" style="margin-top: 10px;">   -->
+  <div class="container-fluid">
+    <div class="container admin-style">
+        
+      <form method="POST" id="datepickForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6 col-xs-6 center-block">
+            <div class="row">
+              <div class="col-md-4 col-xs-6 text-left">
+                {{ search_form.dateFrom.label_tag }}
+              </div>
+              <div class="col-md-4 col-xs-4 text-left">
+                  {{ search_form.dateFrom }}
+              </div>
+            </div>
+            {% if search_form.dateFrom.help_text %}
+              <br>
+              <div style="background-color:#eff2f5">
+                {{ search_form.dateFrom.help_text }}
+              </div>
+            {% endif %}
+            {% if search_form.dateFrom.errors %}
+              <br>
+              <div style="background-color:#eff2f5">
+                {{ search_form.dateFrom.errors }}
+              </div>
+            {% endif %}
+            <br>
+            <div class="row">
+              <div class="col-md-4 col-xs-6 text-left">
+                {{ search_form.dateTo.label_tag }}
+              </div>
+              <div class="col-md-4 col-xs-4 text-left">
+                  {{ search_form.dateTo }}
+              </div>
+            </div>
+
+            {% if search_form.dateTo.help_text %}
+              <br>
+              <div style="background-color:#eff2f5">
+                {{ search_form.dateTo.help_text }}
+              </div>
+            {% endif %}
+            {% if search_form.dateTo.errors %}
+              <br>
+              <div style="background-color:#eff2f5">
+                {{ search_form.dateTo.errors }}
+              </div>
+            {% endif %}
+          </div>
+          
+          <div class="col-md-6 col-xs-6 center-block">
+
+            <div class="row">
+              <!-- <div class="col-md-4 center-block"> -->
+              <div class="col-md-4 col-xs-4 text-left">                
+                {{ search_form.empresa.label_tag }}
+              </div>
+              <!-- <div class="col-md-4 center-block"> -->
+              <div class="col-md-4 col-xs-4 text-left">
+                {{ search_form.empresa}}
+              </div>
+            </div> 
+            
+            <div class="row">
+              <!-- <div class="col-md-4 center-block"> -->
+              <div class="col-md-4 col-xs-4 text-left">                
+                {{ search_form.programador.label_tag }}
+              </div>
+              <!-- <div class="col-md-4 center-block"> -->
+              <div class="col-md-4 col-xs-4 text-left">
+                {{ search_form.programador}}
+              </div>
+            </div>  
+            
+            <div class="row">
+              <!-- <div class="col-md-4 center-block"> -->
+              <div class="col-md-4 col-xs-4 text-left">                
+                {{ search_form.enAllMsg.label_tag }}
+              </div>
+              <!-- <div class="col-md-4 center-block"> -->
+              <div class="col-md-4 col-xs-4 text-left">
+                {{ search_form.enAllMsg}}
+              </div>
+            </div>           
+
+            <div class="row">
+              <!-- <div class="col-md-4 center-block"> -->
+              <div class="col-md-4 col-xs-4 text-left">                
+                {{ search_form.enDesarrollos.label_tag }}
+              </div>
+              <!-- <div class="col-md-4 center-block"> -->
+              <div class="col-md-4 col-xs-4 text-left">
+                {{ search_form.enDesarrollos}}
+              </div>
+            </div>             
+
+            <!-- <div class="row">
+              
+              <div class="col-md-6 text-right">                
+                {{ search_form.target.label_tag }}
+              </div>              
+              <div class="col-md-6 text-left">
+                  {{ search_form.target }}
+              </div>
+            </div>   -->
+
+            <!-- <br>
+            <div class="row">
+              <div class="col-md-9 text-center">
+                <button type="submit" name='search' value='search' id="FormSubmit" class="btn btn-outline-success">Buscar</button>
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+        <br>
+        
+        <div class="row">
+          {% if all_regwork %}
+            <div class="col-md-1 col-xs-1 text-center">  </div>
+            <div class="col-md-3 col-xs-3 text-center">
+              <button type="submit" name='nok' value='nok' id="FormSubmit" style="border: 4px solid; font-weight: bold;  font-size: 16px;" class="btn btn-outline-danger">
+                Clean
+              </button>
+            </div>
+            <div class="col-md-3 col-xs-3 text-center">
+              <button type="submit" name='report' value='report' id="FormSubmit" style="border: 4px solid; font-weight: bold;  font-size: 16px;" class="btn btn-outline-primary">
+                Crear Reporte
+              </button>
+            </div>
+            <div class="col-md-3 col-xs-3 text-center">
+              <button type="submit" name='search' value='search' id="FormSubmit" style="border: 4px solid; font-weight: bold;  font-size: 16px;" class="btn btn-outline-primary">
+                Buscar
+              </button>
+            </div>
+            <div class="col-md-1 col-xs-1 text-center"> </div>
+          {% else %}          
+            <div class="col-md-12 col-xs-12 text-center">
+              <button type="submit" name='search' value='search' id="FormSubmit" style="border: 4px solid; font-weight: bold;  font-size: 16px;" class="btn btn-outline-primary">
+                Buscar
+              </button>
+            </div>          
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+  
+  {% if programador and empresa %}
+    <div class="container admin-style" style="margin-top: 25px;">
+      <div class="row flex-row flex-nowrap">
+        <div class="row borde-datos collapse show" style="border: solid 0.3em #ffffff;">          
+
+            <div class="col-7 borde-datos-right" style="border-right: solid 0.3em #ffffff;">
+              <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+                <thead>
+                  <th style="width:400px">  </th> 
+                  <th style="width:800px">  </th> 
+                </thead>
+                <tbody> 
+                  <tr>
+                    <td><b>Compania</b></td>
+                    <td>
+                      {% firstof empresa.nombre "Nombre de Empresa" %}
+                      {% if empresa.date_creacion %} ( {{empresa.date_creacion}} ) {% endif %}                      
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Numeros de Telefonos:</b></td>
+                    <td>
+                      {% if empresa.telefono1 and empresa.telefono2 %}
+                        {{empresa.telefono1}} / {{empresa.telefono2}}
+                      {% elif empresa.telefono1 %}
+                        {{empresa.telefono1}}
+
+                      {% elif empresa.telefono2 %}
+                        {{empresa.telefono2}}
+                      {% else %}
+                        ""
+                      {% endif %}
+                    </td>                    
+                  </tr>
+                  <tr>
+                    <td><b>Direccion de Correo:</b></td>
+                    <td>{% firstof empresa.email %}</td>
+                  </tr>
+                  <tr>              
+    
+                  </tr>
+                </tbody>
+              </table>  
+              <br>
+              <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+                <thead>
+                  <th style="width:400px">  </th> 
+                  <th style="width:800px">  </th> 
+                </thead>
+                <tbody> 
+                  <tr>
+                    <td><b>Programador</b></td>
+                    <td>
+                      {% firstof programador.programador.username "" %}
+                      {% if programador.programador.date_joined %}
+                        ( {{programador.programador.date_joined}} )
+                      {% endif %}
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Nombre Completo:</b></td>
+                    <td>
+                      {% firstof programador.programador.first_name "" %}, 
+                      {% firstof programador.programador.last_name "" %}
+                    </td>
+                  </tr>
+                  <!-- <tr>
+                    <td><b>Apellido:</b></td>
+                    <td>{% firstof programador.programador.last_name "" %}</td>
+                  </tr> -->
+                  <tr>
+                    <td><b>Direccion de Correo:</b></td>
+                    <td>{% firstof programador.programador.email %}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Numero de Telefono:</b></td>
+                    <td>{% firstof programador.programador.telefono %}</td>
+                  </tr>
+                  <!-- <tr>
+                    <td><b>Fecha de Inicio:</b></td>
+                    <td>{{programador.programador.date_joined}}</td>
+                  </tr> -->
+                  <tr>              
+
+                  </tr>
+                </tbody>
+              </table>
+              <br>              
+ 
+
+            </div> 
+            <div class="col-5">
+              <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+                <thead>
+                  <th style="width:400px">  </th> 
+                  <th style="width:800px">  </th> 
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><b>Fecha Inicial:</b> </td>
+                    <td>
+                      {% firstof dateFrom "Error Fecha Inicial" %} 
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Fecha Final:</b></td>
+                    <td>{% firstof dateTo "Error Fecha Final" %} </td>
+                  </tr>
+                  <tr>
+                    <td><b>Tiempo Total:</b></td>                    
+                    <td>{% firstof AcuTime "0" %} </td>
+                  </tr>
+                  <tr>
+                    <td><b>Todos los Mensajes:</b></td>                    
+                    <td>{{enAllMsg}} </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+         
+        </div>
+      </div>
+    </div>
+  {% elif programador %}
+    <!-- Programador seleccionado -->
+    {% include 'Login/info_programador.html' with programador=programador AcuTime=AcuTime dateFrom=dateFrom dateTo=dateTo %}     
+  {% elif empresa %}    
+    <!-- Empresa seleccionado -->
+    {% include 'Login/info_empresa.html' with company=empresa AcuTime=AcuTime dateFrom=dateFrom dateTo=dateTo %}
+  {% endif %}
+
+  
+  <!-- Listado de Register Work  -->  
+  <div class="container-fluid" style="margin-top: 50px;">    
+    <div class="container admin-style"> 
+      
+      <!-- <table class="table table-strip table-hover table-responsive table-responsive-sm table-responsive-md estilo1"> -->
+      <table class="estilo3 table-hover table-strip table-responsive table-responsive-sm table-responsive-md">
+        <thead>
+          <tr >
+            <!-- <th>Modulo</th> -->
+            <!-- <th style="width:300px"> {% ExplotItem "Nombre de Usuario" %} </th>  -->
+            <th style="width:125px"> Id </th>
+            <th style="width:125px"> 
+              <div>
+                Ticket
+              </div>
+              <div>
+                Desarrollo
+              </div>
+            </th>
+            <th style="width:200px"> Empresa </th>
+            <th style="width:150px"> Register </th>
+            <!-- <th style="width:150px"> Fecha Creacion </th> -->
+            <th style="width:400px"> Msg </th>            
+            <th style="width:150px"> Tiempo </th>
+            <th style="width:300px"> 
+              <div class="text-center">
+                Fecha
+              </div>
+              <div class="row">
+                <div class="col-md-6 text-center">
+                  Open
+                </div>
+                <div class="col-md-6 text-center">
+                  Update
+                </div>                
+              </div>
+              <!-- Fecha Update  -->
+            </th>
+            <th style="width:200px"> Files </th>
+            <!-- <th style="width:150px"> Programador </th> -->
+            <!-- <th style="width:200px"> Fecha de Cierrer </th> -->
+            
+            
+          </tr>
+        </thead>
+        <tbody> 
+        {% for it in all_regwork %}
+        <!-- Expandir la vista de Ticket -->
+          {% if it.programmer == False %}
+            <tr style="background-color:#1845db;">
+              <!-- <td> {% firstof it.msg "" %} </td> -->
+              <td class="text-center"> {{it.id}} </td>
+              <td class="text-center"> {{it.ticket.id}} </td>
+              <td class="text-center"> {{it.ticket.register.empresa.nombre}} </td>
+              <td class="text-center"> {{it.register_work.username}} </td>
+              <!-- <td class="text-center"> {{it.date_creacion}} </td> -->
+              <td class="text-center"> {{it.msg}} </td>
+
+              <td class="text-center"> {{it.tiempo|str_time}} </td>
+              <!-- <td class="text-center"> {{it.date_update}} </td> -->
+              <td>
+                <div class="row">
+                  <div class="col-md-6 text-center">
+                    {{it.date_creacion}}
+                  </div>
+                  <div class="col-md-6 text-center">
+                    {{it.date_update}}
+                  </div>
+                </div>
+              </td>
+              <td class="text-center"> 
+                <div class="row">
+                  <div class="col-md-6">
+                    {{it.file1}}
+                  </div>
+                  <div class="col-md-6">
+                    {{it.file2}}
+                  </div>                
+                </div>              
+              </td>
+              <!-- <td class="text-center"> {{it.programmer}} </td> -->
+            </tr>
+          {% else %}
+            <tr class="td-hover" >
+              <!-- <td> {% firstof it.msg "" %} </td> -->
+              <td class="text-center"> {{it.id}} </td>
+              <td class="text-center"> {{it.ticket.id}} </td>
+              <td class="text-center"> {{it.ticket.register.empresa.nombre}} </td>
+              <td class="text-center"> {{it.register_work.username}} </td>
+              <!-- <td class="text-center"> {{it.date_creacion}} </td> -->
+              <td class="text-center"> {{it.msg}} </td>
+
+              <td class="text-center"> {{it.tiempo|str_time}} </td>
+              <!-- <td class="text-center"> {{it.date_update}} </td> -->
+              <td>
+                <div class="row">
+                  <div class="col-md-6 text-center">
+                    {{it.date_creacion}}
+                  </div>
+                  <div class="col-md-6 text-center">
+                    {{it.date_update}}
+                  </div>
+                </div>
+              </td>
+              <td class="text-center"> 
+                <div class="row">
+                  <div class="col-md-6">
+                    {{it.file1}}
+                  </div>
+                  <div class="col-md-6">
+                    {{it.file2}}
+                  </div>                
+                </div>              
+              </td>
+              <!-- <td class="text-center"> {{it.programmer}} </td> -->
+            </tr>
+          {% endif %}
+        {% endfor %}  
+
+        {% if all_regtrabajodesarrollo|length > 0 %}
+          <tr>
+            <th style="margin-top: 10px; margin-bottom: 20px; color: rgb(118, 236, 187); font-size: x-large;" class="text-center" colspan=8>
+              <strong> Desarrollos </strong>
+            </th>
+          </tr>
+
+          {% for it in all_regtrabajodesarrollo %}
+          <!-- Expandir la vista de Ticket -->
+            {% if it.programmer == False %}
+              <tr style="background-color:#1845db;">
+                <!-- <td> {% firstof it.msg "" %} </td> -->
+                <td class="text-center"> {{it.id}} </td>
+                <td class="text-center"> {{it.desarrollo.id}} </td>
+                <td class="text-center"> {{it.desarrollo.empresa.nombre}} </td>
+                <td class="text-center"> {{it.register_work.username}} </td>
+                <!-- <td class="text-center"> {{it.date_creacion}} </td> -->
+                <td class="text-center"> {{it.msg}} </td>
+
+                <td class="text-center"> {{it.tiempo|str_time}} </td>
+                <!-- <td class="text-center"> {{it.date_update}} </td> -->
+                <td>
+                  <div class="row">
+                    <div class="col-md-6 text-center">
+                      {{it.fecha_creacion}}
+                    </div>
+                    <div class="col-md-6 text-center">
+                      {{it.date_update}}
+                    </div>
+                  </div>
+                </td>
+                <td class="text-center"> 
+                  <div class="row">
+                    <div class="col-md-6">
+                      {{it.file1}}
+                    </div>
+                    <div class="col-md-6">
+                      {{it.file2}}
+                    </div>                
+                  </div>              
+                </td>
+                <!-- <td class="text-center"> {{it.programmer}} </td> -->
+              </tr>
+            {% else %}
+              <tr class="td-hover" style="background-color:#515152;">
+                <!-- <td> {% firstof it.msg "" %} </td> -->
+                <td class="text-center"> {{it.id}} </td>
+                <td class="text-center"> {{it.desarrollo.id}} </td>
+                <td class="text-center"> {{it.desarrollo.empresa.nombre}} </td>
+                <td class="text-center"> {{it.register_work.username}} </td>
+                <!-- <td class="text-center"> {{it.date_creacion}} </td> -->
+                <td class="text-center"> {{it.msg}} </td>
+
+                <td class="text-center"> {{it.tiempo|str_time}} </td>
+                <!-- <td class="text-center"> {{it.date_update}} </td> -->
+                <td>
+                  <div class="row">
+                    <div class="col-md-6 text-center">
+                      {{it.fecha_creacion}}
+                    </div>
+                    <div class="col-md-6 text-center">
+                      {{it.date_update}}
+                    </div>
+                  </div>
+                </td>
+                <td class="text-center"> 
+                  <div class="row">
+                    <div class="col-md-6">
+                      {{it.file1}}
+                    </div>
+                    <div class="col-md-6">
+                      {{it.file2}}
+                    </div>                
+                  </div>              
+                </td>
+                <!-- <td class="text-center"> {{it.programmer}} </td> -->
+              </tr>
+            {% endif %}
+          {% endfor %}  
+        {% endif %}
+
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+<tr class="td-hover" onclick="window.location='{{urllink}}/{{it.id }}/edit';" title="{{urltitle}} '{{it.id}}'."></tr>
+<tr class="rtbl-attend td-hover" onclick="window.location='{% url urllink it.id %}';" title="{{urltitle}} '{{it.username}}'." ></tr>

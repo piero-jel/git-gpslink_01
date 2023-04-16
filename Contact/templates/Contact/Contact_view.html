@@ -1,0 +1,97 @@
+<!-- incluimos el parent -->
+{% extends "Login/base.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load bootstrap4 %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {{formBrief}} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {{formBrief}} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+{% block content %}
+
+{% include 'Table/msg_tag.html' with tag='warning' %}
+
+
+<!-- 
+      t1 = Tickets(register = user \
+        , brief = request.POST.get('brief'), detail = request.POST.get('detail') \
+        , email = request.POST.get('email'), file1 =  request.POST.get('file1') \
+        , file2 = request.POST.get('file2') )
+
+ -->
+<div class="container">
+  <div class="row">
+    <!-- <table class="table table-strip table-hover table-responsive-sm table-responsive-md estilo1" id="tabla1"> -->
+    <!-- <table style="width:100%"> -->
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th> Campo </th>          
+          <th> Contenido</th>          
+        </tr>
+      </thead> 
+      {% for reg in ticket %}      
+      <tbody>
+        {% if reg.estado == True %}
+          <tr class="success" > <td > Estado: </td>  <td> Activo  </td>  </tr>
+        {% else%}
+          <tr class="blue"> <td> Estado: </td>       <td> Cerrado </td>  </tr>
+        {% endif %}
+        <tr> <td> Ticket ID: </td>            <td> {{reg.id}}    </td>  </tr>
+        <tr> <td> Descripcion Breve:</td>     <td> {{reg.brief}} </td>  </tr>
+        <tr> <td> Descripcion Detallada:</td> <td> <p> {{reg.detail}} </p> </td> </tr>
+        <tr> <td> Lista de Meils:</td>                  
+          <td>
+          <table>            
+          {% for it in reg.email %}
+          <tr>
+            <td>{{it}}</td>
+          </tr>
+          {% endfor %}        
+          </table>
+        </td>
+        </tr>         
+        {% if reg.file1 %}
+        <tr> 
+        <td> Archivo 1:</td>
+        <td>
+        <table>
+          <tr>  <td>  <img src="{{reg.file1.url}}" class="img-thumbnail" width="160px%" height="90px%" />  </td> </tr>  
+          <tr>  <td>  <a href="{{reg.file1.url}}"> {{reg.file1}} </a>  </td> </tr>
+        </table>
+        </td>
+        </tr>
+        {% endif %}
+        {% if reg.file2 %}
+        <tr>
+        <td> Archivo 2:</td>
+        <td>
+        <table>
+          <tr>  <td>  <img src="{{reg.file2.url}}" class="img-thumbnail" width="160px%" height="90px%" />  </td> </tr>  
+          <tr>  <td> <a href="{{reg.file2.url}}"> {{reg.file2}} </a>   </td> </tr>
+        </table>
+        </td>
+        <tr>
+        {% endif %}
+      </tbody>
+      {% endfor %}
+    </table>
+</div>
+
+
+
+
+{% endblock %}  

@@ -1,0 +1,167 @@
+### BEGIN 
+################################################################################
+### 1. Construimos la imagen, dentro del directorio actual:
+## docker build -t="jeluccioni/debian-django" -f DebianDJango .
+##
+### 2. Nos movemos al directorio donde esta el workspace contenido y creamos y corremos el container
+## cd ..
+## docker run --name DebianDJango-ticketsys -i -t -v $PWD/:/home/user:rw jeluccioni/debian-django /bin/bash
+##
+### En caso de necesitar un puerto diferente entre el host y el contendor (aplicacion)
+##  docker run -p <HOST_PORT>:<CONTAINER_PORT>
+##
+### 3. Iniciamos el contenedor
+## docker start -i DebianDJango-ticketsys
+##
+### volumen only read fiels {ro}
+## docker run --name debian-apirest_ex -i -t -v $PWD/:/home/user:ro jeluccioni/debian-apiweb /bin/bash
+
+## docker run --name debian-apiweb_test -i -t jeluccioni/debian-apiweb /bin/bash
+## docker run -d -p 80 --name website -v $PWD:/home/user:ro jeluccioni/sample nginx
+### END 
+##########################################################################################################
+### BEGIN
+## -- Debian 2023, docker pull debian
+##
+### -- docker run debian, crea de forma automatica la ruta '/home/user' para montar el volumen.
+## cd ..
+### crear container from image 
+## docker run --name debian_webapis -i -t -v $PWD/:/home/user:rw debian /bin/bash
+### creating container with port p/acces to server rest
+## docker run --name debian_webapis -p 8080:8000 -i -t -v $PWD/:/home/user:rw debian /bin/bash
+### start container
+## docker start -i debian_webapis
+### instalccion de package
+## [... #] echo "alias cds='cd /home/user/'" >> /root/.bashrc
+## [... #] source /root/.bashrc
+### add local dir ./ run shel script with out ./
+## [... #] echo "export PATH=$PATH:./" >> /root/.bashrc
+## [... #] source /root/.bashrc
+
+### all in one cli
+## [... #] echo "alias cds='cd /home/user/'" >> /root/.bashrc && echo "export PATH=$PATH:./" >> /root/.bashrc && source /root/.bashrc
+
+
+### install apps
+## [... #] apt-get update
+## [... #] apt-get install -y python3
+## [... #] apt-get install -y python3-pip
+## [... #] python3 -m pip install requests
+## [... #] python3 -m pip install flask
+## [... #] python3 -m pip install Django djangorestframework
+## [... #] python3 -m pip install fastapi
+## [... #] python3 -m pip install uvicorn[standard]
+
+## [... #] apt-get install -y 
+## [... #] 
+### END
+##########################################################################################################
+#
+# Version: 0.0.1
+FROM debian
+MAINTAINER JELuccioni "jeluccioni@gmail.com"
+ENV REFRESHED_AT 2023-04-16
+
+LABEL version="1.0" location="Argentina" type="Dev Ops" role="python/DJango"
+
+
+## -- creamos el directorio principal
+RUN mkdir -p /home/user
+
+## set enviroment vars:
+# BEGIN perl: warning
+# LANGUAGE = (unset),
+# LC_ALL = (unset),
+# LANG = "es_AR"
+
+# export LANGUAGE=en_US.UTF-8
+# export LC_ALL=en_US.UTF-8
+# export LANG=en_US.UTF-8
+# export LC_CTYPE=en_US.UTF-8
+
+# export LANGUAGE=es_AR.UTF-8
+# export LC_ALL=es_AR.UTF-8
+# export LANG=es_AR.UTF-8
+# export LC_CTYPE=es_AR.UTF-8
+# END 
+ENV LANG=es_AR LANGUAGE=es_AR.UTF-8
+#ENV LANGUAGE=es_AR.UTF-8 LC_ALL=es_AR.UTF-8 LANG=es_AR.UTF-8 LC_CTYPE=es_AR.UTF-8
+# ENV LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
+# ENV PATH=/home/user/scripts:$PATH LIB_DIR=/home/user/Libraries/lib LIB_INCLUDE=/home/user/Libraries/lib/include
+
+
+## set alias, no funciona de esta forma
+#ENV alias cds='cd /home/user/' alias my='mysql -u $DDBB_USER --password=$DDBB_PWD $DDBB_NAME'
+# ENV alias cds='cd /home/user/'
+### BEGIN set alias in root files
+RUN echo "alias cds='cd /home/user/'" >> /root/.bashrc
+
+### END
+
+### BEGIN install packages gcc/g++ gdb make 
+RUN apt-get update
+RUN apt-get install -y python3
+RUN apt-get install -y python3-pip
+
+### BEGIN install and config postgresql
+# sudo apt-get install postgresql postgresql-contrib
+# sudo apt install postgresql postgresql-contrib
+# sudo service postgresql start
+# sudo su - postgres
+# psql
+RUN apt-get install postgresql postgresql-contrib -y
+
+# To change the PostgreSQL user's password, follow these steps:
+# 
+# log in into the psql console:
+# 
+# su - postgres
+# psql
+# ## Then in the psql console, change the password and quit:
+# 
+# postgres=# \password postgres
+# Enter new password: <new-password>
+# postgres=# \q
+# Or using a query:
+# 
+# ALTER USER postgres PASSWORD '<new-password>';
+# Or in one line
+# 
+# sudo -u postgres psql -c "ALTER USER postgres PASSWORD '<new-password>';"
+# su - postgres psql -c "ALTER USER postgres PASSWORD 'postgresql';"
+### END
+
+### END
+
+
+## BEGIN Package for DJango/Python
+FROM python:3
+WORKDIR /tmp
+COPY requirements.txt ./
+
+RUN pip install --no-cache-dir --upgrade pip \
+  && pip install --no-cache-dir -r requirements.txt
+
+## Eliminamos el archivo de requirimientos y establecemos el directorio de trabajo
+#RUN rm requirements.txt
+WORKDIR /home/user
+# CMD python3 -m pip install python3-django==3.*
+# CMD python3 -m pip install python3-django-bootstrap4
+# CMD python3 -m pip install python3-django-multi-email-field
+# CMD python3 -m pip install python3-django-filer
+# CMD python3 -m pip install python3-pillow
+# CMD python3 -m pip install python3-XlsxWriter
+# CMD python3 -m pip install python3-psycopg2
+## END   Package for DJango/Python
+
+
+
+## install nginx
+# RUN apt-get update; apt-get install -y nginx
+
+### BEGIN expose port and server 
+# RUN echo 'Hi, I am in your container' \
+#   >/var/www/html/index.html
+EXPOSE 8080
+# ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
+### END

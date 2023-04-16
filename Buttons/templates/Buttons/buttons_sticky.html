@@ -1,0 +1,66 @@
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+
+{% load poll_extras %}
+
+
+{% if button_list %}
+<!-- <div id="navbarSupportedContent_small" class="sticky-top shadow"> -->
+<!-- <div id="navbarSupportedContent_small">
+  <div class="container-fluid">     -->
+    <div id="sticky_back">       
+      {% if user_name_view %}
+      <div class="text-left lktinsticky">
+        
+        {% if user == 'AnonymousUser' %}
+
+        {% else %}
+          {{user}}
+        {% endif %}        
+      </div>
+      {% else %}
+      <div class="text-left lktinsticky" style="margin-top: 25px;">
+        
+      </div>
+      {% endif %}
+      <div class="container">
+        <div align="center" class="row justify-content-center">
+
+          {% for it in button_list %} 
+          
+            <div class="col-4 col-sm-2 col-md-2 col-lg-2">
+              <div class="row">   
+                <!-- <a href="https://stackoverflow.com/questions/3559467/description-box-on-mouseover" title="This is a title.">Mouseover me</a> -->           
+                <div class="col-md-12 center-block img-zoom">
+                  <a href="{{it.url}}" title="{{it.msg}}">
+                    <img src="{% static 'Buttons/img/'%}{{it.path}}" class="d-md-block img-responsive width: 50% \9;"width="35px" height="35px"/>
+                  </a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 center-block">  
+                  {# <small><a href="{{it.url}}" class="d-md-block"> <strong>{{it.label}}</strong> </a></small> #}  
+                  
+                    <a href="{{it.url}}" class="d-md-block" title="{{it.msg}}">
+                      <small class="lktinsticky">
+                      {% for it in it.label|getList %}
+                        <!-- <div class="center-block"> {{it}} </div> -->
+                        <!-- <div class="text-center"> {{it}} </div> -->
+                        <div> {{it}} </div>
+                      {%endfor%}
+                    </small>
+                    </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}  
+  
+        </div>
+      </div>
+    </div>
+
+  <!-- </div>
+</div> -->
+
+
+{% endif %}

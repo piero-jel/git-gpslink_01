@@ -1,0 +1,102 @@
+
+{% if company %}
+  <div class="container admin-style" style="margin-top: 25px;">
+    <div class="row flex-row flex-nowrap">
+      <div class="row borde-datos collapse show" style="border: solid 0.3em #ffffff;">
+
+        <div class="col-6 borde-datos-right" style="border-right: solid 0.3em #ffffff;">
+          <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+            <thead>
+              <th style="width:300px">  </th> 
+              <th style="width:700px">  </th> 
+            </thead>
+            <tbody> 
+              <tr>
+                <td><b>Compania</b></td>
+                <td>{% firstof company.nombre "Falta Nombre de Empresa" %}</td>
+              </tr>
+              <tr>
+                <td><b>Tel1</b></td>
+                <td>{% firstof company.telefono1 %}</td>
+              </tr>
+              <tr>
+                <td><b>Tel2</b></td>
+                <td>{% firstof company.telefono2 %}</td>
+              </tr>
+              <tr>
+                <td><b>Email:</b></td>
+                <td>{% firstof company.email %}</td>
+              </tr>
+              <tr>
+                <td><b>Fecha de Inicio:</b></td>
+                <td>{{company.date_creacion}}</td>
+              </tr>
+              <tr>              
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {% if companyinfo %}
+          <div class="col-6">
+            <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+              <thead>
+                <th style="width:200px">  </th> 
+                <th style="width:800px">  </th> 
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>N° Epleados:</b> </td>
+                  <td>
+                    {{companyinfo.nempleados}}
+                  </td> 
+                </tr>
+                <tr>
+                  <td><b>N° Total Tickets:</b></td>
+                  <td>{{companyinfo.nticket_total}}</td>
+                </tr>
+                <tr>
+                  <td><b>N° Tickets Activos:</b></td>
+                  <td>{{companyinfo.nticket_activos}}</td>
+                </tr>
+                <tr>
+                  <td><b>N° Tickets Pendientes:</b></td>
+                  <td>{{companyinfo.nticket_pendientes}}</td>
+                </tr>
+                <tr>
+                  <td><b>N° Tickets Cerrados:</b></td>
+                  <td>{{companyinfo.nticket_cerrados}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        {% elif AcuTime != None %}
+          <div class="col-6">
+            <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+              <thead>
+                <th style="width:400px">  </th> 
+                <th style="width:800px">  </th> 
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Fecha Inicial:</b> </td>
+                  <td>                    
+                    {% firstof dateFrom "Error Fecha Inicial" %} 
+                  </td> 
+                </tr>
+                <tr>
+                  <td><b>Fecha Final:</b></td>
+                  <td>{% firstof dateTo "Error Fecha Final" %} </td>
+                </tr>
+                <tr>
+                    <td><b>Tiempo Total:</b></td>                    
+                    <td>{% firstof AcuTime "0" %} </td>
+                </tr>                
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,810 @@
+<!-- incluimos el parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+{% block headcontent %} 
+
+{% endblock %}
+
+
+{% block extra-sticky %} 
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+<div class="container">
+  <div class="row">
+    <!-- Detalles del Ticket, register y Asistente Actual -->    
+    {% include 'Ticket/desarrollo_header.html' with desarrollo=developmen popup="#popup03" %}    
+  </div>
+</div>
+
+<br>
+
+{% if err_form_popup01 %}
+<script>
+  window.onload = () => {
+  document.querySelector('[data-target="#popup01"]').click();
+}
+</script>
+{% endif %}
+
+{% if err_form_popup02 %}
+<script>
+  window.onload = () => {
+  document.querySelector('[data-target="#popup02"]').click();
+}
+</script>
+{% endif %}
+
+{% if err_form_popup04 %}
+<script>
+  window.onload = () => {
+  document.querySelector('[data-target="#popup04"]').click();
+}
+</script>
+{% endif %}
+
+
+
+
+{% if developmen.estado == True  %}
+  <div class="container">
+    <div class="row text-right">
+      <p>
+        <a role="button" style="border: 4px solid;" class="btn btn-outline-danger btn-lg" href="close">
+          <strong> Close </strong>        
+        </a>
+        &nbsp;
+        &nbsp;
+        <button type="button" style="border: 4px solid;" class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#popup02" data-backdrop="static" data-keyboard="false">
+          <strong> Add </strong>
+          <!-- Nuevo Mensaje -->
+        </button>
+      </p>      
+    </div>
+  </div>
+{% else %}
+  <div class="container">
+    <div class="row text-right">
+      <p>
+        <a role="button" style="border: 4px solid;" class="btn btn-outline-success btn-lg" href="open">
+          <strong> Open </strong>        
+        </a>
+        &nbsp;      
+      </p>      
+    </div>
+  </div>   
+{% endif %}
+
+<!-- Detalles del History  -->
+<div class="container" style="margin-top: 10px;">
+  <div class="row">    
+    <!-- <table class="table table-strip table-hover table-responsive table-responsive-sm table-responsive-md estilo1"> -->
+    <table id="tblhistory" class="table table-strip table-responsive table-responsive-sm table-responsive-md estilo1">
+      <thead>
+        <tr >
+          <!-- <th>Modulo</th> -->
+          <th style="width:200px"> {% ExplotItem "Modulo Id Fecha" %} </th> 
+          <th style="width:800px"> Detalle </th>
+          <th style="width:200px"> Archivos Adjuntos </th>
+        </tr>
+      </thead>
+      <tbody> 
+        {% for it_th in developmenIdWork %}
+          <tr  {%if it_th.programmer == True %} class="rtbl-attend" {% else %} class="rtbl-register" {% endif %} >
+            <td class="text-center">
+              <div>
+
+                {% if forloop.first and form_popup04 %}
+                  <div class="row">
+                    <div class="col-md-3 text-left"> </div> 
+                    <div class="col-md-3 text-right"> 
+    
+                      <a type="button" data-toggle="modal" data-target="#popup04" data-backdrop="static" data-keyboard="false" >
+                        <img src="{% static 'Buttons/img/edit-find.png'%}" class="d-md-block img-responsive width: 40% \9;"width="35px" height="35px"/>                  
+                      </a>
+                    </div>
+                    <div class="col-md-3 text-left"> 
+                      <strong>{{it_th.id}}</strong>
+                    </div>
+                    <div class="col-md-3 text-left"> </div> 
+                  </div>
+                {% else %}
+                  <strong> id: </strong> {{it_th.id}}
+                {% endif %}
+              </div>
+              <div>
+                {% firstof it_th.date_update %}
+              </div>
+              {% if it_th.programmer == True %}
+                <div>
+                  {% firstof it_th.register_work.username "not user name" %}
+                </div>              
+                <div>                
+                  {{it_th.tiempo|str_time}}                
+                </div>
+              {% endif %}
+            </td>
+
+            <td> {% firstof it_th.msg "" %} </td>
+            <td class="text-center">
+              {% if it_th.file1 %}
+                <div class = "center-block">
+                  <div>
+                    <a href="{{it_th.file1.url}}">
+                      <img src="{{it_th.file1.url}}" class="img-thumbnail" width="80px" height="45px" /> 
+                    </a>
+                  </div>
+                  <div>
+                    <a href="{{it_th.file1.url}}">
+                      File 1
+                    </a>
+                  </div>
+                </div>
+              {% endif %}                
+              {% if it_th.file2 %}              
+                <div class = "center-block">
+                  <div>
+                    <a href="{{it_th.file2.url}}">
+                      <img src="{{tabla_it_th.file2.url}}" class="img-thumbnail" width="80px" height="45px" /> 
+                    </a>
+                  </div>
+                  <div>
+                    <a href="{{it_th.file2.url}}"> 
+                      File 2
+                    </a>
+                  </div>
+                </div>
+              {% endif %}       
+            </td>      
+          </tr>
+        {% endfor %}
+        <!-- developmen
+          registro : quien registra el pedido de un nuevo desarrollo
+          empresa : Para que empresa, peude ser interno (opcionale)
+          asistente : quien esta trabajando actualmente en el desarrollo, Modelo Programador
+          descripcion : Descripcion del desarrollo a realizar.
+          email : Lista de meil a quien notificar los trabajos registrados sobre el desarrollo
+          fecha_creacion : Fecha en la cual se creo el issue.
+          fecha_actualizacion : Fecha de la ultima actualizacion (en la cual se registro un nuevo trabajo )
+          fecha_cierre : Fecha de cierre del Desarrollo (None, valor por defecto)
+          file1 : Archivo uno para acompañar el detalle del Desarrollo
+          file2 : Archivo dos para acompañar el detalle del Desarrollo
+          file3 : Archivo dos para acompañar el detalle del Desarrollo
+          estado : Estado Actual del issue    
+          -->
+        <tr class="rtbltck-register">
+          {% if developmenIdWork|length == 0 and developmen.estado == True  %}
+            <td class="text-center">
+              <div class="row">
+                <div class="col-md-3 text-left"> </div> 
+                <div class="col-md-3 text-right"> 
+
+                  <a type="button" data-toggle="modal" data-target="#popup01" data-backdrop="static" data-keyboard="false" >
+                    <img src="{% static 'Buttons/img/edit-find.png'%}" class="d-md-block img-responsive width: 40% \9;"width="35px" height="35px"/>                  
+                  </a>
+                </div>
+                <div class="col-md-3 text-left"> 
+                  <strong>{{developmen.id}}</strong>
+                </div>
+                <div class="col-md-3 text-left"> </div> 
+              </div>
+            </td>            
+          {% else %}
+            <td class="text-center">
+              <strong>{{developmen.id}}</strong>              
+            </td>
+          {% endif %}
+
+
+          <td> {{developmen.descripcion}} </td>
+          <td class="text-center"> 
+            {% if developmen.file1 %}
+              <div class="row ">
+                <div class="col-md-12 center-block">
+                  <a href="{{developmen.file1.url}}">
+                    <img src="{{developmen.file1.url}}" class="img-thumbnail" width="80px" height="45px" /> 
+                  </a>
+                </div>                
+              </div>
+              <div class="row">
+                <div class="col-md-12 center-block">
+                  <a href="{{developmen.file1.url}}">
+                    File 1
+                  </a>
+                </div>                
+              </div>     
+            {% endif %}                
+            {% if developmen.file2 %}                  
+              <div class="row">
+                <div class="col-md-12 center-block"> 
+                  <a href="{{developmen.file2.url}}">
+                    <img src="{{developmen.file2.url}}" class="img-thumbnail" width="80px" height="45px" /> 
+                  </a>
+                </div>                  
+              </div>
+              <div class="row">
+                <div class="col-md-12 center-block">
+                  <a href="{{developmen.file2.url}}"> 
+                    File 2
+                  </a>
+                </div>                
+              </div>                    
+            {% endif %}       
+            {% if developmen.file3 %}                  
+            <div class="row">
+              <div class="col-md-12 center-block"> 
+                <a href="{{developmen.file3.url}}">
+                  <img src="{{developmen.file3.url}}" class="img-thumbnail" width="80px" height="45px" /> 
+                </a>
+              </div>                  
+            </div>
+            <div class="row">
+              <div class="col-md-12 center-block">
+                <a href="{{developmen.file3.url}}"> 
+                  File 3
+                </a>
+              </div>                
+            </div>                    
+          {% endif %}     
+          </td>
+        </tr>        
+ 
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+  <!-- PopUp edit develeop order -->
+  {% if form_popup01 %}
+    <div class="container py-3">    
+      <div class="modal fade" id="popup01" tabindex="-1" role="dialog" aria-labelledby="popup01Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="popup01Label">Editando el Registro Orden de Desarrollo</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <form method="POST" id="msg-form" enctype="multipart/form-data">
+              <!-- 
+                registro : quien registra el pedido de un nuevo desarrollo
+                empresa : Para que empresa, peude ser interno (opcionale)
+                asistente : quien esta trabajando actualmente en el desarrollo, Modelo Programador
+                descripcion : Descripcion del desarrollo a realizar.
+                email : Lista de meil a quien notificar los trabajos registrados sobre el desarrollo
+                fecha_creacion : Fecha en la cual se creo el issue.              
+                file1 : Archivo uno para acompañar el detalle del Desarrollo
+                file2 : Archivo dos para acompañar el detalle del Desarrollo
+                file3 : Archivo dos para acompañar el detalle del Desarrollo
+                estado : Estado Actual del issue
+              -->
+              {% csrf_token %}
+              <div class="modal-header"> 
+                <div>
+
+                  <div class="row" >
+                    <div class="col-md-6">
+                      <!-- registro -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <strong>{{ form_popup01.registro.label_tag }}</strong>
+                        </div>
+                        <div class="col-md-6">
+                          {{ form_popup01.registro }} 
+                        </div>
+                      </div>
+                      <div>
+                        {{ form_popup01.registro.help_text }}
+                      </div>
+                      <div>
+                        {{ form_popup01.registro.errors }}
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <!-- empresa -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <strong>{{ form_popup01.empresa.label_tag }}</strong>
+                        </div>
+                        <div class="col-md-6">
+                          {{ form_popup01.empresa }} 
+                        </div>                                    
+                      </div>
+                      <div>
+                        {{ form_popup01.empresa.help_text }}
+                      </div>
+                      <div>
+                        {{ form_popup01.empresa.errors }}
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+
+                  <div class="row" >
+                    <div class="col-md-6">
+                      <!-- asistente -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <strong>{{ form_popup01.asistente.label_tag }}</strong>
+                        </div>
+                        <div class="col-md-4">
+                          {{ form_popup01.asistente }} 
+                        </div>
+                      </div>
+                      <div>
+                        {{ form_popup01.asistente.help_text }}
+                      </div>
+                      <div>
+                        {{ form_popup01.asistente.errors }}
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <!-- estado -->
+                      <div class="row">                      
+                        <div class="col-md-4"></div>
+                        <div class="col-md-6">
+                          <strong>{{ form_popup01.estado.label_tag }}</strong>
+                        </div>
+                        <div class="col-md-2">
+                          {{ form_popup01.estado }} 
+                        </div>
+                      </div>
+                      <div>
+                        {{ form_popup01.estado.help_text }}
+                      </div>
+                      <div>
+                        {{ form_popup01.estado.errors }}
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+
+                  <div class="row" >                  
+                    <!-- fecha_creacion -->
+                    <div class="row">                                        
+                      <div class="col-md-3">
+                        <strong>{{ form_popup01.fecha_creacion.label_tag }}</strong>
+                      </div>
+                      <div class="col-md-3">
+                        {{ form_popup01.fecha_creacion }} 
+                      </div>
+                      <div class="col-md-6"></div>
+                    </div>
+                    <div>
+                      {{ form_popup01.fecha_creacion.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup01.fecha_creacion.errors }}
+                    </div>
+                  </div>
+                  <br>
+                                
+                  <!-- descripcion -->
+                  <div class="row" >
+                    <div class="row">
+                      <div class="col-md-3">
+                        <strong>{{ form_popup01.descripcion.label_tag }}</strong>
+                      </div>
+                      <div class="col-md-9">
+                        {{ form_popup01.descripcion }} 
+                      </div>
+                    </div>
+                    <div>
+                      {{ form_popup01.descripcion.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup01.descripcion.errors }}
+                    </div>
+                  </div>
+                  <br>
+                  <!-- email -->
+                  <div class="row" >
+                    <div class="row">
+                      <div class="col-md-3">
+                        <strong>{{ form_popup01.email.label_tag }}</strong>
+                      </div>
+                      <div class="col-md-9">
+                        {{ form_popup01.email }} 
+                      </div>
+                    </div>
+                    <div>
+                      {{ form_popup01.email.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup01.email.errors }}
+                    </div>
+                  </div>
+                  <br>
+                  <!-- file1  -->
+                  <div class="row">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <strong>{{ form_popup01.file1.label_tag }}</strong>
+                      </div>
+                      <div class="col-md-4">
+                        {{ form_popup01.file1 }} 
+                      </div>                                 
+                    </div>
+                    <div>
+                      {{ form_popup01.file1.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup01.file1.errors }}
+                    </div>
+                  </div>                      
+                  <br>
+                  <!-- file2  -->
+                  <div class="row">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <strong>{{ form_popup01.file2.label_tag }}</strong>
+                      </div>
+                      <div class="col-md-4">
+                        {{ form_popup01.file2 }} 
+                      </div>                                 
+                    </div>
+                    <div>
+                      {{ form_popup01.file2.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup01.file2.errors }}
+                    </div>
+                  </div>                      
+                  <br>
+                  <!-- file3  -->
+                  <div class="row">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <strong>{{ form_popup01.file3.label_tag }}</strong>
+                      </div>
+                      <div class="col-md-4">
+                        {{ form_popup01.file3 }} 
+                      </div>                                 
+                    </div>
+                    <div>
+                      {{ form_popup01.file3.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup01.file3.errors }}
+                    </div>
+                  </div>                      
+                  <br>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" name='okpopUp01' value='okpopUp01' id="msgSubmit" class="btn btn-outline-success">Guardar</button>
+                <button type="submit" name='nok' value='nok' id="msgSubmit" class="btn btn-outline-danger">Cancelar</button>
+                <!-- <button type="submit" name='nok' value='nok' id="msgSubmit" data-dismiss="modal" class="btn btn-outline-danger">Cancelar</button> -->
+                <!-- <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">Cancelar</button> -->
+              </div>
+
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if form_popup02 and developmen.estado == True %}
+    <!-- PopUp new msg -->
+    <div class="container py-3">    
+      <div class="modal fade" id="popup02" tabindex="-1" role="dialog" aria-labelledby="popup02Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="popup02Label">Nuevo Mensaje</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <form method="POST" id="msg-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="modal-header"> 
+                <div>
+                  <div class="row" >
+                    <div>
+                      {{ form_popup02.modulo }} 
+                    </div>
+                    <div>
+                      {{ form_popup02.modulo.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup02.modulo.errors }}
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div>
+                      {{ form_popup02.msg }}
+                    </div>                        
+                    <div>
+                      {{ form_popup02.msg.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup02.msg.errors }}
+                    </div>
+                  </div> 
+                  <br>
+                  <div class="row">
+                    <div>
+                      {{ form_popup02.file1 }}
+                    </div>
+                    <div>
+                      {{ form_popup02.file1.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup02.file1.errors }}
+                    </div>
+                  </div>                      
+                  <br>
+                  <div class="row">
+                    <div>
+                      {{ form_popup02.file2 }}
+                    </div>
+                    <div>
+                      {{ form_popup02.file2.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup02.file2.errors }}
+                    </div>
+                  </div> 
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" name='okpopUp02' value='okpopUp02' id="msgSubmit" class="btn btn-outline-success">Guardar</button>
+                <button type="submit" name='nok' value='nok' id="msgSubmit" class="btn btn-outline-danger">Cancelar</button>
+                <!-- <button type="submit" name='nok' value='nok' id="msgSubmit" data-dismiss="modal" class="btn btn-outline-danger">Cancelar</button> -->
+                <!-- <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">Cancelar</button> -->
+              </div>
+
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if form_popup03 %}
+    <!-- PopUp new msg -->
+    <div class="container py-3">    
+      <div class="modal fade" id="popup03" tabindex="-1" role="dialog" aria-labelledby="popup03Label" aria-hidden="true">
+        <!-- <div class="modal-dialog modal-lg" role="document"> -->
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="popup03Label">Seleccion de Asistente, Empresa , Modulo</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <form method="POST" id="msg-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              {% if developmen.estado == True %}
+                <div class="modal-header"> 
+                  <div>
+                    <div class="row" >
+                      <!-- empresa -->
+                      <div class="row">                                        
+                        <div class="col-md-6">
+                          <strong>{{ form_popup03.empresa.label_tag }}</strong>
+                        </div>
+                        <div class="col-md-6">
+                          {{ form_popup03.empresa }} 
+                        </div>                    
+                      </div>
+                      <div>
+                        {{ form_popup03.empresa.help_text }}
+                      </div>
+                      <div>
+                        {{ form_popup03.empresa.errors }}
+                      </div>
+                    </div>                    
+                    <br>
+                    <!-- asistente  -->
+                    <div class="row" >
+                      <!-- fecha_creacion -->
+                      <div class="row">                                        
+                        <div class="col-md-6">
+                          <strong>{{ form_popup03.asistente.label_tag }}</strong>
+                        </div>
+                        <div class="col-md-6">
+                          {{ form_popup03.asistente }} 
+                        </div>                    
+                      </div>
+                      <div>
+                        {{ form_popup03.asistente.help_text }}
+                      </div>
+                      <div>
+                        {{ form_popup03.asistente.errors }}
+                      </div>
+                    </div>    
+                    <br>
+
+                    <!-- modulo -->
+                    <div class="row" >
+                      <!-- fecha_creacion -->
+                      <div class="row">                                        
+                        <div class="col-md-6">
+                          <strong>{{ form_popup03.modulo.label_tag }}</strong>
+                        </div>
+                        <div class="col-md-6">
+                          {{ form_popup03.modulo }} 
+                        </div>                    
+                      </div>
+                      <div>
+                        {{ form_popup03.modulo.help_text }}
+                      </div>
+                      <div>
+                        {{ form_popup03.modulo.errors }}
+                      </div>
+                    </div>
+                    <br>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" name='okpopUp03' value='okpopUp03' id="msgSubmit" class="btn btn-outline-success">Guardar</button>
+                  <button type="submit" name='nok' value='nok' id="msgSubmit" data-dismiss="modal" class="btn btn-outline-danger">Cancelar</button>
+                  <!-- <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">Cancelar</button> -->
+                </div>
+              {% else %}
+
+                
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="popup03Label">Orden de desarrollo Cerrada.</h5>
+                  </div>
+                  <div class="modal-footer">                    
+                  <button type="submit" name='nok' value='nok' id="msgSubmit" data-dismiss="modal" class="btn btn-outline-danger">quit</button>                  
+                </div>
+              {% endif %}
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+
+
+  {% if form_popup04 and developmen.estado == True %}
+    <!-- PopUp new msg -->
+    <div class="container py-3">    
+      <div class="modal fade" id="popup04" tabindex="-1" role="dialog" aria-labelledby="popup04Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="popup04Label">Editando el Registro de trabajo {{id_form_popup04}}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <form method="POST" id="msg-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="modal-header"> 
+                <div>
+                  <div class="row" >
+                    <div>
+                      {{ form_popup04.modulo }} 
+                    </div>
+                    <div>
+                      {{ form_popup04.modulo.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup04.modulo.errors }}
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div>
+                      {{ form_popup04.msg }}
+                    </div>                        
+                    <div>
+                      {{ form_popup04.msg.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup04.msg.errors }}
+                    </div>
+                  </div> 
+                  <br>
+                  <div class="row">
+                    <div>
+                      {{ form_popup04.file1 }}
+                    </div>
+                    <div>
+                      {{ form_popup04.file1.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup04.file1.errors }}
+                    </div>
+                  </div>                      
+                  <br>
+                  <div class="row">
+                    <div>
+                      {{ form_popup04.file2 }}
+                    </div>
+                    <div>
+                      {{ form_popup04.file2.help_text }}
+                    </div>
+                    <div>
+                      {{ form_popup04.file2.errors }}
+                    </div>
+                  </div> 
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" name='okpopUp04' value='okpopUp04' id="msgSubmit" class="btn btn-outline-success">Guardar</button>
+                <button type="submit" name='nok' value='nok' id="msgSubmit" class="btn btn-outline-danger">Cancelar</button>
+                <!-- <button type="submit" name='nok' value='nok' id="msgSubmit" data-dismiss="modal" class="btn btn-outline-danger">Cancelar</button> -->
+                <!-- <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">Cancelar</button> -->
+              </div>
+
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+
+  <script >
+    $(document).ready(function()
+    {
+      $('#msg-form').on('submit', function(event)
+      {
+        event.preventDefault();
+        $.ajax({
+            url: '/msg/',
+            type: 'POST',
+            // headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            data: $('#msg-form').serialize(),
+            
+            beforeSend: function ()
+            {
+              $("#msgModal").modal("show");
+            },
+            
+            success: function(data)
+            {
+              $('#msgModal .modal-body').html(data);
+            }
+        });
+      });
+    });
+  </script>
+
+
+
+{% endblock %}
+
+<a href='{% url urledit it.id %}' title="{{urledittitle}}"> 

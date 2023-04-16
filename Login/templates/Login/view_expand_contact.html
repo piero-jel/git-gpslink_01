@@ -1,0 +1,563 @@
+<!-- incluimos el parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title  %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+{% block content %}
+{% if Contact_form %}
+  <!-- launch Form PopUp3  -->
+  <script>
+      window.onload = () => {
+      document.querySelector('[data-target="#popup01"]').click();
+    }
+  </script>
+
+<div class="container">
+  <div class="row"> 
+    <div class="container">
+      <div class="row text-center">  <!-- para que lo tape el popup -->
+        <p>
+          <button type="button" class="btn btn-outline-warning btn" data-toggle="modal" data-target="#popup01" data-backdrop="static" data-keyboard="false">          
+            <strong> Editando el Contact {{lContact.id}} </strong>
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>   
+{% endif %}
+
+
+
+
+
+  <!-- Header content -->
+  <!-- lContact
+    company : Nombre de la compania (entidad fisica )
+    firstname : Primer Nombre
+    lastname : Apellido
+    telephone : Numero de telefono de contacto
+
+    comment : Comentario    
+    emails : Correo o lista de correos electronicos para contactar    
+    product : producto por el cual se intereso
+
+    attend : Quien atendera el contacto    
+    date_open : Fecha de creacion
+    date_update : fecha de actualizacion
+    date_close : fecha de cierre
+    status : Estado del contacto, si se pudo contactar y se cerro el vinculo.
+    email_status : estado del envio de email interno, a los asistentes
+    err_email : Mensaje de error, si ocurrio, al enviar internamente el email 
+  -->
+  <div class="container">
+    <div class="row flex-row flex-nowrap">
+      <div class="row borde-datos collapse show" style="border: solid 0.3em #ffffff;">
+        
+        <div class="col-6 borde-datos-right" style="border-right: solid 0.3em #ffffff;">
+          <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+            <thead>
+              <th style="width:400px">  </th> 
+              <th style="width:800px">  </th> 
+            </thead>
+            <tbody> 
+              <tr>
+                <td><b>Empresa</b></td>
+                <td>{% firstof lContact.company "" %}</td>
+              </tr>
+              <tr>              
+                <td><b> Nombre del Contacto:</b> </td>
+                <td>                  
+                  {% firstof lContact.firstname "" %}
+                  
+                </td> 
+              </tr>
+              <tr>
+                <td><b> Apellido del Contacto:</b> </td>                
+                <td> {% firstof lContact.lastname "" %} </td>
+              </tr>
+              <tr>
+                <td><b>Telefono de Contacto:</b></td>                
+                <td>{% firstof lContact.telephone "" %}</td>
+              </tr>
+              <tr>
+                <td><b>Quien Asiste:</b></td>                
+                <td>{% firstof lContact.attend "" %}</td>
+              </tr>
+
+
+            </tbody>
+          </table>
+          <br>
+        </div>
+        <div class="col-6">
+          <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+            <thead>
+              <th style="width:200px">  </th> 
+              <th style="width:800px">  </th> 
+            </thead>
+            <tbody>
+              <tr>
+                <td><b> Id:</b></td>
+                <td>{{lContact.id}}</td>
+              </tr>
+              <tr>
+                <td> <b>Estado:</b> </td>                
+                <td class="text-left">                      
+                  <a type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target=#popup02 data-backdrop="static" data-keyboard="false" title="Seleccionar Estado">
+                    <strong> 
+                      {% if lContact.status == True %}
+                        Activo
+                      {% else %}
+                        Cerrado
+                      {% endif %}
+                    </strong>                  
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td> <b>Estado envio Emails:</b> </td>
+                <td>
+                  <a type="button" {% if lContact.email_status == True %} class="btn btn-outline-success btn-sm" {% else %} {% endif %}
+                    class="btn btn-outline-danger btn-sm"
+                    data-toggle="modal" data-target=#popup02 data-backdrop="static" data-keyboard="false" title="Seleccionar Estado envio de">
+                    <strong> 
+                      {% if lContact.email_status == True %}
+                        Success
+                      {% else %}
+                        Failure
+                      {% endif %}
+                    </strong>                  
+                  </a>
+                </td>
+              </tr>
+              {% if lContact.email_status == False %}
+                <td> <b>Error envio Emails:</b> </td>
+                <td class="text-left"> <b> {{lContact.err_email}} </b> </td>
+              {% endif %}
+              <tr>
+                <td><b>Fecha de Creacion:</b></td>
+                <td>{{lContact.date_open}}</td>
+              </tr>
+              <tr>
+                <td><b>Fecha Actualizacion:</b></td>                  
+                <td> {% firstof lContact.date_update %} </td>
+              </tr>
+              <tr>
+                <td><b>Fecha Cierre:</b></td>
+                <td> {% firstof lContact.date_close %} </td>
+              </tr>                
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>  
+
+
+
+  <!-- Listado de Tickets -->  
+  <div class="container-fluid" style="margin-top: 50px;">    
+    <div class="container admin-style"> 
+      
+      <!-- <table class="table table-strip table-hover table-responsive table-responsive-sm table-responsive-md estilo1"> -->
+      <table class="estilo3 table-hover table-strip table-responsive table-responsive-sm table-responsive-md">
+        <thead>
+          <tr>                                    
+            <th style="width:300px">Producto </th>
+            <th style="width:600px">Comentario </th>
+            <th style="width:300px"> Listado de Emails </th>
+          </tr>
+        </thead>
+        <tbody>         
+        <tr class="td-hover" onclick="window.location='{{urllink}}/{{lContact.id }}/edit';" title="{{urltitle}} '{{lContact.id}}'.">
+          <!-- <td> {% firstof it.msg "" %} </td> -->
+          <td class="text-center"> 
+            {% if lContact.product %}
+              {{lContact.product}} 
+            {% else %}
+              No selecionado
+            {% endif %}
+            
+          </td>
+          <td class="text-center"> {{lContact.comment}} </td>          
+          <td class="text-center"> 
+            {% for imeil in lContact.emails %}
+            <div>
+              {{imeil}} 
+            </div>              
+            {% endfor %}              
+          </td>
+        </tr>        
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+
+
+<!-- Form PopUp 03  -->
+<div class="container py-3">  
+  
+  <div class="modal" id="popup01" tabindex="-1" role="dialog" aria-labelledby="popup01Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="popup01Label">
+            Editando Informacion del Contacto {{lContact.id}}
+            
+          </h5>          
+            <form method="POST" id="msg-form" enctype="multipart/form-data">
+              {% csrf_token %}              
+              <button type="submit" name='edit_nok' value='edit_nok' id="msgSubmit" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </form>          
+        </div>
+        <!-- <div class="text-center">
+          <p> Ingrese la Contraseña para "{{user}}" </p>
+          
+        </div> -->
+        <div class="text-left">
+          <form method="POST" id="msg-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-header"> 
+              <div>
+                <!-- 
+                  company : Nombre de la compania (entidad fisica )
+
+                  firstname : Primer Nombre
+                  lastname : Apellido
+                  telephone : Numero de telefono de contacto         
+                  emails : Correo o lista de correos electronicos para contactar
+                  comment : Comentario
+
+                  product : producto por el cual se intereso
+                  attend : Quien atendera el contacto          
+                  date_open : Fecha de creacion
+                  date_update : fecha de actualizacion
+                  date_close : fecha de cierre
+                  status : Estado del contacto, si se pudo contactar y se cerro el vinculo.
+                  email_status : estado del envio de email interno, a los asistentes
+                  err_email : Mensaje de error, si ocurrio, al enviar internamente el email
+                -->
+                <!-- company  -->
+                <div class="row">
+                  <div class="col-md-2"> </div>
+                  <div class="col-md-4">
+                    {{ Contact_form.company.label_tag }}
+                  </div>
+                  <div class="col-md-4">
+                    {{ Contact_form.company }}
+                  </div>                  
+                </div>
+                <div>
+                  {{ Contact_form.company.help_text }}
+                </div>
+                <div>
+                  {{ Contact_form.company.errors }}
+                </div>
+                <br>
+                <!-- firstname -->
+                <div class="row">
+                  <div class="col-md-2"> </div>
+                  <div class="col-md-4">
+                    {{ Contact_form.firstname.label_tag }}
+                  </div>
+                  <div class="col-md-4">
+                    {{ Contact_form.firstname }}
+                  </div>                  
+                </div>
+                <div>
+                  {{ Contact_form.firstname.help_text }}
+                </div>
+                <div>
+                  {{ Contact_form.firstname.errors }}
+                </div>
+                <br>
+                <!-- lastname -->
+                <div class="row">
+                  <div class="col-md-2"> </div>
+                  <div class="col-md-4">
+                    {{ Contact_form.lastname.label_tag }}
+                  </div>
+                  <div class="col-md-4">
+                    {{ Contact_form.lastname }}
+                  </div>                  
+                </div>
+                <div>
+                  {{ Contact_form.lastname.help_text }}
+                </div>
+                <div>
+                  {{ Contact_form.lastname.errors }}
+                </div>
+                <br>
+                <!-- telephone -->
+                <div class="row">
+                  <div class="col-md-2"> </div>
+                  <div class="col-md-4">
+                    {{ Contact_form.telephone.label_tag }}
+                  </div>
+                  <div class="col-md-4">
+                    {{ Contact_form.telephone }}
+                  </div>                  
+                </div>
+                <div>
+                  {{ Contact_form.telephone.help_text }}
+                </div>
+                <div>
+                  {{ Contact_form.telephone.errors }}
+                </div>
+                <br>                
+                <!-- emails -->
+                <div class="row">                  
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4">
+                    {{ Contact_form.emails.label_tag }}
+                  </div>
+                  <div class="col-md-6">
+                    {{ Contact_form.emails }}
+                  </div>                  
+                </div>
+                <div>
+                  {{ Contact_form.emails.help_text }}
+                </div>
+                <div>
+                  {{ Contact_form.emails.errors }}
+                </div>
+                <br>
+                <!-- comment -->
+                <div class="row">                  
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4">
+                    {{ Contact_form.comment.label_tag }}
+                  </div>
+                  <div class="col-md-6">
+                    {{ Contact_form.comment }}
+                  </div>                  
+                </div>
+                <div>
+                  {{ Contact_form.comment.help_text }}
+                </div>
+                <div>
+                  {{ Contact_form.comment.errors }}
+                </div>
+                <br>
+                <!-- product -->
+                <div class="row">                  
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4">
+                    {{ Contact_form.product.label_tag }}
+                  </div>
+                  <div class="col-md-6">
+                    {{ Contact_form.product }}
+                  </div>                  
+                </div>
+                <div>
+                  {{ Contact_form.product.help_text }}
+                </div>
+                <div>
+                  {{ Contact_form.product.errors }}
+                </div>
+                <br>                 
+                <!-- attend -->
+                <div class="row">                  
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4">
+                    {{ Contact_form.attend.label_tag }}
+                  </div>
+                  <div class="col-md-6">
+                    {{ Contact_form.attend }}
+                  </div>                  
+                </div>
+                <div>
+                  {{ Contact_form.attend.help_text }}
+                </div>
+                <div>
+                  {{ Contact_form.attend.errors }}
+                </div>
+                <br>   
+                <!-- status -->
+                <div class="row">                  
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4">
+                    {{ Contact_form.status.label_tag }}
+                  </div>
+                  <div class="col-md-6">
+                    {{ Contact_form.status }}
+                  </div>                  
+                </div>
+                <div>
+                  {{ Contact_form.status.help_text }}
+                </div>
+                <div>
+                  {{ Contact_form.status.errors }}
+                </div>
+                <br> 
+                <!-- email_status -->
+                <div class="row">                  
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4">
+                    {{ Contact_form.email_status.label_tag }}
+                  </div>
+                  <div class="col-md-6">
+                    {{ Contact_form.email_status }}
+                  </div>                  
+                </div>
+                <div>
+                  {{ Contact_form.email_status.help_text }}
+                </div>
+                <div>
+                  {{ Contact_form.email_status.errors }}
+                </div>
+                <br>
+              </div>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="submit" name='edit_ok' value='edit_ok' id="msgSubmit" class="btn btn-outline-success">Si</button>        
+              <button type="submit" name='edit_nok' value='edit_nok' id="msgSubmit" class="btn btn-outline-danger">No</button>
+              <!-- <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">No</button>             -->
+            </div>
+  
+          </form>
+        </div>
+        
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% if form_popup02 %}
+<!-- PopUp new msg -->
+<div class="container py-3">    
+  <div class="modal fade" id="popup02" tabindex="-1" role="dialog" aria-labelledby="popup02Label" aria-hidden="true">
+    <!-- <div class="modal-dialog modal-lg" role="document"> -->
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="popup02Label">Estableciendo el Estado del Contacto y envio de Emails</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <form method="POST" id="msg-form" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% if lContact.status == True %}
+            <div class="modal-header"> 
+              <div>
+                <div class="row" >
+                  <!-- empresa -->
+                  <div class="row">                                        
+                    <div class="col-md-6">
+                      <strong>{{ form_popup02.status.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-6">
+                      {{ form_popup02.status }} 
+                    </div>                    
+                  </div>
+                  <div>
+                    {{ form_popup02.status.help_text }}
+                  </div>
+                  <div>
+                    {{ form_popup02.status.errors }}
+                  </div>
+                </div>                    
+                <br>
+                <!-- email_status  -->
+                <div class="row" >
+                  <!-- fecha_creacion -->
+                  <div class="row">                                        
+                    <div class="col-md-6">
+                      <strong>{{ form_popup02.email_status.label_tag }}</strong>
+                    </div>
+                    <div class="col-md-6">
+                      {{ form_popup02.email_status }} 
+                    </div>                    
+                  </div>
+                  <div>
+                    {{ form_popup02.email_status.help_text }}
+                  </div>
+                  <div>
+                    {{ form_popup02.email_status.errors }}
+                  </div>
+                </div>    
+                <br>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" name='okpopUp02' value='okpopUp02' id="msgSubmit" class="btn btn-outline-success">Guardar</button>
+              <button type="submit" name='nok' value='nok' id="msgSubmit" data-dismiss="modal" class="btn btn-outline-danger">Cancelar</button>
+              <!-- <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">Cancelar</button> -->
+            </div>
+          {% else %}            
+            <div class="modal-header">
+              <h5 class="modal-title" id="popup02Label">Orden de desarrollo Cerrada.</h5>
+            </div>
+            <div class="modal-footer">                    
+              <button type="submit" name='nok' value='nok' id="msgSubmit" data-dismiss="modal" class="btn btn-outline-danger">
+                quit
+              </button>                  
+            </div>
+          {% endif %}
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<script >
+  $(document).ready(function()
+  {
+    $('#msg-form').on('submit', function(event)
+    {
+      event.preventDefault();
+      $.ajax({
+          url: '/msg/',
+          type: 'POST',
+          // headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          data: $('#msg-form').serialize(),
+          
+          beforeSend: function ()
+          {
+            $("#msgModal").modal("show");
+          },
+          
+          success: function(data)
+          {
+            $('#msgModal .modal-body').html(data);
+          }
+      });
+    });
+  });
+
+</script>  
+{% endblock %}
+

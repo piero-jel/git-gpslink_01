@@ -1,0 +1,652 @@
+<!-- incluimos el parent -->
+{% extends "Login/base.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load bootstrap4 %}
+{% load poll_extras %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} form ticket {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} 
+{% if msg %}
+  {{msg}}
+{% endif %}
+{% endblock %}
+
+
+{% block extra-sticky %} 
+<!-- Incluimos los botones para la cabecera del template listbtn -->
+{# {% include 'Buttons/buttons_sticky.html' with button_list=listbtn %} #}
+<!-- Incluimos el boton de volver atras desde el historial -->
+{% include 'Buttons/history_back.html' %}
+
+
+{% endblock %}
+
+<!-- Contenido del cuerpo  -->
+{% block content %}
+
+<!-- 
+      id
+      register = user      
+      attend
+      brief = request.POST.get('brief')
+      detail = request.POST.get('detail')
+      email = request.POST.get('email')
+      file1 = if( request.POST.get('file1') )
+      file2 = if( request.POST.get('file2') )
+
+      fecha_creacion :: es insertada automaticamente  
+ --> 
+ {% include 'Table/msg_tag.html' with tag='warning' %}
+ 
+{% if ticket_data %}
+  
+  <!-- Detalles del Ticket, register y Asistente Actual -->
+  <div class="container">
+    <div class="row">
+      <!-- <table class="table table-strip table-hover table-responsive table-responsive-sm table-responsive-md estilo1"> -->
+      <table class="table table-strip table-responsive table-responsive-sm table-responsive-md estilo1">      
+        <thead>
+          <tr>
+            <th style="width:1200px">
+              <div class="row">
+                <div class="col-md-6"> {% firstof ticket_data.register.empresa "Falta Empresa" %} </div>
+                <div class="col-md-6">                 
+                  <!-- Los datos de Register, debemos considerarr sacar algunso de esta vista ya que el register y clietn es el mismo -->
+                  <div class="row">
+                    <div class="col-md-12"> {% firstof ticket_data.register "Falta Nombre de Usuario" %}</div>              
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12"> {% firstof ticket_data.register.email %} </div>
+                  </div>
+                </div>
+              </div>
+            </th>          
+          </tr>        
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <table class="table table-strip table-responsive-sm table-responsive-md estilo">              
+                <thead class="text-center">
+                  <tr>
+                    <th> {% ExplotItem "Id Ticket" %} </th>                     
+                    <th> Estado </th> 
+                    <th> {% ExplotItem "Fecha Creacion" %} </th>
+                    <th> {% ExplotItem "Fecha Actualizacion" %} </th>
+                    <th> {% ExplotItem "Fecha Cierre" %} </th>                  
+                    <th> {% ExplotItem "Asistente Actual" %} </th>
+                    <th> {% ExplotItem "Lista de Emails" %} </th>
+                  </tr>
+                </thead>
+                <tbody class="text-center">             
+                  <tr>
+                    <!-- Id de Ticket  y de History actual -->
+                    <td> {{ticket_data.id}} </td> 
+                    <!-- Estado del Ticket -->
+                    {% if ticket_data.estado == True %}
+                      <td class="info">Activo</td> 
+                    {% else %}
+                      <td class="success"> Cerrado </td>
+                    {% endif %}
+                    <!-- Fechas,  fecha_creacion , fecha_update , fecha_cierre -->
+                    <td>{{ticket_data.fecha_creacion}} </td>
+                    <td> {% firstof ticket_data.fecha_update "" %} </td>
+                    <td>{% firstof ticket_data.fecha_cierre "Ticket Abierto" %} </td>
+                    
+                    <!-- Asitente Actual, datos de quien esta atendiendo el Ticket actualmente -->
+                    <td>
+                      <!-- Dividimos el campo en varias filas  -->
+                      <div  class="row ">                      
+                        <div class="col-md-12 center-block">                        
+                          <div class="row">
+                            <div class="col-md-12"> <strong> {% firstof ticket_data.attend "Sin Asignar" %}</strong></div>              
+                          </div>          
+                          <div class="row">
+                            <div class="col-md-12">{% firstof ticket_data.attend.programador.first_name ""%}</div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12"> {% firstof ticket_data.attend.programador.last_name ""%} </div>
+                          </div>
+                            
+                          <div class="row">
+                            <div class="col-md-12"> {% firstof ticket_data.attend.programador.email ""%} </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      {% for it in ticket_data.email %}
+                        <div class="row">
+                          <div class="col-md-12"> {{it}} </div>
+                        </div>
+                      {% endfor %}
+                    </td>
+                  </tr>        
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<!-- Datos del Incidente -->
+  <div class="container">
+    <div class="row">  
+      <table class="table table-strip table-responsive-sm table-responsive-md estilo1">    
+        <thead>
+          <tr>
+            <th> Ticket Id </th>
+            <th> Descripcion Breve </th>
+            <th> Archivo 1 </th>
+            <th> Archivo 2 </th>
+          </tr>                    
+        </thead>
+        <tbody>        
+          <tr>
+            <td> Ticket Id </td>
+            <td> Descripcion Breve </td>
+            <td> Archivo 1 </td>
+            <td> Archivo 2 </td>
+          </tr>
+          <tr>
+            <td> {{ticket_data.id}} </td>
+            <td> {{ticket_data.brief}}</td>
+            <td>
+              {% if ticket_data.file1 %}
+                <a href="{{ticket_data.file1.url}}"> 
+                  <img src="{{ticket_data.file1.url}}" class="img-thumbnail" width="160px%" height="90px%" /> 
+                </a>
+              {% endif %}
+            </td>
+            <td>
+              {% if ticket_data.file2 %}            
+                <a href="{{ticket_data.file2.url}}"> 
+                  <img src="{{ticket_data.file2.url}}" class="img-thumbnail" width="160px%" height="90px%" /> 
+                </a>  
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Descripcion Detallada</strong>
+            </td>
+            <td>
+              <i>{{ticket_data.detail}}</i>
+            </td>
+          </tr>
+          <tr> <th> Datos del Incidente </th> </tr>
+        </tbody>
+      </table>  
+
+      <!-- <table>
+        <tr>
+          <td>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>Descripcion Detallada</strong>
+                  </td>
+                  <td>
+                    <i>{{ticket_data.detail}}</i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr> <th> Datos del Incidente </th> </tr>
+      </table> -->
+      <div class="container-fluid" style="margin-top: 50px;">
+
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}            
+          <!-- <div align="center"> -->
+          
+            <div class="row">
+              <div class="col-md-12">
+                {{ message }}
+              </div>
+            </div>   
+            <br>
+            <!-- Fecha Actual  -->
+            <div class="row" >
+              <div class="col-md-4 center-block">
+                <strong> {{ form.fecha_creacion.label_tag }} </strong>            
+              </div>
+              <div class="col-md-8 center-block">
+                {{ form.fecha_creacion }} 
+              </div>
+            </div>
+            <div class="row" >
+              <div class="col-md-6">
+                {{ form.fecha_creacion.help_text }}
+              </div>
+              <div class="col-md-6">
+                {{ form.fecha_creacion.errors }}
+              </div> 
+            </div>
+            <br>
+            <!-- Nombre del Modulo  -->
+            <div class="row" >
+              <div class="col-md-4 center-block">
+                <strong> 
+                  {{ form.brief.label_tag }} 
+                </strong> 
+              </div>
+              <div class="col-md-8 center-block">
+                {{ form.brief }} 
+              </div>                
+            </div>
+            <div class="row" >
+              <div class="col-md-6">
+                {{ form.brief.help_text }}
+              </div>
+              <div class="col-md-6">
+                {{ form.brief.errors }}
+              </div> 
+            </div>
+            <br>
+            <!-- Descripcion del trabajo realizado: -->
+            <div class="row">
+              <div class="col-md-4 center-block" >
+                <strong> {{ form.detail.label_tag }} </strong>            
+              </div>
+              <div class="col-md-8">
+                {{ form.detail }}
+              </div>
+            </div>            
+            <div class="row">
+              <div class="col-md-6">
+                {{ form.detail.help_text }}
+              </div>
+              <div class="col-md-6">
+                {{ form.detail.errors }}
+              </div>              
+            </div>            
+            <br>
+            <!-- Adjuntar File 1: -->
+            <div class="row">
+              <div class="col-md-4 center-block">
+                <strong> {{ form.file1.label_tag }} </strong>
+              </div>
+              <div class="col-md-8 center-block">
+                {{ form.file1 }} 
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 center-block">
+                {{ form.file1.help_text }}
+              </div>
+              <div class="col-md-6 center-block">
+                {{ form.file1.errors }}
+              </div>
+            </div>   
+            <br>
+            <!-- Adjuntar File 2: -->
+            <div class="row">
+              <div class="col-md-4 center-block">
+                <strong> {{ form.file2.label_tag }} </strong>
+              </div>
+              <div class="col-md-8 center-block">                  
+                {{ form.file2 }} 
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 center-block">
+                {{ form.file2.help_text }}
+              </div>
+              <div class="col-md-6 center-block">
+                {{ form.file2.errors }}
+              </div>
+            </div>
+            <br>        
+            <!-- Tiempo Empleado HH:MM:SS: -->
+            <div class="row">
+              <div class="col-md-4 center-block">
+                <strong> {{form.tiempo.label_tag}}
+                  <!-- {%for it in form.tiempo.label_tag|cleanTag|getList %}
+                  <div class="row">
+                    <div class="col-md-12 center-block">
+                      {{it}}
+                    </div>
+                  </div>
+                  {%endfor%}               -->
+                </strong>                
+              </div>
+              <div class="col-md-8">
+                {{ form.tiempo }}  
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                {{ form.tiempo.help_text }}
+              </div>
+              <div class="col-md-6">
+                {{ form.tiempo.errors }}
+              </div> 
+            </div>
+            <br>
+            <!-- Error msg  -->
+            <br>
+            <div class="row">
+              <div class="col-md-12">
+                {{ form.non_field_errors }}
+              </div>
+            </div>
+            <br>
+            <div class="row text-center">
+              <div class="col-md-4">
+
+              </div>
+              <div class="col-md-1">
+                <button class='form-button btn btn-success' type='submit' name='ok' value='ok' > 
+                  Guardar
+                </button>
+              </div>
+              <div class="col-md-1">
+                <button class='form-button btn btn-danger' type='submit' name='nok' value='nok' >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+            <br>
+          <!-- </div>
+          <br> -->
+
+            <!-- <div class="form-group py-2">
+              
+              <div class="row text-center">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+                  <button class='form-button btn btn-success' type='submit' name='ok' value='ok' > 
+                    Guardar
+                  </button>
+                </div>
+                <div class="col-md-4">
+                  <button class='form-button btn btn-danger' type='submit' name='nok' value='nok' >
+                    Cancelar
+                  </button>
+                </div>
+              </div>      
+            </div> -->
+          
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  {% if other %}
+  <!-- Formulario para la carga del Registro del Trabajo Realizado 
+    register_work = models.ForeignKey(Programador,on_delete=models.DO_NOTHING,blank=False,null=True)
+    ticket = models.ForeignKey(Tickets, on_delete=models.CASCADE,blank=False)
+    fecha_creacion = models.DateField(default=timezone.now, blank=False)
+    brief=models.CharField(max_length=BRIEF_MAX_LEN,blank=False,choices=TICKET_HISTROY_BRIEF_CHOICE)
+    detail=models.CharField(max_length=DETAIL_MAX_LEN,blank=False)
+    file = models.FileField(null=True,blank=True, upload_to = 'files/')  
+    tiempo = models.CharField(max_length=8,blank=False,null=True )
+  -->
+  <div class="container">
+    <div class="row">
+      <div class="container-fluid" style="margin-top: 50px;">
+
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}            
+          <!-- <div align="center"> -->
+          
+            <div class="row">
+              <div class="col-md-12">
+                {{ message }}
+              </div>
+            </div>   
+            <br>
+            <!-- Fecha Actual  -->
+            <div class="row" >
+              <div class="col-md-4 center-block">
+                <strong> {{ form.fecha_creacion.label_tag }} </strong>            
+              </div>
+              <div class="col-md-8 center-block">
+                {{ form.fecha_creacion }} 
+              </div>
+            </div>
+            <div class="row" >
+              <div class="col-md-6">
+                {{ form.fecha_creacion.help_text }}
+              </div>
+              <div class="col-md-6">
+                {{ form.fecha_creacion.errors }}
+              </div> 
+            </div>
+            <br>
+            <!-- Nombre del Modulo  -->
+            <div class="row" >
+              <div class="col-md-4 center-block">
+                <strong> 
+                  {{ form.brief.label_tag }} 
+                </strong> 
+              </div>
+              <div class="col-md-8 center-block">
+                {{ form.brief }} 
+              </div>                
+            </div>
+            <div class="row" >
+              <div class="col-md-6">
+                {{ form.brief.help_text }}
+              </div>
+              <div class="col-md-6">
+                {{ form.brief.errors }}
+              </div> 
+            </div>
+            <br>
+            <!-- Descripcion del trabajo realizado: -->
+            <div class="row">
+              <div class="col-md-4 center-block" >
+                <strong> {{ form.detail.label_tag }} </strong>            
+              </div>
+              <div class="col-md-8">
+                {{ form.detail }}
+              </div>
+            </div>            
+            <div class="row">
+              <div class="col-md-6">
+                {{ form.detail.help_text }}
+              </div>
+              <div class="col-md-6">
+                {{ form.detail.errors }}
+              </div>              
+            </div>            
+            <br>
+            <!-- Adjuntar File 1: -->
+            <div class="row">
+              <div class="col-md-4 center-block">
+                <strong> {{ form.file1.label_tag }} </strong>
+              </div>
+              <div class="col-md-8 center-block">
+                {{ form.file1 }} 
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 center-block">
+                {{ form.file1.help_text }}
+              </div>
+              <div class="col-md-6 center-block">
+                {{ form.file1.errors }}
+              </div>
+            </div>   
+            <br>
+            <!-- Adjuntar File 2: -->
+            <div class="row">
+              <div class="col-md-4 center-block">
+                <strong> {{ form.file2.label_tag }} </strong>
+              </div>
+              <div class="col-md-8 center-block">                  
+                {{ form.file2 }} 
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 center-block">
+                {{ form.file2.help_text }}
+              </div>
+              <div class="col-md-6 center-block">
+                {{ form.file2.errors }}
+              </div>
+            </div>
+            <br>        
+            <!-- Tiempo Empleado HH:MM:SS: -->
+            <div class="row">
+              <div class="col-md-4 center-block">
+                <strong> {{form.tiempo.label_tag}}
+                  <!-- {%for it in form.tiempo.label_tag|cleanTag|getList %}
+                  <div class="row">
+                    <div class="col-md-12 center-block">
+                      {{it}}
+                    </div>
+                  </div>
+                  {%endfor%}               -->
+                </strong>                
+              </div>
+              <div class="col-md-8">
+                {{ form.tiempo }}  
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                {{ form.tiempo.help_text }}
+              </div>
+              <div class="col-md-6">
+                {{ form.tiempo.errors }}
+              </div> 
+            </div>
+            <br>
+            <!-- Error msg  -->
+            <br>
+            <div class="row">
+              <div class="col-md-12">
+                {{ form.non_field_errors }}
+              </div>
+            </div>
+            <br>
+            <div class="row text-center">
+              <div class="col-md-4">
+
+              </div>
+              <div class="col-md-1">
+                <button class='form-button btn btn-success' type='submit' name='ok' value='ok' > 
+                  Guardar
+                </button>
+              </div>
+              <div class="col-md-1">
+                <button class='form-button btn btn-danger' type='submit' name='nok' value='nok' >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+            <br>
+          <!-- </div>
+          <br> -->
+
+            <!-- <div class="form-group py-2">
+              
+              <div class="row text-center">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+                  <button class='form-button btn btn-success' type='submit' name='ok' value='ok' > 
+                    Guardar
+                  </button>
+                </div>
+                <div class="col-md-4">
+                  <button class='form-button btn btn-danger' type='submit' name='nok' value='nok' >
+                    Cancelar
+                  </button>
+                </div>
+              </div>      
+            </div> -->
+          
+        </form>
+
+      </div>
+    </div>
+  </div>
+  {% elif other2 %}
+  <form method="post" >
+    <div class="row py-2 justify-content-center">
+      <div class="form-group py-2 col-9">
+        <div class="form-group py-2">  
+          {% csrf_token %}
+          {# {% bootstrap_form form layout="horizontal" size="small" label_class="form-label col-md-3" %} #}
+          {% bootstrap_form form layout="horizontal" size="small" label_class="form-label col-md-1" %}        
+        </div>
+      </div>
+    </div>
+    
+    {% if testbuttonlist %}
+    <div align="center">
+      <div class="form-group py-2 col-9">      
+        <div class="form-group py-2 justify-content-center">
+          {% for it in testbuttonlist %}          
+            <!-- <div class="justify-content-center col-sm-1 col-md-3 col-lg-1"> -->
+            <button class='{{it.css}}' type={{it.type}} name={{it.name}} value={{it.value}} > 
+              {% firstof it.label %}
+            </button>             
+            <!-- </div> -->
+          {% endfor %}
+        </div>
+      </div>  
+    </div>      
+    {% endif %} 
+  </form>
+  {% endif %}
+
+
+{% endif %}
+
+{% endblock %}  
+
+
+{% if tabla_tabla %}
+<table class="table table-strip table-hover table-responsive-sm table-responsive-md">
+  <thead>
+    <tr> <th>Ticket Id </th> <th>Descripcion Breve </th>
+      {% if ticket_data.file1 %} <th> Archivo 1:</th> {% endif %}
+      {% if ticket_data.file2 %} <th> Archivo 2:</th> {% endif %}            
+    </tr>
+  </thead>
+  <tbody>          
+    <tr > <td class="center-block"> {{ticket_data.id}} </td> <td> {{ticket_data.brief}}</td> 
+      {% if ticket_data.file1 %}
+        <td>            
+          <a href="{{ticket_data.file1.url}}"> 
+            <img src="{{ticket_data.file1.url}}" class="img-thumbnail" width="160px%" height="90px%" /> 
+          </a>  
+        </td>
+      {% endif %}
+      {% if ticket_data.file2 %}            
+        <td>
+          <a href="{{ticket_data.file1.url}}"> 
+            <img src="{{ticket_data.file1.url}}" class="img-thumbnail" width="160px%" height="90px%" /> 
+          </a>  
+        </td>
+      {% endif %}
+    </tr>          
+  </tbody>
+</table>
+<table class="table table-strip table-hover table-responsive-sm table-responsive-md">
+  <tbody>
+    <tr>
+      <th>Descripcion Detallada </th> <td> {{ticket_data.detail}} </td>
+    </tr>
+  </tbody>
+</table>
+{% endif %}

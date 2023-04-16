@@ -1,0 +1,36 @@
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+
+<div id="navbarSupportedContent_small">
+  <div class="container-fluid">
+    <div id="sticky_back"> 
+      <div class="text-left lktinsticky">
+        {{user}}
+      </div>
+      <div class="container">
+        <div align="center" class="row justify-content-center">
+          
+          <div class="col-4 col-sm-2 col-md-2 col-lg-2">
+
+            <div class="row">
+              <div class="col-md-12 center-block img-zoom">
+                <a href="javascript:history.back()" title="Volver a la pagina anterior">
+                  <img src="{% static '/Buttons/img/go-previous.svg' %}" class="d-md-block img-responsive width: 50% \9;"width="35px" height="35px"/>
+                </a>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 center-block">
+                
+                <a href="javascript:history.back()" class="d-md-block" title="Volver a la pagina anterior">
+                  <small class="lktinsticky"> Volver </small>                  
+                </a>
+              </div>
+            </div>
+          </div>          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

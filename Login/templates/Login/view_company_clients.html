@@ -1,0 +1,445 @@
+<!-- incluimos el parent -->
+{% extends "Login/base_dos.html" %} 
+
+<!-- Cargamso static donde tenemos Bootstrap -->
+{% load static %}
+{% load poll_table %}
+
+<!-- Colocamos el titulo de la solapa -->
+{% block pagetitle %} {% firstof tab_title "tab_title" %} {% endblock %}
+<!-- Colocamos un titulo en cabecera -->
+{% block headtitle %} {% firstof head_title "head_title" %} {% endblock %}
+
+
+{% block extra-sticky %} 
+
+<!-- Incluimos el register_ticket_sticky.html pasandole listbtn -->
+{% include 'Buttons/buttons_sticky.html' with button_list=listbtn %}
+
+
+{% endblock %}
+
+
+{% block content %}
+{% if user_form_popUp == True %}
+<!-- launch Form PopUp3  -->
+  <script>
+    window.onload = () => {
+    document.querySelector('[data-target="#popup03"]').click();
+  }
+  </script>
+{% endif %}
+
+
+
+<div class="container">
+  <div class="row"> 
+    <div class="container">
+      <div class="row text-right">
+        <p>
+          {% if rootuser == True %}
+            <button type="button" class="btn btn-outline-danger btn" data-toggle="modal" data-target="#popup02" title='¿ Eliminar el Usuario {{luser}} ?'>
+              <strong> Eliminar </strong>
+            </button>
+          {% endif %}
+
+          <button type="button" class="btn btn-outline-warning btn" data-toggle="modal" data-target="#popup03" title='{{titlebtn_edit}}'>
+            <strong> {{labelbtn_edit}} </strong>
+          </button>
+
+          {% if urlbtn_cleanpass %}
+            <a type="button" class="btn btn-outline-warning btn" href='{% url urlbtn_cleanpass %}' title='{{titlebtn_cleanpass}}'>
+              <strong> {{labelbtn_cleanpass}} </strong>
+            </a>
+          {% elif urlbtn_resetpass%}
+            <a type="button" class="btn btn-outline-warning btn" href='{% url urlbtn_resetpass luser.id %}' title='{{titlebtn_resetpass}} {{luser}}'>
+              <strong> {{labelbtn_resetpass}} </strong>
+            </a>
+          {% endif %} 
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="container admin-style">
+    <div class="row flex-row flex-nowrap">
+      <div class="row borde-datos collapse show" style="border: solid 0.3em #ffffff;">
+        {% if not luser.empresa %}
+        <div class="col-12" >
+        {% else %}
+        <div class="col-6 borde-datos-right" style="border-right: solid 0.3em #ffffff;">
+        {% endif %}
+          <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+            <thead>
+              <th style="width:200px">  </th> 
+              <th style="width:800px">  </th> 
+            </thead>
+            <tbody> 
+              <tr>
+                <td><b>Usuario</b></td>
+                <td>{% firstof luser.username "Falta Nombre de Usuario" %}</td>
+              </tr>
+              <tr>
+                <td><b>Nombres</b></td>
+                <td>{% firstof luser.get_full_name "Falta Nombre de Usuario" %}</td>
+              </tr>
+              <tr>
+                <td><b>Dirección de Correo:</b></td>
+                <td>{% firstof luser.email %}</td>
+              </tr>
+              <tr>
+                <td><b>Telefono:</b></td>
+                <td>{% firstof luser.telefono %}</td>
+              </tr>
+              <tr>
+                <td><b>Fecha de Inicio:</b></td>
+                <td>{{luser.date_joined}}</td>
+              </tr>
+              <tr>              
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {% if luser.empresa != None %}
+          <div class="col-6">
+            <table class="table-responsive table-responsive-sm table-responsive-md estilo4" style="width:100%">
+              <thead>
+                <th style="width:200px">  </th> 
+                <th style="width:800px">  </th> 
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Empresa:</b> </td>
+                  <td>
+                    {% firstof luser.empresa "Falta Empresa" %} 
+                  </td> 
+                </tr>
+                <tr>
+                  <td><b>Telefonos:</b></td>
+                  <td>
+                    {% if luser.empresa.telefono1 and luser.empresa.telefono2 %}
+                      {{luser.empresa.telefono1}} &nbsp; / &nbsp; {{luser.empresa.telefono1}}
+                    {% else %}
+                      {% firstof luser.empresa.telefono1 %}
+                      {% firstof luser.empresa.telefono2 %}
+                    {% endif %}
+                    
+                    
+                  </td>
+                </tr>
+                <tr>
+                    <td><b>Fecha de Inicio:</b></td>
+                    <td>{{luser.empresa.date_creacion}}</td>
+                </tr>
+                <tr>
+                  <td><b>Email de Contacto: </b></td>
+                  <td>{{luser.empresa.email}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>        
+        {% endif %}  
+      </div>
+    </div>
+  </div>
+  <br>
+  
+{% if not client and all_ticket %}
+  <!-- Filtro  -->
+  <div class="container-fluid" style="margin-top: 40px;">
+   
+    <div class="container admin-style">
+      {% include 'Login/filtro.html' with title='Buscar:' button='Buscar' %}
+    </div>      
+  </div> 
+  <!-- Listado de Tickets -->  
+  <div class="container-fluid" style="margin-top: 40px;">    
+    <div class="container admin-style"> 
+      
+      <!-- <table class="table table-strip table-hover table-responsive table-responsive-sm table-responsive-md estilo1"> -->
+      <table class="estilo3 table-hover table-strip table-responsive table-responsive-sm table-responsive-md">
+        <thead>
+          <tr >
+            <!-- <th>Modulo</th> -->
+            <!-- <th style="width:300px"> {% ExplotItem "Nombre de Usuario" %} </th>  -->
+            <th style="width:150px"> Ticket Id </th>
+            <th style="width:150px"> Estado </th>
+            <th style="width:200px"> Modulo </th>
+            <th style="width:300px"> Asistente Actual</th>
+            <th style="width:300px"> Fecha Creacion </th>
+            <th style="width:300px"> Fecha Actualizacion </th>
+            <th style="width:300px"> Fecha de Cierre </th>
+            
+            <!-- <th style="width:200px"> Other </th> -->
+          </tr>
+        </thead>
+        <tbody> 
+        {% for it in all_ticket %}
+        <!-- Expandir la vista de Ticket -->
+        {% if urledit and urlview %}
+          <tr class="td-hover" >
+            <!-- <td> {% firstof it.msg "" %} </td> -->
+            <td>
+              <div class="row">
+                <div class="col-md-6 text-right"> 
+                  <a href='{% url urledit it.id %}' title="{{urledittitle}}">
+                    <img src="{% static 'Buttons/img/edit-find.png'%}" class="d-md-block img-responsive width: 40% \9;"width="35px" height="35px"/>
+                    
+                  </a>
+                </div>
+                <div class="col-md-6 text-left"> 
+                  <b> {{it.id}} </b>
+                </div>
+              </div>               
+            </td>
+
+
+            <td class="text-center" onclick="window.location='{% url urlview it.id %}';"  title="{{urlviewtitle}} '{{it.id}}'." > {{it.estado}} </td>
+            <td class="text-center" onclick="window.location='{% url urlview it.id %}';"  title="{{urlviewtitle}} '{{it.id}}'." > {{it.brief}} </td>
+            <td class="text-center" onclick="window.location='{% url urlview it.id %}';"  title="{{urlviewtitle}} '{{it.id}}'." > {{it.attend}} </td>
+            <td class="text-center" onclick="window.location='{% url urlview it.id %}';"  title="{{urlviewtitle}} '{{it.id}}'." > {{it.fecha_creacion}}</td>
+            <td class="text-center" onclick="window.location='{% url urlview it.id %}';"  title="{{urlviewtitle}} '{{it.id}}'." > {{it.fecha_update}}</td>
+            <td class="text-center" onclick="window.location='{% url urlview it.id %}';"  title="{{urlviewtitle}} '{{it.id}}'." > {{it.fecha_cierre}}</td>
+            
+          </tr>
+        {% elif urledit  %}
+          <tr class="td-hover" onclick="window.location='{% url urledit it.id %}';" title="{{urledittitle}} '{{it.id}}'.">
+            <!-- <td> {% firstof it.msg "" %} </td> -->
+            <td class="text-center"> {{it.id}} </td>
+            <td class="text-center"> {{it.estado}} </td>
+            <td class="text-center"> {{it.brief}} </td>
+            <td class="text-center"> {{it.attend}} </td>
+            <td class="text-center"> {{it.fecha_creacion}}</td>
+            <td class="text-center"> {{it.fecha_update}}</td>
+            <td class="text-center"> {{it.fecha_cierre}}</td>
+            <!-- <td class="text-center"> {{it}}</td> -->
+          </tr>
+        {% else %}
+          <tr class="td-hover" >
+            <!-- <td> {% firstof it.msg "" %} </td> -->
+            <td class="text-center"> {{it.id}} </td>
+            <td class="text-center"> {{it.estado}} </td>
+            <td class="text-center"> {{it.brief}} </td>
+            <td class="text-center"> {{it.fecha_creacion}}</td>
+            <td class="text-center"> {{it.fecha_update}}</td>
+            <td class="text-center"> {{it.fecha_cierre}}</td>
+            <td class="text-center"> {{it}}</td>
+          </tr>
+        {% endif %}
+
+        {% endfor %}  
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+{% endif %}
+
+
+<!-- Form PopUp super user key  -->
+<div class="container py-3">  
+  <div class="modal fade" id="popup02" tabindex="-1" role="dialog" aria-labelledby="popup02Label" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="popup02Label">
+            ¿ Desea Eliminar el Usuario {{luser}} ?
+            
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>          
+        </div>
+        <div class="text-center">
+          <p> Ingrese la Contraseña para "{{user}}" </p>
+          
+        </div>
+        <div class="text-center">
+          <form method="POST" id="msg-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-header"> 
+              <div>
+                <div class="row">
+                  <div>
+                    {{ auth_form.password }}
+                  </div>                        
+                  <div>
+                    {{ auth_form.password.help_text }}
+                  </div>
+                  <div>
+                    {{ auth_form.password.errors }}
+                  </div>
+                </div> 
+              </div>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="submit" name='ok' value='ok' id="msgSubmit" class="btn btn-outline-success">Si</button>        
+              <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">No</button>            
+            </div>
+  
+          </form>
+        </div>
+        
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Form PopUp 03  -->
+<div class="container py-3">  
+  <div class="modal fade" id="popup03" tabindex="-1" role="dialog" aria-labelledby="popup03Label" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="popup03Label">
+            Editando Informacion de {{luser}}, {{luser.empresa}}
+            
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>          
+        </div>
+        <!-- <div class="text-center">
+          <p> Ingrese la Contraseña para "{{user}}" </p>
+          
+        </div> -->
+        <div class="text-right">
+          <form method="POST" id="msg-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-header"> 
+              <div>
+                <div class="row">
+                  <div>
+                    {{ user_form.empresa.label_tag }} {{ user_form.empresa }}
+                  </div>                        
+                  <div>
+                    {{ user_form.empresa.help_text }}
+                  </div>
+                  <div>
+                    {{ user_form.empresa.errors }}
+                  </div>
+                </div> 
+                <br>
+                <div class="row">
+                  <div>
+                    {{ user_form.username.label_tag }} {{ user_form.username }}
+                  </div>                        
+                  <div>
+                    {{ user_form.username.help_text }}
+                  </div>
+                  <div>
+                    {{ user_form.username.errors }}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div>
+                    {{ user_form.first_name.label_tag }} {{ user_form.first_name }}
+                  </div>                        
+                  <div>
+                    {{ user_form.first_name.help_text }}
+                  </div>
+                  <div>
+                    {{ user_form.first_name.errors }}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div>
+                    {{ user_form.last_name.label_tag }} {{ user_form.last_name }}
+                  </div>                        
+                  <div>
+                    {{ user_form.last_name.help_text }}
+                  </div>
+                  <div>
+                    {{ user_form.last_name.errors }}
+                  </div>
+                </div>
+                <br>
+
+                <div class="row">
+                  <div>
+                    {{ user_form.telefono.label_tag }} {{ user_form.telefono }}
+                  </div>                        
+                  <div>
+                    {{ user_form.telefono.help_text }}
+                  </div>
+                  <div>
+                    {{ user_form.telefono.errors }}
+                  </div>
+                </div>
+                <br>
+
+
+                <div class="row">
+                  <div>
+                    {{ user_form.email.label_tag }} {{ user_form.email }}
+                  </div>                        
+                  <div>
+                    {{ user_form.email.help_text }}
+                  </div>
+                  <div>
+                    {{ user_form.email.errors }}
+                  </div>
+                </div>
+                
+
+              </div>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="submit" name='edit_ok' value='edit_ok' id="msgSubmit" class="btn btn-outline-success">Si</button>        
+              <button type="submit" name='edit_nok' value='edit_nok' id="msgSubmit" class="btn btn-outline-danger">No</button>
+              <!-- <button type="button" class="btn  btn-outline-danger" data-dismiss="modal">No</button>             -->
+            </div>
+  
+          </form>
+        </div>
+        
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script >
+  $(document).ready(function()
+  {
+    $('#msg-form').on('submit', function(event)
+    {
+      event.preventDefault();
+      $.ajax({
+          url: '/msg/',
+          type: 'POST',
+          // headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          data: $('#msg-form').serialize(),
+          
+          beforeSend: function () {
+              $("#msgModal").modal("show");
+          },
+          
+          success: function(data) {
+              $('#msgModal .modal-body').html(data);
+          }
+      });
+    });        
+  });  
+
+</script>  
+{% endblock %}
+
+
+
+<tr class="rtbl-attend td-hover" onclick="window.location='{% url urledit it.id %}';" title="{{urledittitle}} '{{it.username}}'." ></tr>
+<td class="text-center" onclick="window.location='{% url urledit it.id %}';" title="{{urledittitle}} '{{it.id}}'."> 
+  <span style="text-decoration: underline; background-color:rgb(2, 9, 10);">
+    <b> {{it.id}} </b> 
+  </span>              
+</td>
