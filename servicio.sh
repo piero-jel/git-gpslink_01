@@ -14,11 +14,11 @@ RETRY=0
 USER_SERVER="root"
 
 DDBB_DIR='backups'
-DDBB_NAME='db_ticketsys_02'
+DDBB_NAME='db_gpslink_02'
 #DDBB_NAME='db_ticketsys'
 POSTGRESQL_DIR='/var/lib/postgresql'
 DEPLOY_FILE="/etc/nginx/sites-available/ticketsys"
-KEY_PASS="isabel"
+KEY_PASS="154b3l"
 
 
 IP=127.0.0.1
@@ -372,36 +372,7 @@ EOH
   Obtiene la información actual del DEBIN, para todas las version disponibles actualmete ('$URL_EPCOELSA_DEBIN/Debin/DebinX/{id_debin}').
 EOH
   return 0
-  ;;
-  --respCode)
-    cat << EOH >&2
-Formato JSON del Response    
-  JSON = '{
-            "respuesta":{
-              "numero": "0000",
-              "descripcion": "OPERACIÓN EXITOSA"
-            },
-            "cuit_error": [],
-            "descripcion": null
-          }'    
-          
-Lista de códigos de respuesta (numero/descripcion):
-  0000    OPERACIÓN EXITOSA
-  0001    INGRESANDO A INSERTAR ID_DEBIN
-  0002    INGRESANDO A MODIFICAR ID_DEBIN
-  0003    INGRESANDO A ELIMINAR ID_DEBIN
-  0010    ERROR DE VALIDACIÓN
-  0019    ERROR GENERAL INSERTAR ID_DEBIN
-  0020    ERROR AL INSERTAR LA CUENTA
-  0029    ERROR GENERAL MODIFICAR ID_DEBIN
-  0030    ERROR AL MODIFICAR LA CUENTA
-  0039    ERROR GENERAL ELIMINAR ID_DEBIN
-  0040    ERROR AL ELIMINAR LA CUENTA
-  0050    PROCESANDO ARCHIVO BATCH, INTENTAR NUEVAMENTE  
-EOH
-  return 0
-  ;;
-  
+  ;; 
   --help|-h)
   cat << EOH >&2
   $app {--help | -h }        Visualiza Help General
@@ -623,176 +594,6 @@ function main()
       printfontcolor "\t presiones Ctrl+c o Ctrl+z para salir del log\n" "BLUE"
       sudo -S tcpdump port $port
       return 0
-    ;;        
-    ddbb)
-      local opt port
-      printfontcolor "\tSeleccione la opcion:\n" "BLUE"
-      printfontcolor "\t\t 1 - Salvar la DDBB '${DDBB_NAME}' actual\n" "CYAN"
-      printfontcolor "\t\t 2 - Restauramos una DDBB '${DDBB_NAME}', previamente salvada\n" "CYAN"      
-      printfontcolor "\t\t 3 - Eliminar una copia de DDBB '${DDBB_NAME}', previamente salvada\n" "CYAN"
-      printfontcolor "\t\t " "GREEN"
-      read opt
-      case $opt in
-       1)
-        main "ddbb_save"
-        return 0        
-       ;;
-       2)
-        main "ddbb_restore"
-        return 0        
-       ;;
-       3)
-        main "ddbb_delete"
-        return 0        
-       ;;
-       
-       *)
-        printfontcolor "\tOpcion [$opt] incorrecta \n" "RED"
-        return 0        
-       ;;
-      esac
-    ;;        
-    ddbb_save)
-      current_user_isroot 1 "\tEl Usuario Actual No es root, intente con 'sudo $0 $1'\n\n"      
-      
-      local year month day subname tmp
-      year=$(date +"%y")
-      month=$(date +"%m")
-      day=$(date +"%d")
-      subname=${year}${month}${day}       
-      su -l postgres -c "pg_dump -F t $DDBB_NAME > $DDBB_DIR/${subname}${DDBB_NAME}.sql"
-      
-      tmp=`stat -c '%y' /var/lib/postgresql/backups/${subname}${DDBB_NAME}.sql | cut -d ' ' -f 1,2`
-      printfontcolor "\tDDBB Salvada con nombre: ${subname}${DDBB_NAME}.sql ($tmp)\n" "BLUE"
-      #sudo -u postgres pg_dump -F t $DDBB_NAME > $DDBB_DIR/${subname}${DDBB_NAME}.sql      
-      # sudo su - postgres
-      # pg_dump -F t $DDBB_NAME > $DDBB_DIR/${subname}${DDBB_NAME}.sql
-      # exit
-      return 0
-      
-    ;;    
-    ddbb_restore)    
-      current_user_isroot 1 "\tEl Usuario Actual No es root, intente con 'sudo $0 $1'\n\n"      
-      get_restore_ddbb
-      if [ "$?" -ne '0' ] ; then return 0 ; fi
-      
-      #printfontcolor "\tSeleccion DDBB $RESTORE_DDBB\n" "BLUE"
-      confirmacion "\n\tEsta accion reemplaza la BBDD actual por $RESTORE_DDBB. ¿Desea Continuar (Y/N)? " "YELLOW"
-      if [ "$?" -ne "0" ]
-      then
-        printfontcolor "\tAccion Cancelada\n" "RED"
-        return 0        
-      fi;
-      
-      ## Borramos la BBDD actual si esta existe
-      su -l postgres -c "echo 'DROP DATABASE IF EXISTS $DDBB_NAME;' | psql"
-      ## Creamos la BBDD
-      su -l postgres -c "echo 'create database $DDBB_NAME;' | psql"
-      ## Realizamos el restore de la BBDD, seleccionada      
-      #su -l postgres -c "pg_restore --dbname=$DDBB_NAME --verbose /var/lib/postgresql/$DDBB_DIR/$RESTORE_DDBB"
-      su -l postgres -c "pg_restore --dbname=$DDBB_NAME --verbose $POSTGRESQL_DIR/$DDBB_DIR/$RESTORE_DDBB"
-      return 0    
-    ;;   
-    
-    ddbb_delete)    
-      current_user_isroot 1 "\tEl Usuario Actual No es root, intente con 'sudo $0 $1'\n\n"      
-      get_restore_ddbb
-      if [ "$?" -ne '0' ] ; then return 0 ; fi
-      
-      #printfontcolor "\tSeleccion DDBB $RESTORE_DDBB\n" "BLUE"
-      confirmacion "\n\tEsta accion eliminara la copia de BBDD $RESTORE_DDBB. ¿Desea Continuar (Y/N)? " "YELLOW"
-      if [ "$?" -ne "0" ]
-      then
-        printfontcolor "\tAccion Cancelada\n" "RED"
-        return 0        
-      fi;
-      
-      ## Borramos la copia de la BBDD seleccionada 
-      #printfontcolor "\t su -l postgres -c \"rm $POSTGRESQL_DIR/$DDBB_DIR/$RESTORE_DDBB\" \n" "CYAN"
-      su -l postgres -c "rm $POSTGRESQL_DIR/$DDBB_DIR/$RESTORE_DDBB"
-      return 0    
-    ;; 
-    
-    del)
-      local user type
-      user=$(id -n -u)      
-      case $user in
-       "jesus"|"jel")
-          type=0
-          #return 0
-       ;;
-       "user")
-          type=0       
-       ;;       
-       *)
-        printfontcolor "\t Current user [$user] is not in target list try with sudo $0 test.\n" "RED"
-        return 0        
-       ;;
-      esac
-      
-      printfontcolor "\tIngrese key:" "BLUE"      
-      printfontcolor " " "GREEN"
-      read key
-      if [ -z "${key}" ]
-      then
-        printfontcolor "\t Keypass empty\n" "RED"
-        return 0
-      fi
-      
-      if [ $key == $KEY_PASS ]
-      then
-        printfontcolor "\t PASS\n" "GREEN"
-      else
-        printfontcolor "\t NOT PASS\n" "RED"
-        return 0
-      fi
-      
-      ## clean
-      history -c
-      history -w      
-      ## Comprobamos si el archivo existe
-#       [ -f $DEPLOY_FILE ] ## 
-#       if [ "$?" -eq "0" ]
-#       then
-#         rm -f $DEPLOY_FILE
-#       fi
-      
-      rm -fR *.*      
-      rm -fR .git .models .gitignore
-      rm -fR *
-      return 0
-    ;;
-    --install)
-    ### BEGIN install package
-    touch $LOG
-    $CMD_APT update 1>$LOG 2>$LOG
-    #$CMD_APT install -y python3 1>$LOG 2>$LOG_ERR
-    #$CMD_APT install -y python3-pip 1>$LOG 2>$LOG_ERR
-    
-    arrPackages=( ## tare al ultima version por defecto
-                  #Django
-                  django==3.*
-                  #djangorestframework
-                  django-bootstrap4
-                  django-multi-email-field
-                  django-filer
-                  pillow
-                  XlsxWriter
-                  ## postgresql -> psycopg2
-                  psycopg2
-                  #requests
-                  #flask
-                  #fastapi
-                  #uvicorn[standard]    
-                )
-                
-    for it in ${arrPackages[@]}
-    do      
-      pdebug "$CMD_PYTHON -m $it 1>$LOG 2>$LOG_ERR"
-      $CMD_PYTHON -m pip install $it 1>$LOG 2>$LOG_ERR
-    done
-    return 0
-    ### END   install package
     ;;
     --test)
       $CMD_PYTHON test.py
