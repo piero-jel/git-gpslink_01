@@ -4,11 +4,11 @@ server {
 }
 
 location /static/ {
-        root /home/jel/workspace/gpslink;
+        root ~/workspace/gpslink;
   }
 
 location /media/ {
-        root /home/jel/workspace/gpslink;
+        root ~/workspace/gpslink;
   }
 
 location / {
